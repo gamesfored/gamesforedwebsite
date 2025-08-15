@@ -110,28 +110,40 @@ document.addEventListener('DOMContentLoaded', function() {
         const gravity = { x: 0.0, y: 98.1 };
         const world = new window.RAPIER.World(gravity);
         
-        const heroRect = hero.getBoundingClientRect();
-        const heroWidth = heroRect.width;
-        const heroHeight = heroRect.height;
+        let heroRect = hero.getBoundingClientRect();
+        let heroWidth = heroRect.width;
+        let heroHeight = heroRect.height;
       
-      // Create boundaries
-      const groundColliderDesc = window.RAPIER.ColliderDesc.cuboid(heroWidth / 2, 10)
-        .setTranslation(heroWidth / 2, heroHeight - 10)
-        .setRestitution(0.5)
-        .setFriction(0.7);
-      world.createCollider(groundColliderDesc);
+      // Create boundaries (will be recreated on resize)
+      let groundCollider, leftWallCollider, rightWallCollider;
       
-      const leftWallColliderDesc = window.RAPIER.ColliderDesc.cuboid(10, heroHeight / 2)
-        .setTranslation(-10, heroHeight / 2)
-        .setRestitution(0.3)
-        .setFriction(0.5);
-      world.createCollider(leftWallColliderDesc);
+      function createBoundaries() {
+        // Remove existing boundaries
+        if (groundCollider) world.removeCollider(groundCollider);
+        if (leftWallCollider) world.removeCollider(leftWallCollider);
+        if (rightWallCollider) world.removeCollider(rightWallCollider);
+        
+        // Create new boundaries
+        const groundColliderDesc = window.RAPIER.ColliderDesc.cuboid(heroWidth / 2, 10)
+          .setTranslation(heroWidth / 2, heroHeight - 10)
+          .setRestitution(0.5)
+          .setFriction(0.7);
+        groundCollider = world.createCollider(groundColliderDesc);
+        
+        const leftWallColliderDesc = window.RAPIER.ColliderDesc.cuboid(10, heroHeight / 2)
+          .setTranslation(-10, heroHeight / 2)
+          .setRestitution(0.3)
+          .setFriction(0.5);
+        leftWallCollider = world.createCollider(leftWallColliderDesc);
+        
+        const rightWallColliderDesc = window.RAPIER.ColliderDesc.cuboid(10, heroHeight / 2)
+          .setTranslation(heroWidth + 10, heroHeight / 2)
+          .setRestitution(0.3)
+          .setFriction(0.5);
+        rightWallCollider = world.createCollider(rightWallColliderDesc);
+      }
       
-      const rightWallColliderDesc = window.RAPIER.ColliderDesc.cuboid(10, heroHeight / 2)
-        .setTranslation(heroWidth + 10, heroHeight / 2)
-        .setRestitution(0.3)
-        .setFriction(0.5);
-      world.createCollider(rightWallColliderDesc);
+      createBoundaries();
       
       const assets = ['tic-1.png', 'tic-2.png', 'tic-3.png', 'tic-4.png', 'tac-1.png', 'tac-2.png', 'tac-3.png', 'tac-4.png'];
       const gameElements = [];
@@ -264,15 +276,25 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(createFallingElement, i * 150);
       }
       
+      // Handle viewport resize
+      function handleResize() {
+        heroRect = hero.getBoundingClientRect();
+        heroWidth = heroRect.width;
+        heroHeight = heroRect.height;
+        createBoundaries();
+      }
+      
+      window.addEventListener('resize', handleResize);
+      
       } catch (error) {
         throw error;
       }
     }
     
     function startSimplePhysics() {
-      const heroRect = hero.getBoundingClientRect();
-      const heroWidth = heroRect.width;
-      const heroHeight = heroRect.height;
+      let heroRect = hero.getBoundingClientRect();
+      let heroWidth = heroRect.width;
+      let heroHeight = heroRect.height;
       
       const assets = ['tic-1.png', 'tic-2.png', 'tic-3.png', 'tic-4.png', 'tac-1.png', 'tac-2.png', 'tac-3.png', 'tac-4.png'];
       const gameElements = [];
@@ -423,6 +445,15 @@ document.addEventListener('DOMContentLoaded', function() {
       updatePhysics();
       setInterval(createFallingElement, 500);
       for (let i = 0; i < 8; i++) setTimeout(createFallingElement, i * 200);
+      
+      // Handle viewport resize
+      function handleResize() {
+        heroRect = hero.getBoundingClientRect();
+        heroWidth = heroRect.width;
+        heroHeight = heroRect.height;
+      }
+      
+      window.addEventListener('resize', handleResize);
     }
   }
 });
