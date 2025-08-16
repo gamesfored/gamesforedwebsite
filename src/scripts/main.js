@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
         
         // Stack order
-        gsap.set(gameCards[0], { zIndex: 1 });
-        gsap.set(gameCards[1], { zIndex: 2 });
-        gsap.set(gameCards[2], { zIndex: 3 });
+        gsap.set(gameCards[0], { zIndex: 21 });
+        gsap.set(gameCards[1], { zIndex: 22 });
+        gsap.set(gameCards[2], { zIndex: 23 });
 
         // Create animation timeline
         const tl = gsap.timeline({
@@ -97,15 +97,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!hoverListenersAdded) {
           gameCards.forEach((card, index) => {
             const originalRotation = [-8, 2, 6][index];
+            let canHover = false;
+            
+            // Enable hover after stacking animation completes
+            setTimeout(() => {
+              canHover = true;
+            }, 1000);
             
             card.addEventListener('mouseenter', () => {
-              if (window.innerWidth > 1200) { // Only on desktop
+              if (window.innerWidth > 1200 && canHover) { // Only on desktop and after animation
                 gsap.to(card, {
                   rotation: 0,
                   scale: 1.1,
                   x: 0,
                   y: -20,
-                  zIndex: 10,
+                  zIndex: 25,
                   duration: 0.4,
                   ease: 'power2.out'
                 });
@@ -115,13 +121,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             card.addEventListener('mouseleave', () => {
-              if (window.innerWidth > 1200) { // Only on desktop
+              if (window.innerWidth > 1200 && canHover) { // Only on desktop and after animation
                 gsap.to(card, {
                   rotation: originalRotation,
                   scale: 1,
                   x: 0,
                   y: 0,
-                  zIndex: index + 1,
+                  zIndex: index + 21,
                   duration: 0.4,
                   ease: 'power2.out'
                 });
@@ -138,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
           opacity: 0, 
           y: 50,
           x: 0,
-          zIndex: 'auto'
+          zIndex: 20
         });
 
         const tl = gsap.timeline({
@@ -156,6 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
           tl.to(card, {
             opacity: 1,
             y: 0,
+            zIndex: 20,
             duration: 1,
             ease: 'power2.out'
           }, i * 0.2);
@@ -174,6 +181,290 @@ document.addEventListener('DOMContentLoaded', function() {
         ScrollTrigger.refresh();
       }, 100);
     });
+  }
+
+  // Card background patterns
+  const cards = document.querySelectorAll('.game-card');
+  
+  function createGridPattern(card) {
+    const textSection = card.querySelector('.game-card-content');
+    if (!textSection) return;
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 350;
+    canvas.height = 120;
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.opacity = '0.15';
+    canvas.style.zIndex = '1';
+    
+    const gridSize = 20;
+    let offset = 0;
+    
+    function drawGrid() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 1.5;
+      
+      // Vertical lines
+      for (let x = offset; x < canvas.width + gridSize; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+      
+      // Horizontal lines
+      for (let y = offset; y < canvas.height + gridSize; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+    }
+    
+    textSection.style.position = 'relative';
+    textSection.appendChild(canvas);
+    drawGrid();
+    
+    let isAnimating = false;
+    
+    // Hover animation
+    card.addEventListener('mouseenter', () => {
+      if (window.innerWidth > 1200 && !isAnimating) {
+        isAnimating = true;
+        gsap.to({ o: offset }, {
+          o: offset + gridSize,
+          duration: 0.8,
+          ease: 'power2.out',
+          onUpdate: function() {
+            offset = this.targets()[0].o % gridSize;
+            drawGrid();
+          },
+          onComplete: () => {
+            isAnimating = false;
+          }
+        });
+        gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
+      }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      if (window.innerWidth > 1200) {
+        gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
+      }
+    });
+  }
+  
+  function createWavePattern(card) {
+    const textSection = card.querySelector('.game-card-content');
+    if (!textSection) return;
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 350;
+    canvas.height = 120;
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.opacity = '0.15';
+    canvas.style.zIndex = '1';
+    
+    const waveSpacing = 15;
+    const amplitude = 8;
+    let time = 0;
+    let isAnimating = false;
+    
+    function drawWaves() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 1.5;
+      
+      for (let y = waveSpacing; y < canvas.height; y += waveSpacing) {
+        ctx.beginPath();
+        for (let x = 0; x <= canvas.width; x += 2) {
+          const waveY = y + Math.sin((x * 0.02) + time) * amplitude;
+          if (x === 0) {
+            ctx.moveTo(x, waveY);
+          } else {
+            ctx.lineTo(x, waveY);
+          }
+        }
+        ctx.stroke();
+      }
+    }
+    
+    textSection.style.position = 'relative';
+    textSection.appendChild(canvas);
+    drawWaves();
+    
+    // Hover animation
+    card.addEventListener('mouseenter', () => {
+      if (window.innerWidth > 1200 && !isAnimating) {
+        isAnimating = true;
+        gsap.to({ t: time }, {
+          t: time + Math.PI * 4,
+          duration: 1,
+          ease: 'power2.out',
+          onUpdate: function() {
+            time = this.targets()[0].t;
+            drawWaves();
+          },
+          onComplete: () => {
+            isAnimating = false;
+          }
+        });
+        gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
+      }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      if (window.innerWidth > 1200) {
+        gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
+      }
+    });
+  }
+  
+  function createStarburstPattern(card) {
+    const textSection = card.querySelector('.game-card-content');
+    if (!textSection) return;
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 350;
+    canvas.height = 120;
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.opacity = '0.15';
+    canvas.style.zIndex = '1';
+    
+    const centerX = 0;
+    const centerY = 0;
+    const maxDistance = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+    let rotation = 0;
+    
+    function drawStarburst() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(rotation);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 1.5;
+      
+      // Draw radiating lines
+      for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 15) {
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(angle) * maxDistance, Math.sin(angle) * maxDistance);
+        ctx.stroke();
+      }
+      
+      ctx.restore();
+    }
+    
+    textSection.style.position = 'relative';
+    textSection.appendChild(canvas);
+    drawStarburst();
+    
+    let isAnimating = false;
+    
+    // Hover animation
+    card.addEventListener('mouseenter', () => {
+      if (window.innerWidth > 1200 && !isAnimating) {
+        isAnimating = true;
+        gsap.to({ r: rotation }, {
+          r: rotation + Math.PI,
+          duration: 0.8,
+          ease: 'power2.out',
+          onUpdate: function() {
+            rotation = this.targets()[0].r;
+            drawStarburst();
+          },
+          onComplete: () => {
+            isAnimating = false;
+          }
+        });
+        gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
+      }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      if (window.innerWidth > 1200) {
+        gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
+      }
+    });
+  }
+  
+  // Apply patterns to cards
+  cards.forEach((card, index) => {
+    if (card.classList.contains('card-1')) {
+      createGridPattern(card);
+    } else if (card.classList.contains('card-2')) {
+      createWavePattern(card);
+    } else if (card.classList.contains('card-3')) {
+      createStarburstPattern(card);
+    }
+  });
+
+  // Animate decorative elements in second section
+  const designSection = document.querySelector('.design-card-section');
+  const pencilDecoration = document.querySelector('.pencil-decoration');
+  
+  if (designSection && pencilDecoration) {
+    // Add paper decoration as a real element instead of pseudo-element
+    const paperDecoration = document.createElement('div');
+    paperDecoration.className = 'paper-decoration';
+    paperDecoration.style.cssText = `
+      position: absolute;
+      bottom: -800px;
+      right: -250px;
+      width: 1000px;
+      height: 1000px;
+      background: url('/assets/paper.png') no-repeat center;
+      background-size: contain;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(40px) rotate(-15deg);
+    `;
+    designSection.appendChild(paperDecoration);
+    
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: designSection,
+        start: 'top 80%',
+        end: 'top 50%',
+        scrub: false,
+        once: true
+      }
+    })
+    .to(paperDecoration, {
+      opacity: 1,
+      y: 0,
+      rotation: -15,
+      duration: 0.8,
+      ease: 'back.out(1.7)'
+    }, 0)
+    .to(pencilDecoration, {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      rotation: 105,
+      duration: 0.8,
+      ease: 'back.out(1.7)'
+    }, 0.2);
   }
 
   const hamburger = document.querySelector('.hamburger');
@@ -226,6 +517,23 @@ document.addEventListener('DOMContentLoaded', function() {
       // For now, just scroll to show the interaction
       smoother.scrollTo(window.innerHeight, true, "power2.inOut");
     });
+  }
+
+  // Scroll indicator click handler
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Scroll to the next section (design-card-section)
+      const nextSection = document.querySelector('.design-card-section');
+      if (nextSection) {
+        smoother.scrollTo(nextSection, true, "power2.inOut");
+      }
+    });
+    
+    // Add cursor pointer to indicate it's clickable
+    scrollIndicator.style.cursor = 'pointer';
   }
 
   // Rapier.rs physics simulation
