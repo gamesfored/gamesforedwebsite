@@ -317,6 +317,7 @@ main {
 .design-cards .game-card {
   flex: 0 0 350px;
   max-width: 350px;
+  min-height: 500px;
 }
 
 @media (max-width: 1200px) {
@@ -330,6 +331,7 @@ main {
     flex: 0 0 auto;
     width: 100%;
     max-width: 400px;
+    min-height: 450px;
   }
 }
 
