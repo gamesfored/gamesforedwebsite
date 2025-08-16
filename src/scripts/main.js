@@ -45,10 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
       resetCardsToDefault();
       
       if (isDesktop) {
-        // Desktop: horizontal stacking animation
-        gsap.set(gameCards[0], { x: 400, y: 0, opacity: 1 });
-        gsap.set(gameCards[1], { x: 0, y: 0, opacity: 1 });
-        gsap.set(gameCards[2], { x: -400, y: 0, opacity: 1 });
+        // Desktop: horizontal stacking animation with rotation
+        gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, opacity: 1 });
+        gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, opacity: 1 });
+        gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, opacity: 1 });
         
         // Stack order
         gsap.set(gameCards[0], { zIndex: 1 });
@@ -66,22 +66,25 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         });
 
-        // Animate to final positions
+        // Animate to final positions with natural card spread rotations
         tl.to(gameCards[0], {
           x: 0,
           y: 0,
+          rotation: -8,
           duration: 1,
           ease: 'power2.out'
         }, 0)
         .to(gameCards[1], {
           x: 0,
           y: 0,
+          rotation: 2,
           duration: 1,
           ease: 'power2.out'
         }, 0)
         .to(gameCards[2], {
           x: 0,
           y: 0,
+          rotation: 6,
           duration: 1,
           ease: 'power2.out'
         }, 0);
