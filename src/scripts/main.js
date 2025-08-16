@@ -467,6 +467,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 0.2);
   }
 
+  // What We Do section interactive functionality
+  const whatWeDoItems = document.querySelectorAll('.what-we-do-item');
+  const whatWeDoDetails = document.querySelectorAll('.what-we-do-detail');
+
+  if (whatWeDoItems.length > 0 && whatWeDoDetails.length > 0) {
+    whatWeDoItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const targetItem = item.dataset.item;
+        
+        // Remove active class from all items and details
+        whatWeDoItems.forEach(i => i.classList.remove('active'));
+        whatWeDoDetails.forEach(d => d.classList.remove('active'));
+        
+        // Add active class to hovered item and corresponding detail
+        item.classList.add('active');
+        const targetDetail = document.querySelector(`[data-detail="${targetItem}"]`);
+        if (targetDetail) {
+          targetDetail.classList.add('active');
+        }
+      });
+    });
+  }
+
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
   const ctaButton = document.querySelector('.cta-button');
