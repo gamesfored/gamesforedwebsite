@@ -1,5 +1,5 @@
 ---
-
+import GameCard from '../components/GameCard.astro';
 ---
 
 <html lang="en">
@@ -13,69 +13,74 @@
 		<link rel="stylesheet" href="/src/styles/main.css" />
 	</head>
 	<body>
-		<nav class="navbar">
-			<div class="nav-container">
-				<div class="nav-top">
-					<div class="nav-logo">
-						<a href="/">Games for Learning</a>
+		<div id="smooth-wrapper">
+			<div id="smooth-content">
+				<nav class="navbar">
+					<div class="nav-container">
+						<div class="nav-left">
+							<div class="nav-logo">
+								<a href="/"><img src="/gamesfored.avif" alt="Games for Learning" /></a>
+							</div>
+						</div>
+						<div class="nav-right">
+							<a href="#get-started" class="nav-cta">Get Started</a>
+						</div>
+						<div class="hamburger">
+							<span class="bar"></span>
+							<span class="bar"></span>
+							<span class="bar"></span>
+						</div>
 					</div>
-					<a href="#get-started" class="nav-cta">Get Started</a>
-				</div>
-				<div class="nav-menu">
-					<a href="#games" class="nav-link">Games</a>
-					<a href="#for-teachers" class="nav-link">For Teachers</a>
-					<a href="#for-students" class="nav-link">For Students</a>
-					<a href="#about" class="nav-link">About</a>
-					<a href="#contact" class="nav-link">Contact</a>
-				</div>
-				<div class="hamburger">
-					<span class="bar"></span>
-					<span class="bar"></span>
-					<span class="bar"></span>
-				</div>
+				</nav>
+				<main>
+					<section class="hero-card">
+						<div class="hero">
+							<div class="hero-content">
+								<h1 class="hero-title"><span class="highlight-green">Games for Learning</span> That Students & Teachers Love</h1>
+								<p class="hero-description">Transform your classroom with hands-on, story-driven games that make students eager to explore</p>
+								<a href="#why-they-love-it" class="cta-button">Why Do They Love It?</a>
+							</div>
+							<div class="scroll-indicator">
+								<div class="scroll-arrow">
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+								<p class="scroll-text">Scroll Down</p>
+							</div>
+						</div>
+					</section>
+					<section class="design-card-section">
+						<div class="design-section">
+							<div class="design-content">
+								<h2 class="design-heading">We design every game to ignite curiosity, spark joy, and make learning meaningful</h2>
+								<div class="design-cards">
+									<GameCard 
+										image="/assets/018-ornithocheirus.png"
+										title="Playful by Design"
+										description="Our games are fun, fast-paced, and filled with moments of surprise—keeping students excited to learn."
+										colorClass="card-1"
+									/>
+									<GameCard 
+										image="/assets/008-dragon.png"
+										title="Story-Driven Worlds"
+										description="Each game is built around rich narratives that pull learners into the action and keep them engaged."
+										colorClass="card-2"
+									/>
+									<GameCard 
+										image="/assets/010-crocodile.png"
+										title="Lasting Impact"
+										description="Concepts aren't just memorized—they're experienced, applied, and remembered."
+										colorClass="card-3"
+									/>
+								</div>
+							</div>
+						</div>
+					</section>
+				</main>
 			</div>
-		</nav>
-		<main>
-			<section class="hero-card">
-				<div class="hero">
-					<div class="hero-content">
-						<h1 class="hero-title">Games for Learning That Students & Teachers Love</h1>
-						<p class="hero-description">Transform your classroom with hands-on, story-driven games that make students eager to explore</p>
-						<a href="#why-they-love-it" class="cta-button">Why Do They Love It?</a>
-					</div>
-					<div class="scroll-indicator">
-						<div class="scroll-arrow">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<p class="scroll-text">Scroll Down</p>
-					</div>
-				</div>
-			</section>
-			<section class="design-card-section">
-				<div class="design-section">
-					<div class="design-content">
-						<h2 class="design-heading">We design every game to ignite curiosity, spark joy, and make learning meaningful</h2>
-						<div class="design-cards">
-							<div class="design-card card-1">
-								<h3>Ignite Curiosity</h3>
-								<p>Our games present mysteries and challenges that naturally encourage students to ask questions, explore new concepts, and dive deeper into subjects they never thought they'd love.</p>
-							</div>
-							<div class="design-card card-2">
-								<h3>Spark Joy</h3>
-								<p>Learning should be exciting! We create moments of delight, surprise, and accomplishment that make students eager to come back for more and share their discoveries with friends.</p>
-							</div>
-							<div class="design-card card-3">
-								<h3>Make Learning Meaningful</h3>
-								<p>Every element connects to real-world applications and deeper understanding. Students don't just memorize facts—they build lasting knowledge through engaging experiences.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</main>
+		</div>
 		<script type="module" src="/src/scripts/rapier-loader.js"></script>
-		<script src="/src/scripts/main.js"></script>
+		<script type="module" src="/src/scripts/main.js"></script>
 	</body>
 </html>

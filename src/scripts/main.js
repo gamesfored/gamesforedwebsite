@@ -1,3 +1,18 @@
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+let smoother = ScrollSmoother.create({
+  wrapper: "#smooth-wrapper",
+  content: "#smooth-content",
+  smooth: 1.5,
+  effects: true,
+  ignoreMobileResize: true,
+  normalizeScroll: true
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
@@ -47,10 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('CTA button clicked: Why Do They Love It?');
       
       // For now, just scroll to show the interaction
-      window.scrollTo({
-        top: window.innerHeight,
-        behavior: 'smooth'
-      });
+      smoother.scrollTo(window.innerHeight, true, "power2.inOut");
     });
   }
 
