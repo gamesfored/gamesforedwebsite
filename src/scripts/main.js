@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (gameCards.length >= 3) {
     let currentBreakpoint = null;
     let resizeTimeout = null;
+    let hoverListenersAdded = false;
     
     function resetCardsToDefault() {
       // Reset all GSAP properties to default
@@ -46,9 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (isDesktop) {
         // Desktop: horizontal stacking animation with rotation
-        gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, opacity: 1 });
-        gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, opacity: 1 });
-        gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, opacity: 1 });
+        gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
+        gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
+        gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
         
         // Stack order
         gsap.set(gameCards[0], { zIndex: 1 });
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
           x: 0,
           y: 0,
           rotation: -8,
+          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
           duration: 1,
           ease: 'power2.out'
         }, 0)
@@ -78,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
           x: 0,
           y: 0,
           rotation: 2,
+          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
           duration: 1,
           ease: 'power2.out'
         }, 0)
@@ -85,9 +88,50 @@ document.addEventListener('DOMContentLoaded', function() {
           x: 0,
           y: 0,
           rotation: 6,
+          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
           duration: 1,
           ease: 'power2.out'
         }, 0);
+
+        // Add hover interactions for desktop (only once)
+        if (!hoverListenersAdded) {
+          gameCards.forEach((card, index) => {
+            const originalRotation = [-8, 2, 6][index];
+            
+            card.addEventListener('mouseenter', () => {
+              if (window.innerWidth > 1200) { // Only on desktop
+                gsap.to(card, {
+                  rotation: 0,
+                  scale: 1.1,
+                  x: 0,
+                  y: -20,
+                  zIndex: 10,
+                  duration: 0.4,
+                  ease: 'power2.out'
+                });
+                // Set box shadow via style for CSS transition
+                card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+              }
+            });
+
+            card.addEventListener('mouseleave', () => {
+              if (window.innerWidth > 1200) { // Only on desktop
+                gsap.to(card, {
+                  rotation: originalRotation,
+                  scale: 1,
+                  x: 0,
+                  y: 0,
+                  zIndex: index + 1,
+                  duration: 0.4,
+                  ease: 'power2.out'
+                });
+                // Remove box shadow via style for CSS transition
+                card.style.boxShadow = '0 0 0 rgba(0, 0, 0, 0)';
+              }
+            });
+          });
+          hoverListenersAdded = true;
+        }
       } else {
         // Mobile: simple fade-in animation
         gsap.set(gameCards, { 
