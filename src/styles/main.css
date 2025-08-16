@@ -302,9 +302,45 @@ main {
 }
 
 .design-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 600px;
+  flex-wrap: wrap;
+}
+
+.design-cards .game-card {
+  flex: 0 0 350px;
+  max-width: 350px;
+}
+
+@media (max-width: 1200px) {
+  .design-cards {
+    flex-direction: column;
+    gap: 2rem;
+    min-height: auto;
+  }
+  
+  .design-cards .game-card {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .design-cards {
+    gap: 1.5rem;
+  }
+  
+  .design-cards .game-card {
+    max-width: 350px;
+  }
 }
 
 .design-card {

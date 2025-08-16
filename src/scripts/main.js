@@ -14,6 +14,121 @@ let smoother = ScrollSmoother.create({
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Card stacked animation
+  const gameCards = document.querySelectorAll('.game-card');
+  
+  if (gameCards.length >= 3) {
+    let currentBreakpoint = null;
+    let resizeTimeout = null;
+    
+    function resetCardsToDefault() {
+      // Reset all GSAP properties to default
+      gsap.set(gameCards, { 
+        clearProps: "all",
+        opacity: 1 
+      });
+    }
+    
+    function setupAnimation() {
+      const isDesktop = window.innerWidth > 1200;
+      const newBreakpoint = isDesktop ? 'desktop' : 'mobile';
+      
+      // Only re-setup if breakpoint actually changed
+      if (currentBreakpoint === newBreakpoint) return;
+      currentBreakpoint = newBreakpoint;
+      
+      // Clear any existing ScrollTriggers and animations
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      gsap.killTweensOf(gameCards);
+      
+      // Reset cards to clean state
+      resetCardsToDefault();
+      
+      if (isDesktop) {
+        // Desktop: horizontal stacking animation
+        gsap.set(gameCards[0], { x: 400, y: 0, opacity: 1 });
+        gsap.set(gameCards[1], { x: 0, y: 0, opacity: 1 });
+        gsap.set(gameCards[2], { x: -400, y: 0, opacity: 1 });
+        
+        // Stack order
+        gsap.set(gameCards[0], { zIndex: 1 });
+        gsap.set(gameCards[1], { zIndex: 2 });
+        gsap.set(gameCards[2], { zIndex: 3 });
+
+        // Create animation timeline
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.design-cards',
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: 1,
+            refreshPriority: -1
+          }
+        });
+
+        // Animate to final positions
+        tl.to(gameCards[0], {
+          x: 0,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out'
+        }, 0)
+        .to(gameCards[1], {
+          x: 0,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out'
+        }, 0)
+        .to(gameCards[2], {
+          x: 0,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out'
+        }, 0);
+      } else {
+        // Mobile: simple fade-in animation
+        gsap.set(gameCards, { 
+          opacity: 0, 
+          y: 50,
+          x: 0,
+          zIndex: 'auto'
+        });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.design-cards',
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: 1,
+            refreshPriority: -1
+          }
+        });
+
+        // Staggered fade-in for mobile
+        gameCards.forEach((card, i) => {
+          tl.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out'
+          }, i * 0.2);
+        });
+      }
+    }
+
+    // Initial setup
+    setupAnimation();
+    
+    // Debounced resize handler
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setupAnimation();
+        ScrollTrigger.refresh();
+      }, 100);
+    });
+  }
+
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
   const ctaButton = document.querySelector('.cta-button');
