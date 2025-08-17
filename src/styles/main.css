@@ -318,7 +318,7 @@ main {
   left: -50px;
   width: 200px;
   height: 500px;
-  background: var(--pencil-url, url('/assets/pencil.png')) no-repeat center;
+  background: url('/assets/pencil.png') no-repeat center;
   background-size: contain;
   pointer-events: none;
   z-index: 1;
@@ -424,7 +424,7 @@ main {
   left: 0px;
   width: 130px;
   height: 130px;
-  background: var(--cornertape-url, url('/assets/cornertape.png')) no-repeat;
+  background: url('/assets/cornertape.png') no-repeat;
   background-size: contain;
   transform: rotate(-30deg);
   opacity: 0.5;
