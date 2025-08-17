@@ -559,7 +559,7 @@ document.addEventListener('DOMContentLoaded', function() {
     scrollIndicator.style.cursor = 'pointer';
   }
 
-  // Rapier.rs physics simulation
+  // Rapier.js physics simulation
   const hero = document.querySelector('.hero');
   
   if (hero) {
