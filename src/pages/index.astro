@@ -1,6 +1,10 @@
 ---
 import GameCard from '../components/GameCard.astro';
 import '../styles/main.css';
+
+// Get the base path for assets
+const basePath = import.meta.env.BASE_URL || '/';
+const assetPath = basePath === '/' ? '/assets/' : `${basePath}assets/`;
 ---
 
 <html lang="en">
@@ -105,6 +109,15 @@ Our team brings together educators and innovators with training from world-renow
 		</div>
 	</body>
 </html>
+
+<script define:vars={{ assetPath }}>
+// Make asset path globally available
+window.ASSET_PATH = assetPath;
+
+// Set CSS custom properties for asset paths
+document.documentElement.style.setProperty('--pencil-url', `url('${assetPath}pencil.png')`);
+document.documentElement.style.setProperty('--cornertape-url', `url('${assetPath}cornertape.png')`);
+</script>
 
 <script>
 import('@dimforge/rapier2d-compat').then(RAPIER => {
@@ -552,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
       right: -250px;
       width: 1000px;
       height: 1000px;
-      background: url('/assets/paper.png') no-repeat center;
+      background: url('${window.ASSET_PATH}paper.png') no-repeat center;
       background-size: contain;
       pointer-events: none;
       z-index: 1;
@@ -810,7 +823,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Create DOM element
         const element = document.createElement('img');
-        element.src = `/assets/${asset}`;
+        element.src = `${window.ASSET_PATH}${asset}`;
         element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
         element.style.position = 'absolute';
         element.style.pointerEvents = 'none';
@@ -952,7 +965,7 @@ document.addEventListener('DOMContentLoaded', function() {
           this.poppedIn = false;
           
           this.element = document.createElement('img');
-          this.element.src = `/assets/${asset}`;
+          this.element.src = `${window.ASSET_PATH}${asset}`;
           this.element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
           this.element.style.position = 'absolute';
           this.element.style.pointerEvents = 'none';
