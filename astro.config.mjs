@@ -3,6 +3,5 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://spicadesignwork.github.io/',
-  base: process.env.NODE_ENV === 'production' ? '/gamesfored' : undefined,
+  site: 'https://gamesfored.netlify.app/'
 });
