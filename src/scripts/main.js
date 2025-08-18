@@ -542,6 +542,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Get Started button smooth scrolling
+  const getStartedButtons = document.querySelectorAll('a[href="#contact"]');
+  getStartedButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const contactSection = document.querySelector('#contact');
+      if (contactSection) {
+        smoother.scrollTo(contactSection, true, "power2.inOut");
+      }
+    });
+  });
+
   // Scroll indicator click handler
   const scrollIndicator = document.querySelector('.scroll-indicator');
   if (scrollIndicator) {

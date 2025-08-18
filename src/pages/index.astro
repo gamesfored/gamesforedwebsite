@@ -11,6 +11,9 @@ import '../styles/main.css';
 		<meta name="generator" content={Astro.generator} />
 		<title>Games for Learning - Educational Games That Students & Teachers Love</title>
 		<link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollSmoother.min.js"></script>
 	</head>
 	<body>
 		<div id="smooth-wrapper">
@@ -23,7 +26,7 @@ import '../styles/main.css';
 							</div>
 						</div>
 						<div class="nav-right">
-							<a href="#get-started" class="nav-cta">Get Started</a>
+							<a href="#contact" class="nav-cta">Get Started</a>
 						</div>
 						<div class="hamburger">
 							<span class="bar"></span>
@@ -142,7 +145,7 @@ Our team brings together educators and innovators with training from world-renow
 								</div>
 							</div>
 						</section>
-						<section class="contact-section">
+						<section id="contact" class="contact-section">
 							<div class="contact-content">
 								<div class="contact-body">
 									<h2 class="contact-heading">Get In Touch</h2>
@@ -153,6 +156,20 @@ Our team brings together educators and innovators with training from world-renow
 							</div>
 						</section>
 					</div>
+					<footer class="footer">
+						<div class="footer-content">
+							<div class="footer-logo">
+								<img src="/gamesfored.avif" alt="Games for Learning" />
+							</div>
+							<div class="footer-links">
+								<a href="mailto:abhijith@gamesfored.in">Contact Us</a>
+								<a href="#contact">Get Started</a>
+							</div>
+							<div class="footer-copyright">
+								<p>&copy; 2025 GamesForEd. All rights reserved.</p>
+							</div>
+						</div>
+					</footer>
 				</main>
 			</div>
 		</div>
