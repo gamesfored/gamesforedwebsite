@@ -6,10 +6,10 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 let smoother = ScrollSmoother.create({
   wrapper: "#smooth-wrapper",
   content: "#smooth-content",
-  smooth: 1.5,
+  smooth: 0.8,
   effects: true,
   ignoreMobileResize: true,
-  normalizeScroll: true
+  normalizeScroll: false
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function startRapierPhysics() {
       try {
-        const gravity = { x: 0.0, y: 98.1 };
+        const gravity = { x: 0.0, y: 30.0 };
         const world = new window.RAPIER.World(gravity);
         
         let heroRect = hero.getBoundingClientRect();
