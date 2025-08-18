@@ -409,18 +409,23 @@ main {
   width: 100%;
   height: auto;
   background: white;
-  padding: 15px;
+  padding: 5px;
   position: relative;
   display: inline-block;
   transform: rotate(-2deg);
 }
 
-.story-image-placeholder img {
+.story-image-placeholder img,
+.story-photo {
   width: 100%;
   height: auto;
   object-fit: contain;
   object-position: center;
   display: block;
+}
+
+.story-photo {
+  aspect-ratio: auto;
 }
 
 .story-image-placeholder::after {
@@ -499,35 +504,6 @@ main {
   min-height: 500px;
   position: relative;
   z-index: 20;
-}
-
-@media (max-width: 1200px) {
-  .design-cards {
-    flex-direction: column;
-    gap: 2rem;
-    min-height: auto;
-  }
-  
-  .design-cards .game-card {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 400px;
-    min-height: 450px;
-    position: relative;
-    z-index: 20;
-  }
-}
-
-@media (max-width: 600px) {
-  .design-cards {
-    gap: 1.5rem;
-  }
-  
-  .design-cards .game-card {
-    max-width: 350px;
-    position: relative;
-    z-index: 20;
-  }
 }
 
 .design-card {
@@ -678,241 +654,6 @@ main {
   100% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-  }
-}
-
-@media (max-width: 1200px) {
-  .design-card-section .pencil-decoration {
-    z-index: 1;
-  }
-  
-  .design-card-section .paper-decoration {
-    z-index: 1;
-  }
-}
-
-@media (max-width: 1080px) {
-  .story-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 4rem 3rem;
-  }
-
-  .story-left {
-    text-align: center;
-    order: 1;
-  }
-
-  .story-right {
-    text-align: left;
-    order: 2;
-  }
-
-  .story-heading {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .story-image-placeholder {
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  .what-we-do-content {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-
-  .what-we-do-heading {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  .what-we-do-right {
-    min-height: 300px;
-  }
-
-  .detail-image {
-    height: 150px;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-  }
-
-  .navbar {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--color-white);
-    border-radius: 0;
-    padding: 0 20px;
-    z-index: 1000;
-    height: 70px;
-  }
-  
-  .design-card-section .pencil-decoration {
-    z-index: 1;
-  }
-  
-  .design-card-section .paper-decoration {
-    z-index: 1;
-  }
-
-  .design-cards .game-card {
-    position: relative;
-    z-index: 20;
-  }
-
-  .story-content {
-    padding: 3rem 1rem;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .story-contact-wrapper {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .story-section,
-  .contact-section {
-    flex: none;
-  }
-
-  .story-heading {
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .story-image-placeholder {
-    max-width: 250px;
-    margin: 0 auto;
-  }
-
-  .story-image-placeholder::after {
-    width: 80px;
-    height: 80px;
-  }
-
-  .story-body {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .what-we-do-content {
-    padding: 3rem 1rem;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .what-we-do-heading {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .what-we-do-item {
-    padding: 1rem 1.5rem;
-  }
-
-  .item-title {
-    font-size: 1.1rem;
-  }
-
-  .what-we-do-right {
-    min-height: 250px;
-  }
-
-  .detail-image {
-    height: 120px;
-  }
-
-  .detail-text {
-    font-size: 1rem;
-  }
-
-  .nav-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-    gap: 0;
-  }
-
-  .nav-menu {
-    position: fixed;
-    left: -100%;
-    top: 70px;
-    flex-direction: column;
-    background: var(--color-secondary-bg);
-    backdrop-filter: blur(10px);
-    width: 100%;
-    text-align: center;
-    transition: 0.3s;
-    padding: 2rem 0;
-    gap: 1.5rem;
-  }
-
-  .nav-menu.active {
-    left: 0;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-
-  main {
-    margin-top: 70px;
-    gap: 20px;
-  }
-
-  .hero {
-    height: calc(100vh - 90px);
-    padding: 1rem;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  
-  .hero-description {
-    font-size: 1.1rem;
-  }
-
-  .scroll-indicator {
-    bottom: 1rem;
-  }
-
-  .scroll-text {
-    font-size: 0.75rem;
-  }
-
-  .design-section {
-    height: auto;
-    min-height: 100vh;
-    padding: 3rem 1rem;
-  }
-
-  .design-heading {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .design-cards {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .design-card {
-    padding: 2rem 1.5rem;
   }
 }
 
@@ -1134,67 +875,6 @@ main {
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  .what-we-do-section {
-    padding: 3rem 1rem;
-  }
-  
-  .what-we-do-title {
-    font-size: 2.5rem;
-    transform: rotate(0deg);
-  }
-  
-  .what-we-do-description {
-    font-size: 1.1rem;
-  }
-  
-  .map-location {
-    flex-direction: column;
-    margin-bottom: 3rem;
-    transform: none !important;
-  }
-  
-  .map-location.left,
-  .map-location.right {
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .location-marker {
-    margin-bottom: 1rem;
-    width: 100px;
-    height: 100px;
-  }
-  
-  .location-marker img {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .location-content {
-    margin: 0 !important;
-    max-width: 100%;
-    border: none !important;
-    border-top: 4px solid var(--color-1) !important;
-  }
-  
-  .map-location.right .location-content {
-    border-top: 4px solid var(--color-2) !important;
-  }
-  
-  .map-location:last-child .location-content {
-    border-top: 4px solid var(--color-3) !important;
-  }
-  
-  .location-content::before {
-    display: none;
-  }
-  
-  .map-path {
-    display: none;
-  }
-}
-
 .contact-section {
   background: var(--color-4);
   border-radius: 30px;
@@ -1257,7 +937,6 @@ main {
   color: var(--color-text);
   font-size: 1.1rem;
   line-height: 1.6;
-  max-width: 500px;
 }
 
 .contact-body p {
@@ -1272,4 +951,481 @@ main {
 
 .contact-body a:hover {
   text-decoration: none;
+}
+
+@media (max-width: 1600px) {
+  .design-cards {
+    flex-direction: row;
+    gap: 1.5rem;
+    min-height: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .design-cards .game-card {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 280px;
+    min-height: auto;
+    position: relative;
+    z-index: 20;
+  }
+
+  .design-card {
+    min-height: 250px;
+    padding: 1.5rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .design-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .design-card-section .pencil-decoration {
+    top: -150px;
+    bottom: auto;
+    left: -50px;
+    transform: scale(0.6);
+    z-index: 0;
+    opacity: 0.3;
+  }
+  
+  .design-card-section .paper-decoration {
+    z-index: 1;
+    transform: scale(0.6);
+  }
+
+  .falling-element.tic {
+    width: 48px;
+    height: 48px;
+  }
+
+  .falling-element.tac {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .story-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 4rem 3rem;
+  }
+
+  .story-left {
+    text-align: center;
+    order: 1;
+  }
+
+  .story-right {
+    text-align: left;
+    order: 2;
+  }
+
+  .story-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-image-placeholder {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .what-we-do-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .what-we-do-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .what-we-do-right {
+    min-height: 300px;
+  }
+
+  .detail-image {
+    height: 150px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .what-we-do-section {
+    padding: 3rem 1rem;
+  }
+  
+  .what-we-do-title {
+    font-size: 2.5rem;
+    transform: rotate(0deg);
+  }
+  
+  .what-we-do-description {
+    font-size: 1.1rem;
+  }
+  
+  .map-location {
+    flex-direction: column;
+    margin-bottom: 3rem;
+    transform: none !important;
+  }
+  
+  .map-location.left,
+  .map-location.right {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .location-marker {
+    margin-bottom: 1rem;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .location-marker img {
+    width: 90px;
+    height: 90px;
+    border: none;
+  }
+  
+  .map-location.right {
+    flex-direction: column-reverse;
+  }
+  
+  .location-content {
+    margin: 0 !important;
+    max-width: 100%;
+    border: none !important;
+  }
+  
+  .map-location.right .location-content {
+    border: none !important;
+  }
+  
+  .map-location:last-child .location-content {
+    border: none !important;
+  }
+  
+  .location-content::before {
+    display: none;
+  }
+  
+  .map-path {
+    display: none;
+  }
+
+  .contact-body {
+    max-width: none;
+    padding: 0;
+  }
+
+  .contact-content {
+    align-items: stretch;
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .navbar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    border-radius: 0;
+    padding: 0 20px;
+    z-index: 1000;
+    height: 70px;
+  }
+  
+  .design-card-section .pencil-decoration {
+    z-index: 0;
+  }
+  
+  .design-card-section .paper-decoration {
+    z-index: 1;
+  }
+
+  .design-cards .game-card {
+    position: relative;
+    z-index: 20;
+  }
+
+  .story-content {
+    padding: 3rem 1rem;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .story-contact-wrapper {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .story-section,
+  .contact-section {
+    flex: none;
+    width: 100%;
+  }
+
+  .story-heading {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+.story-image-placeholder {
+    width: 70%;
+    height: auto;
+    max-width: none;
+    margin: 0 auto;
+    padding: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .story-image-placeholder::after {
+    width: 80px;
+    height: 80px;
+  }
+
+  .story-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0 3rem;
+  }
+
+  .what-we-do-content {
+    padding: 3rem 1rem;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .what-we-do-heading {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .what-we-do-item {
+    padding: 1rem 1.5rem;
+  }
+
+  .item-title {
+    font-size: 1.1rem;
+  }
+
+  .what-we-do-right {
+    min-height: 250px;
+  }
+
+  .detail-image {
+    height: 120px;
+  }
+
+  .detail-text {
+    font-size: 1rem;
+  }
+
+  .nav-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    gap: 0;
+  }
+
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    flex-direction: column;
+    background: var(--color-secondary-bg);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    padding: 2rem 0;
+    gap: 1.5rem;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  main {
+    margin-top: 70px;
+    gap: 20px;
+  }
+
+  .hero {
+    height: calc(100vh - 90px);
+    padding: 1rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  .scroll-indicator {
+    bottom: 1rem;
+  }
+
+  .scroll-text {
+    font-size: 0.75rem;
+  }
+
+  .design-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 3rem 1rem;
+  }
+
+  .design-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .design-cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .design-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
+  main {
+    gap: 0;
+  }
+
+  .hero-card,
+  .design-card-section,
+  .story-contact-wrapper,
+  .what-we-do-section {
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    border: none;
+    padding: 1rem 0;
+  }
+
+  .story-section,
+  .contact-section {
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    border: none;
+    padding: 1rem 0;
+  }
+
+  .design-cards {
+    gap: 1rem;
+    padding-top: 20px;
+  }
+
+  .story-contact-wrapper {
+    gap: 0;
+    padding:0 0 0 0 ;
+  }
+
+  .map-journey {
+    gap: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .design-card-section .pencil-decoration {
+    display: none;
+  }
+
+  .falling-element {
+    opacity: 0.15;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+  }
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .design-heading {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .design-card h3 {
+    font-size: 1rem;
+  }
+
+  .design-card p {
+    font-size: 0.85rem;
+  }
+
+  .story-heading {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .story-body {
+    font-size: 0.85rem;
+  }
+
+  .what-we-do-title {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .what-we-do-description {
+    font-size: 0.9rem;
+  }
+
+  .location-title {
+    font-size: 1rem;
+  }
+
+  .location-description {
+    font-size: 0.9rem;
+  }
+
+  .contact-heading {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .contact-body {
+    font-size: 1rem;
+  }
 }
