@@ -61,7 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             trigger: '.design-cards',
             start: 'top 80%',
             end: 'top 30%',
-            scrub: 1,
+            scrub: false,
+            once: true,
             refreshPriority: -1
           }
         });
@@ -151,7 +152,8 @@ document.addEventListener('DOMContentLoaded', function() {
             trigger: '.design-cards',
             start: 'top 80%',
             end: 'top 30%',
-            scrub: 1,
+            scrub: false,
+            once: true,
             refreshPriority: -1
           }
         });
