@@ -588,7 +588,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     hero.addEventListener('touchmove', (e) => {
-      e.preventDefault();
       const rect = hero.getBoundingClientRect();
       const touch = e.touches[0];
       mouseX = touch.clientX - rect.left;

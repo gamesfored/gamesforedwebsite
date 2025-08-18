@@ -1212,14 +1212,10 @@ body {
 
   .navbar {
     width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: relative;
     background: transparent;
     border-radius: 0;
     padding: 0 3rem;
-    z-index: 1000;
     height: 70px;
   }
   
@@ -1345,12 +1341,11 @@ body {
   }
 
   main {
-    margin-top: 70px;
     gap: 20px;
   }
 
   .hero {
-    height: calc(100vh - 90px);
+    height: calc(100vh - 140px);
     padding: 1rem;
   }
 
