@@ -1,169 +1,141 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import GameCard from '../components/GameCard.astro';
-import Navbar from '../components/Navbar.astro';
-import '../styles/main.css';
 ---
-<!-- This is a single-line comment -->
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Games for Learning - Games for Learning That Stick </title>
-		<link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
-		<script type="importmap">
-		{
-			"imports": {
-				"gsap": "https://cdn.skypack.dev/gsap",
-				"gsap/ScrollTrigger": "https://cdn.skypack.dev/gsap/ScrollTrigger",
-				"gsap/ScrollSmoother": "https://cdn.skypack.dev/gsap/ScrollSmoother"
-			}
-		}
-		</script>
-<script src="../scripts/rapier-loader.js"></script>
-<script src="../scripts/main.js"></script>
 
-	</head>
-	<body>
-		<div id="smooth-wrapper">
-			<div id="smooth-content">
-				<Navbar />
-				<main>
-					<section class="hero-card">
-						<div class="hero">
-							<div class="hero-content">
-								<h1 class="hero-title"><span class="highlight-green">Games for Learning</span> That Students & Teachers Love</h1>
-								<p class="hero-description"> Why settle for lectures when your classroom can be a playground of discovery? With our story-driven, hands-on games, students don’t just learn — they live the lesson.</p>
-								<a href="#why-they-love-it" class="cta-button">Show Me the Fun! </a>
-							</div>
-							<div class="scroll-indicator">
-								<div class="scroll-arrow">
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
-								<p class="scroll-text">Scroll Down</p>
-							</div>
-						</div>
-					</section>
-					<section class="design-card-section">
-						<div class="pencil-decoration"></div>
-						<div class="design-section">
-							<div class="design-content">
-								<h2 class="design-heading">We design every game to <span style="color: var(--color-1);">ignite curiosity</span>, <span style="color: var(--color-2);">spark joy</span>, and make <span style="color: var(--color-3);">learning meaningful</span></h2>
-								<p class="hero-description"> Our games are full of surprise, challenge, and laughter. Students step into stories, tackle puzzles, and discover ideas they’ll remember long after the bell rings.</p>
-								<div class="design-cards">
-									<GameCard 
-										image="/assets/018-ornithocheirus.png"
-										title="Playful by Design"
-										description="Each game is built around rich narratives that pull learners into the action and keep them engaged"
-										colorClass="card-1"
-									/>
-									<GameCard 
-										image="/assets/008-dragon.png"
-										title="Story-Driven Worlds"
-										description="Each game is built around rich narratives that pull learners into the action and keep them engaged."
-										colorClass="card-2"
-									/>
-									<GameCard 
-										image="/assets/010-crocodile.png"
-										title="Lasting Impact"
-										description="Concepts aren't just memorized—they're experienced, applied, and remembered."
-										colorClass="card-3"
-									/>
-								</div>
-							</div>
-						</div>
-					</section>
-					<section class="what-we-do-section">
-						<div class="what-we-do-content">
-							<div class="what-we-do-header">
-								<h2 class="what-we-do-title">We make classrooms feel like quests, not chores.</h2>
-								<p class="what-we-do-description">We build worlds that teachers and students step into together. A math class might feel like a treasure hunt. A history lesson could play out like a mystery. Science becomes an experiment you can hold in your hands.</p>
-							</div>
-							<div class="map-journey">
-								<div class="map-path"></div>
-								<div class="map-location left">
-									<div class="location-marker">
-										<div class="marker-pin"></div>
-										<img src="/assets/pics (1).avif" alt="Interactive Games" />
-									</div>
-									<div class="location-content">
-										<h3 class="location-title">Interactive Games</h3>
-										<p class="location-description">Why listen when you can play? Our games pull students into stories, puzzles, and challenges where the learning happens by doing, not just watching.</p>
-									</div>
-								</div>
-								<div class="map-location right">
-									<div class="location-content">
-										<h3 class="location-title">Skill Building</h3>
-										<p class="location-description">Every quest comes with obstacles. Students sharpen problem-solving, planning, and teamwork skills as they navigate each challenge — and they have fun while doing it.</p>
-									</div>
-									<div class="location-marker">
-										<div class="marker-pin"></div>
-										<img src="/assets/pics (3).avif" alt="Skill Building" />
-									</div>
-								</div>
-								<div class="map-location left">
-									<div class="location-marker">
-										<div class="marker-pin"></div>
-										<img src="/assets/pics (2).avif" alt="Emotional Impact" />
-									</div>
-									<div class="location-content">
-										<h3 class="location-title">Emotional Impact</h3>
-										<p class="location-description">When students care about the story, they care about the learning. Our games create moments of surprise, laughter, and investment that turn learning into lasting memories.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</section>
-										<div class="story-contact-wrapper">
-						<section class="story-section">
-							<div class="story-content">
-								<div class="story-left">
-									<h2 class="story-heading">Because Every Great Lesson Deserves a Great Story</h2>
-									<div class="story-image-placeholder">
-										<img src="/assets/teampic.png" class="story-photo" alt="Games for Ed team">
-									</div>
-								</div>
-								<div class="story-right">
-									<div class="story-body">
-										<p>We are Games For Ed.<br>
+<Layout title="Games for Learning - Games for Learning That Stick">
+    <main>
+        <section class="hero-card">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title"><span class="highlight-green">Games for Learning</span> That Students & Teachers Love</h1>
+                    <p class="hero-description"> Why settle for lectures when your classroom can be a playground of discovery? With our story-driven, hands-on games, students don’t just learn — they live the lesson.</p>
+                    <a href="#why-they-love-it" class="cta-button">Show Me the Fun! </a>
+                </div>
+                <div class="scroll-indicator">
+                    <div class="scroll-arrow">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <p class="scroll-text">Scroll Down</p>
+                </div>
+            </div>
+        </section>
+        <section class="design-card-section">
+            <div class="pencil-decoration"></div>
+            <div class="design-section">
+                <div class="design-content">
+                    <h2 class="design-heading">We design every game to <span style="color: var(--color-1);">ignite curiosity</span>, <span style="color: var(--color-2);">spark joy</span>, and make <span style="color: var(--color-3);">learning meaningful</span></h2>
+                    <p class="hero-description"> Our games are full of surprise, challenge, and laughter. Students step into stories, tackle puzzles, and discover ideas they’ll remember long after the bell rings.</p>
+                    <div class="design-cards">
+                        <GameCard 
+                            image="/assets/018-ornithocheirus.png"
+                            title="Playful by Design"
+                            description="Each game is built around rich narratives that pull learners into the action and keep them engaged"
+                            colorClass="card-1"
+                        />
+                        <GameCard 
+                            image="/assets/008-dragon.png"
+                            title="Story-Driven Worlds"
+                            description="Each game is built around rich narratives that pull learners into the action and keep them engaged."
+                            colorClass="card-2"
+                        />
+                        <GameCard 
+                            image="/assets/010-crocodile.png"
+                            title="Lasting Impact"
+                            description="Concepts aren't just memorized—they're experienced, applied, and remembered."
+                            colorClass="card-3"
+                        />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="what-we-do-section">
+            <div class="what-we-do-content">
+                <div class="what-we-do-header">
+                    <h2 class="what-we-do-title">We make classrooms feel like quests, not chores.</h2>
+                    <p class="what-we-do-description">We build worlds that teachers and students step into together. A math class might feel like a treasure hunt. A history lesson could play out like a mystery. Science becomes an experiment you can hold in your hands.</p>
+                </div>
+                <div class="map-journey">
+                    <div class="map-path"></div>
+                    <div class="map-location left">
+                        <div class="location-marker">
+                            <div class="marker-pin"></div>
+                            <img src="/assets/pics (1).avif" alt="Interactive Games" />
+                        </div>
+                        <div class="location-content">
+                            <h3 class="location-title">Interactive Games</h3>
+                            <p class="location-description">Why listen when you can play? Our games pull students into stories, puzzles, and challenges where the learning happens by doing, not just watching.</p>
+                        </div>
+                    </div>
+                    <div class="map-location right">
+                        <div class="location-content">
+                            <h3 class="location-title">Skill Building</h3>
+                            <p class="location-description">Every quest comes with obstacles. Students sharpen problem-solving, planning, and teamwork skills as they navigate each challenge — and they have fun while doing it.</p>
+                        </div>
+                        <div class="location-marker">
+                            <div class="marker-pin"></div>
+                            <img src="/assets/pics (3).avif" alt="Skill Building" />
+                        </div>
+                    </div>
+                    <div class="map-location left">
+                        <div class="location-marker">
+                            <div class="marker-pin"></div>
+                            <img src="/assets/pics (2).avif" alt="Emotional Impact" />
+                        </div>
+                        <div class="location-content">
+                            <h3 class="location-title">Emotional Impact</h3>
+                            <p class="location-description">When students care about the story, they care about the learning. Our games create moments of surprise, laughter, and investment that turn learning into lasting memories.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+                            <div class="story-contact-wrapper">
+            <section class="story-section">
+                <div class="story-content">
+                    <div class="story-left">
+                        <h2 class="story-heading">Because Every Great Lesson Deserves a Great Story</h2>
+                        <div class="story-image-placeholder">
+                            <img src="/assets/teampic.png" class="story-photo" alt="Games for Ed team">
+                        </div>
+                    </div>
+                    <div class="story-right">
+                        <div class="story-body">
+                            <p>We are Games For Ed.<br>
 
-										A team of educators and creators who believe classrooms should spark curiosity, not routine. We design learning experiences that feel like stories you can step into — playful, surprising, and deeply human.
-Our roots stretch from Asia School of Business and MIT Sloan to TRIO World School to the Harvard Graduate School of Education, but what truly binds us is a love for play and discovery. We do this because we’ve seen that learning works best when it excites the imagination, builds teamwork, and leaves students with ideas they’ll carry far beyond the classroom.</p>
-										
-										<p>At Games For Ed, every experience is crafted to surprise, delight, and stay with you — because great learning feels a lot like great storytelling.</p>
-										<a href="/our-story" class="cta-button" style="display: inline-block; margin-top: 1rem; font-size: 1rem; padding: 0.8rem 1.5rem; opacity: 1; transform: none; animation: none;">Read Our Full Story</a>
-									</div>
-								</div>
-							</div>
-						</section>
-						<section id="contact" class="contact-section">
-							<div class="contact-content">
-								<div class="contact-body">
-									<h2 class="contact-heading">Ready to Play?</h2>
-									<p>Bring the joy of playful learning to your school. Reach us at <a href="mailto:abhijith@gamesfored.in">abhijith@gamesfored.com</a> to start a conversation. </p>
-									
-									<p>Contact us today to learn more or book a session — let’s make learning fun!.</p>
-								</div>
-							</div>
-						</section>
-					</div>
-					<footer class="footer">
-						<div class="footer-content">
-							<div class="footer-logo">
-								<img src="/gamesfored.avif" alt="Games for Learning" />
-							</div>
-							<div class="footer-links">
-							</div>
-							<div class="footer-copyright">
-								<p>&copy; 2025 GamesForEd. All rights reserved.</p>
-							</div>
-						</div>
-					</footer>
-				</main>
-			</div>
-		</div>
-	</body>
-</html>
+                            A team of educators and creators who believe classrooms should spark curiosity, not routine. We design learning experiences that feel like stories you can step into — playful, surprising, and deeply human.
+    Our roots stretch from Asia School of Business and MIT Sloan to TRIO World School to the Harvard Graduate School of Education, but what truly binds us is a love for play and discovery. We do this because we’ve seen that learning works best when it excites the imagination, builds teamwork, and leaves students with ideas they’ll carry far beyond the classroom.</p>
+                            
+                            <p>At Games For Ed, every experience is crafted to surprise, delight, and stay with you — because great learning feels a lot like great storytelling.</p>
+                            <a href="/our-story" class="cta-button" style="display: inline-block; margin-top: 1rem; font-size: 1rem; padding: 0.8rem 1.5rem; opacity: 1; transform: none; animation: none;">Read Our Full Story</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="contact" class="contact-section">
+                <div class="contact-content">
+                    <div class="contact-body">
+                        <h2 class="contact-heading">Ready to Play?</h2>
+                        <p>Bring the joy of playful learning to your school. Reach us at <a href="mailto:abhijith@gamesfored.in">abhijith@gamesfored.com</a> to start a conversation. </p>
+                        
+                        <p>Contact us today to learn more or book a session — let’s make learning fun!.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="/gamesfored.avif" alt="Games for Learning" />
+                </div>
+                <div class="footer-links">
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+</Layout>

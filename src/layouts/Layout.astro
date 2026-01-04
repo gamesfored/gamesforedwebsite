@@ -1,0 +1,45 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Navbar from '../components/Navbar.astro';
+import '../styles/main.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+        <link rel="preload" as="image" href="/gamesfored.avif">
+        <link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
+		<script type="importmap">
+		{
+			"imports": {
+				"gsap": "https://cdn.skypack.dev/gsap",
+				"gsap/ScrollTrigger": "https://cdn.skypack.dev/gsap/ScrollTrigger",
+				"gsap/ScrollSmoother": "https://cdn.skypack.dev/gsap/ScrollSmoother"
+			}
+		}
+		</script>
+        <script src="../scripts/rapier-loader.js"></script>
+        <script src="../scripts/main.js"></script>
+		<ClientRouter />
+	</head>
+	<body>
+        <div id="smooth-wrapper">
+			<div id="smooth-content">
+                <Navbar />
+                <slot />
+            </div>
+        </div>
+	</body>
+</html>

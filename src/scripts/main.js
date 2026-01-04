@@ -3,973 +3,448 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-let smoother = ScrollSmoother.create({
-  wrapper: "#smooth-wrapper",
-  content: "#smooth-content",
-  smooth: 0.8,
-  effects: true,
-  ignoreMobileResize: true,
-  normalizeScroll: false
+let smoother;
+let ctx;
+let stopPhysicsLoop;
+
+document.addEventListener('astro:page-load', function() {
+  // 1. Cleanup
+  if (ctx) ctx.revert();
+  if (smoother) smoother.kill();
+  if (stopPhysicsLoop) stopPhysicsLoop();
+
+  // 2. Initialize ScrollSmoother
+  if (document.querySelector("#smooth-wrapper")) {
+      smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 0.8,
+        effects: true,
+        ignoreMobileResize: true,
+        normalizeScroll: false
+      });
+  }
+
+  // 3. Initialize Animations with Context
+  ctx = gsap.context(() => {
+      // --- Card Animation ---
+      const gameCards = document.querySelectorAll('.game-card');
+      if (gameCards.length >= 3) {
+          ScrollTrigger.matchMedia({
+              // Desktop
+              "(min-width: 1201px)": function() {
+                  gsap.set(gameCards, { clearProps: "all", opacity: 1 });
+                  gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, zIndex: 21, opacity: 1 });
+                  gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, zIndex: 22, opacity: 1 });
+                  gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, zIndex: 23, opacity: 1 });
+
+                  const tl = gsap.timeline({
+                      scrollTrigger: {
+                          trigger: '.design-cards',
+                          start: 'top 80%',
+                          end: 'top 30%',
+                          once: true
+                      }
+                  });
+
+                  tl.to(gameCards[0], { x: 0, rotation: -8, duration: 1, ease: 'power2.out' }, 0)
+                    .to(gameCards[1], { x: 0, rotation: 2, duration: 1, ease: 'power2.out' }, 0)
+                    .to(gameCards[2], { x: 0, rotation: 6, duration: 1, ease: 'power2.out' }, 0);
+
+                  gameCards.forEach((card, index) => {
+                      const originalRotation = [-8, 2, 6][index];
+                      card.addEventListener('mouseenter', () => {
+                          gsap.to(card, { rotation: 0, scale: 1.1, y: -20, zIndex: 25, duration: 0.4, ease: 'power2.out', overwrite: true });
+                          card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+                      });
+                      card.addEventListener('mouseleave', () => {
+                          gsap.to(card, { rotation: originalRotation, scale: 1, y: 0, zIndex: index + 21, duration: 0.4, ease: 'power2.out', overwrite: true });
+                          card.style.boxShadow = 'none';
+                      });
+                  });
+              },
+              // Mobile
+              "(max-width: 1200px)": function() {
+                  gsap.set(gameCards, { clearProps: "all", opacity: 0, y: 50 });
+                  const tl = gsap.timeline({
+                      scrollTrigger: {
+                          trigger: '.design-cards',
+                          start: 'top 80%',
+                          end: 'top 30%',
+                          once: true
+                      }
+                  });
+                  gameCards.forEach((card, i) => {
+                      tl.to(card, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, i * 0.2);
+                  });
+              }
+          });
+      }
+
+      // --- Decorative Elements ---
+      const designSection = document.querySelector('.design-card-section');
+      const pencilDecoration = document.querySelector('.pencil-decoration');
+      if (designSection && pencilDecoration) {
+          let paperDecoration = designSection.querySelector('.paper-decoration');
+          if (!paperDecoration) {
+              paperDecoration = document.createElement('div');
+              paperDecoration.className = 'paper-decoration';
+              paperDecoration.style.cssText = `
+                position: absolute; bottom: -800px; right: -250px; width: 1000px; height: 1000px;
+                background: url('/assets/paper.png') no-repeat center; background-size: contain;
+                pointer-events: none; z-index: 1; opacity: 0; transform: translateY(40px) rotate(-15deg);
+              `;
+              designSection.appendChild(paperDecoration);
+          }
+          gsap.timeline({
+              scrollTrigger: {
+                  trigger: designSection,
+                  start: 'top 80%',
+                  end: 'top 50%',
+                  once: true
+              }
+          })
+          .to(paperDecoration, { opacity: 1, y: 0, rotation: -15, duration: 0.8, ease: 'back.out(1.7)' }, 0)
+          .to(pencilDecoration, { opacity: 1, x: 0, y: 0, rotation: 105, duration: 0.8, ease: 'back.out(1.7)' }, 0.2);
+      }
+
+      // --- Interactive Elements ---
+      const whatWeDoItems = document.querySelectorAll('.what-we-do-item');
+      const whatWeDoDetails = document.querySelectorAll('.what-we-do-detail');
+      if (whatWeDoItems.length > 0) {
+          whatWeDoItems.forEach(item => {
+              item.addEventListener('mouseenter', () => {
+                  whatWeDoItems.forEach(i => i.classList.remove('active'));
+                  whatWeDoDetails.forEach(d => d.classList.remove('active'));
+                  item.classList.add('active');
+                  const targetDetail = document.querySelector(`[data-detail="${item.dataset.item}"]`);
+                  if (targetDetail) targetDetail.classList.add('active');
+              });
+          });
+      }
+
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('.nav-right');
+      if (hamburger && navMenu) {
+          hamburger.addEventListener('click', () => {
+              hamburger.classList.toggle('active');
+              navMenu.classList.toggle('active');
+          });
+          document.querySelectorAll('.nav-link, .nav-cta').forEach(link => {
+              link.addEventListener('click', () => {
+                  hamburger.classList.remove('active');
+                  navMenu.classList.remove('active');
+              });
+          });
+      }
+
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      if (scrollIndicator) {
+          scrollIndicator.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (smoother) smoother.scrollTo('.design-card-section', true, "power2.inOut");
+          });
+      }
+      
+      const ctaButton = document.querySelector('.cta-button');
+      if (ctaButton) {
+          ctaButton.addEventListener('click', function(e) {
+              const href = this.getAttribute('href');
+              if (href && href.startsWith('#')) {
+                  e.preventDefault();
+                  if (smoother) smoother.scrollTo(href, true, "power2.inOut");
+              }
+          });
+      }
+      
+      const getStartedButtons = document.querySelectorAll('a[href="#contact"]');
+      getStartedButtons.forEach(button => {
+          button.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (smoother) smoother.scrollTo('#contact', true, "power2.inOut");
+          });
+      });
+  });
+
+  // 4. Hero Physics
+  const hero = document.querySelector('.hero');
+  if (hero) {
+      let isPhysicsRunning = true;
+      let mouseX = 0, mouseY = 0, isMouseInHero = false;
+      
+      stopPhysicsLoop = () => { isPhysicsRunning = false; };
+
+      hero.addEventListener('mousemove', (e) => {
+          const rect = hero.getBoundingClientRect();
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+          isMouseInHero = true;
+      });
+      hero.addEventListener('touchmove', (e) => {
+          const rect = hero.getBoundingClientRect();
+          const touch = e.touches[0];
+          mouseX = touch.clientX - rect.left;
+          mouseY = touch.clientY - rect.top;
+          isMouseInHero = true;
+      });
+      hero.addEventListener('mouseleave', () => { isMouseInHero = false; });
+      hero.addEventListener('touchend', () => { isMouseInHero = false; });
+
+      const initHeroPhysics = async () => {
+          try {
+              let RAPIER = window.RAPIER;
+              if (!RAPIER) { startSimplePhysics(isPhysicsRunning, mouseX, mouseY, isMouseInHero); return; }
+
+              const gravity = { x: 0.0, y: 30.0 };
+              const world = new RAPIER.World(gravity);
+              
+              let heroRect = hero.getBoundingClientRect();
+              let heroWidth = heroRect.width;
+              let heroHeight = heroRect.height;
+              
+              // Boundaries
+              let groundCollider, leftWallCollider, rightWallCollider;
+              const createBoundaries = () => {
+                  if (groundCollider) world.removeCollider(groundCollider);
+                  if (leftWallCollider) world.removeCollider(leftWallCollider);
+                  if (rightWallCollider) world.removeCollider(rightWallCollider);
+                  
+                  groundCollider = world.createCollider(
+                      RAPIER.ColliderDesc.cuboid(heroWidth/2, 10).setTranslation(heroWidth/2, heroHeight - 10).setRestitution(0.5).setFriction(0.7)
+                  );
+                  leftWallCollider = world.createCollider(
+                      RAPIER.ColliderDesc.cuboid(10, heroHeight/2).setTranslation(-10, heroHeight/2).setRestitution(0.3).setFriction(0.5)
+                  );
+                  rightWallCollider = world.createCollider(
+                      RAPIER.ColliderDesc.cuboid(10, heroHeight/2).setTranslation(heroWidth+10, heroHeight/2).setRestitution(0.3).setFriction(0.5)
+                  );
+              };
+              createBoundaries();
+
+              window.addEventListener('resize', () => {
+                  if (!isPhysicsRunning) return;
+                  heroRect = hero.getBoundingClientRect();
+                  heroWidth = heroRect.width;
+                  heroHeight = heroRect.height;
+                  createBoundaries();
+              });
+
+              const assets = ['tic-1.png', 'tic-2.png', 'tic-3.png', 'tic-4.png', 'tac-1.png', 'tac-2.png', 'tac-3.png', 'tac-4.png'];
+              const gameElements = [];
+              
+              const createFallingElement = () => {
+                  if (!isPhysicsRunning || gameElements.length >= 25) return;
+                  
+                  const asset = assets[Math.floor(Math.random() * assets.length)];
+                  const size = asset.startsWith('tic') ? 80 : 100;
+                  const halfSize = size/2;
+                  
+                  let x, y;
+                  if (isMouseInHero && Math.random() < 0.7) {
+                      const angle = Math.random() * Math.PI * 2;
+                      const distance = Math.random() * 150;
+                      x = Math.max(halfSize, Math.min(heroWidth - halfSize, mouseX + Math.cos(angle) * distance));
+                      y = Math.max(halfSize, Math.min(heroHeight - halfSize, mouseY + Math.sin(angle) * distance));
+                  } else {
+                      x = halfSize + Math.random() * (heroWidth - size);
+                      y = halfSize + Math.random() * (heroHeight - size);
+                  }
+                  
+                  const rigidBody = world.createRigidBody(
+                      RAPIER.RigidBodyDesc.dynamic().setTranslation(x, y).setAngularDamping(0.1).setLinearDamping(0.05)
+                  );
+                  const collider = world.createCollider(
+                      RAPIER.ColliderDesc.cuboid(halfSize, halfSize).setRestitution(0.6).setFriction(0.4).setDensity(0.8), rigidBody
+                  );
+                  
+                  const element = document.createElement('img');
+                  element.src = `/assets/${asset}`;
+                  element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
+                  element.style.cssText = 'position: absolute; pointer-events: none; z-index: 1; transform: scale(0); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);';
+                  
+                  if(hero.contains(element)) return; 
+                  hero.appendChild(element);
+                  
+                  setTimeout(() => {
+                      element.style.transform = 'scale(1)';
+                      // Remove transition after pop-in to prevent conflicts
+                      setTimeout(() => element.style.transition = 'none', 400); 
+                  }, 10);
+                  
+                  gameElements.push({ rigidBody, collider, element, size, createdTime: Date.now(), lifespan: 2000 + Math.random()*4000 });
+              };
+
+              const updatePhysics = () => {
+                  if (!isPhysicsRunning) return;
+                  world.step();
+                  
+                  for (let i = gameElements.length - 1; i >= 0; i--) {
+                      const item = gameElements[i];
+                      const pos = item.rigidBody.translation();
+                      const rot = item.rigidBody.rotation();
+                      const age = Date.now() - item.createdTime;
+                      
+                      item.element.style.left = (pos.x - item.size/2) + 'px';
+                      item.element.style.top = (pos.y - item.size/2) + 'px';
+                      // Use a simplified transform update to avoid scale jitter
+                      item.element.style.transform = `rotate(${rot}rad) scale(1)`;
+                      
+                      if (age > item.lifespan || pos.y > heroHeight + 200) {
+                          world.removeRigidBody(item.rigidBody);
+                          item.element.remove();
+                          gameElements.splice(i, 1);
+                      }
+                  }
+                  requestAnimationFrame(updatePhysics);
+              };
+
+              updatePhysics();
+              setInterval(() => { if(isPhysicsRunning) createFallingElement(); }, 400);
+              for(let i=0; i<8; i++) setTimeout(createFallingElement, i*150);
+
+          } catch (e) {
+              console.error(e);
+              startSimplePhysics(isPhysicsRunning, mouseX, mouseY, isMouseInHero);
+          }
+      };
+
+      if (window.RAPIER) {
+          initHeroPhysics();
+      } else {
+          window.addEventListener('rapierLoaded', initHeroPhysics, { once: true });
+          setTimeout(() => {
+              if (!window.RAPIER && isPhysicsRunning && document.querySelector('.hero')) {
+                  startSimplePhysics(isPhysicsRunning, mouseX, mouseY, isMouseInHero);
+              }
+          }, 3000);
+      }
+  }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Card stacked animation
-  const gameCards = document.querySelectorAll('.game-card');
-  
-  if (gameCards.length >= 3) {
-    let currentBreakpoint = null;
-    let resizeTimeout = null;
-    let hoverListenersAdded = false;
+function startSimplePhysics(isRunningRef, initialMouseX, initialMouseY, initialIsMouseInHero) {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
     
-    function resetCardsToDefault() {
-      // Reset all GSAP properties to default
-      gsap.set(gameCards, { 
-        clearProps: "all",
-        opacity: 1 
-      });
-    }
+    // Track mouse specifically for simple physics instance
+    let mouseX = initialMouseX || 0;
+    let mouseY = initialMouseY || 0;
+    let isMouseInHero = initialIsMouseInHero || false;
     
-    function setupAnimation() {
-      const isDesktop = window.innerWidth > 1200;
-      const newBreakpoint = isDesktop ? 'desktop' : 'mobile';
-      
-      // Only re-setup if breakpoint actually changed
-      if (currentBreakpoint === newBreakpoint) return;
-      currentBreakpoint = newBreakpoint;
-      
-      // Clear any existing ScrollTriggers and animations
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      gsap.killTweensOf(gameCards);
-      
-      // Reset cards to clean state
-      resetCardsToDefault();
-      
-      if (isDesktop) {
-        // Desktop: horizontal stacking animation with rotation
-        gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
-        gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
-        gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
-        
-        // Stack order
-        gsap.set(gameCards[0], { zIndex: 21 });
-        gsap.set(gameCards[1], { zIndex: 22 });
-        gsap.set(gameCards[2], { zIndex: 23 });
-
-        // Create animation timeline
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: '.design-cards',
-            start: 'top 80%',
-            end: 'top 30%',
-            scrub: false,
-            once: true,
-            refreshPriority: -1
-          }
-        });
-
-        // Animate to final positions with natural card spread rotations
-        tl.to(gameCards[0], {
-          x: 0,
-          y: 0,
-          rotation: -8,
-          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
-          duration: 1,
-          ease: 'power2.out'
-        }, 0)
-        .to(gameCards[1], {
-          x: 0,
-          y: 0,
-          rotation: 2,
-          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
-          duration: 1,
-          ease: 'power2.out'
-        }, 0)
-        .to(gameCards[2], {
-          x: 0,
-          y: 0,
-          rotation: 6,
-          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
-          duration: 1,
-          ease: 'power2.out'
-        }, 0);
-
-        // Add hover interactions for desktop (only once)
-        if (!hoverListenersAdded) {
-          gameCards.forEach((card, index) => {
-            const originalRotation = [-8, 2, 6][index];
-            let canHover = false;
-            
-            // Enable hover after stacking animation completes
-            setTimeout(() => {
-              canHover = true;
-            }, 1000);
-            
-            card.addEventListener('mouseenter', () => {
-              if (window.innerWidth > 1200 && canHover) { // Only on desktop and after animation
-                gsap.to(card, {
-                  rotation: 0,
-                  scale: 1.1,
-                  x: 0,
-                  y: -20,
-                  zIndex: 25,
-                  duration: 0.4,
-                  ease: 'power2.out'
-                });
-                // Set box shadow via style for CSS transition
-                card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
-              }
-            });
-
-            card.addEventListener('mouseleave', () => {
-              if (window.innerWidth > 1200 && canHover) { // Only on desktop and after animation
-                gsap.to(card, {
-                  rotation: originalRotation,
-                  scale: 1,
-                  x: 0,
-                  y: 0,
-                  zIndex: index + 21,
-                  duration: 0.4,
-                  ease: 'power2.out'
-                });
-                // Remove box shadow via style for CSS transition
-                card.style.boxShadow = '0 0 0 rgba(0, 0, 0, 0)';
-              }
-            });
-          });
-          hoverListenersAdded = true;
-        }
-      } else {
-        // Mobile: simple fade-in animation
-        gsap.set(gameCards, { 
-          opacity: 0, 
-          y: 50,
-          x: 0,
-          zIndex: 20
-        });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: '.design-cards',
-            start: 'top 80%',
-            end: 'top 30%',
-            scrub: false,
-            once: true,
-            refreshPriority: -1
-          }
-        });
-
-        // Staggered fade-in for mobile
-        gameCards.forEach((card, i) => {
-          tl.to(card, {
-            opacity: 1,
-            y: 0,
-            zIndex: 20,
-            duration: 1,
-            ease: 'power2.out'
-          }, i * 0.2);
-        });
-      }
-    }
-
-    // Initial setup
-    setupAnimation();
-    
-    // Debounced resize handler
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        setupAnimation();
-        ScrollTrigger.refresh();
-      }, 100);
-    });
-  }
-
-  // Card background patterns
-  const cards = document.querySelectorAll('.game-card');
-  
-  function createGridPattern(card) {
-    const textSection = card.querySelector('.game-card-content');
-    if (!textSection) return;
-    
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = 350;
-    canvas.height = 120;
-    canvas.style.position = 'absolute';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.opacity = '0.15';
-    canvas.style.zIndex = '1';
-    
-    const gridSize = 20;
-    let offset = 0;
-    
-    function drawGrid() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'white';
-      ctx.lineWidth = 1.5;
-      
-      // Vertical lines
-      for (let x = offset; x < canvas.width + gridSize; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-      
-      // Horizontal lines
-      for (let y = offset; y < canvas.height + gridSize; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-      }
-    }
-    
-    textSection.style.position = 'relative';
-    textSection.appendChild(canvas);
-    drawGrid();
-    
-    let isAnimating = false;
-    
-    // Hover animation
-    card.addEventListener('mouseenter', () => {
-      if (window.innerWidth > 1200 && !isAnimating) {
-        isAnimating = true;
-        gsap.to({ o: offset }, {
-          o: offset + gridSize,
-          duration: 0.8,
-          ease: 'power2.out',
-          onUpdate: function() {
-            offset = this.targets()[0].o % gridSize;
-            drawGrid();
-          },
-          onComplete: () => {
-            isAnimating = false;
-          }
-        });
-        gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
-      }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      if (window.innerWidth > 1200) {
-        gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
-      }
-    });
-  }
-  
-  function createWavePattern(card) {
-    const textSection = card.querySelector('.game-card-content');
-    if (!textSection) return;
-    
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = 350;
-    canvas.height = 120;
-    canvas.style.position = 'absolute';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.opacity = '0.15';
-    canvas.style.zIndex = '1';
-    
-    const waveSpacing = 15;
-    const amplitude = 8;
-    let time = 0;
-    let isAnimating = false;
-    
-    function drawWaves() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'white';
-      ctx.lineWidth = 1.5;
-      
-      for (let y = waveSpacing; y < canvas.height; y += waveSpacing) {
-        ctx.beginPath();
-        for (let x = 0; x <= canvas.width; x += 2) {
-          const waveY = y + Math.sin((x * 0.02) + time) * amplitude;
-          if (x === 0) {
-            ctx.moveTo(x, waveY);
-          } else {
-            ctx.lineTo(x, waveY);
-          }
-        }
-        ctx.stroke();
-      }
-    }
-    
-    textSection.style.position = 'relative';
-    textSection.appendChild(canvas);
-    drawWaves();
-    
-    // Hover animation
-    card.addEventListener('mouseenter', () => {
-      if (window.innerWidth > 1200 && !isAnimating) {
-        isAnimating = true;
-        gsap.to({ t: time }, {
-          t: time + Math.PI * 4,
-          duration: 1,
-          ease: 'power2.out',
-          onUpdate: function() {
-            time = this.targets()[0].t;
-            drawWaves();
-          },
-          onComplete: () => {
-            isAnimating = false;
-          }
-        });
-        gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
-      }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      if (window.innerWidth > 1200) {
-        gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
-      }
-    });
-  }
-  
-  function createStarburstPattern(card) {
-    const textSection = card.querySelector('.game-card-content');
-    if (!textSection) return;
-    
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = 350;
-    canvas.height = 120;
-    canvas.style.position = 'absolute';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.opacity = '0.15';
-    canvas.style.zIndex = '1';
-    
-    const centerX = 0;
-    const centerY = 0;
-    const maxDistance = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
-    let rotation = 0;
-    
-    function drawStarburst() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate(rotation);
-      ctx.strokeStyle = 'white';
-      ctx.lineWidth = 1.5;
-      
-      // Draw radiating lines
-      for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 15) {
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(Math.cos(angle) * maxDistance, Math.sin(angle) * maxDistance);
-        ctx.stroke();
-      }
-      
-      ctx.restore();
-    }
-    
-    textSection.style.position = 'relative';
-    textSection.appendChild(canvas);
-    drawStarburst();
-    
-    let isAnimating = false;
-    
-    // Hover animation
-    card.addEventListener('mouseenter', () => {
-      if (window.innerWidth > 1200 && !isAnimating) {
-        isAnimating = true;
-        gsap.to({ r: rotation }, {
-          r: rotation + Math.PI,
-          duration: 0.8,
-          ease: 'power2.out',
-          onUpdate: function() {
-            rotation = this.targets()[0].r;
-            drawStarburst();
-          },
-          onComplete: () => {
-            isAnimating = false;
-          }
-        });
-        gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
-      }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      if (window.innerWidth > 1200) {
-        gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
-      }
-    });
-  }
-  
-  // Apply patterns to cards
-  cards.forEach((card, index) => {
-    if (card.classList.contains('card-1')) {
-      createGridPattern(card);
-    } else if (card.classList.contains('card-2')) {
-      createWavePattern(card);
-    } else if (card.classList.contains('card-3')) {
-      createStarburstPattern(card);
-    }
-  });
-
-  // Animate decorative elements in second section
-  const designSection = document.querySelector('.design-card-section');
-  const pencilDecoration = document.querySelector('.pencil-decoration');
-  
-  if (designSection && pencilDecoration) {
-    // Add paper decoration as a real element instead of pseudo-element
-    const paperDecoration = document.createElement('div');
-    paperDecoration.className = 'paper-decoration';
-    paperDecoration.style.cssText = `
-      position: absolute;
-      bottom: -800px;
-      right: -250px;
-      width: 1000px;
-      height: 1000px;
-      background: url('/assets/paper.png') no-repeat center;
-      background-size: contain;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      transform: translateY(40px) rotate(-15deg);
-    `;
-    designSection.appendChild(paperDecoration);
-    
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: designSection,
-        start: 'top 80%',
-        end: 'top 50%',
-        scrub: false,
-        once: true
-      }
-    })
-    .to(paperDecoration, {
-      opacity: 1,
-      y: 0,
-      rotation: -15,
-      duration: 0.8,
-      ease: 'back.out(1.7)'
-    }, 0)
-    .to(pencilDecoration, {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      rotation: 105,
-      duration: 0.8,
-      ease: 'back.out(1.7)'
-    }, 0.2);
-  }
-
-  // What We Do section interactive functionality
-  const whatWeDoItems = document.querySelectorAll('.what-we-do-item');
-  const whatWeDoDetails = document.querySelectorAll('.what-we-do-detail');
-
-  if (whatWeDoItems.length > 0 && whatWeDoDetails.length > 0) {
-    whatWeDoItems.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        const targetItem = item.dataset.item;
-        
-        // Remove active class from all items and details
-        whatWeDoItems.forEach(i => i.classList.remove('active'));
-        whatWeDoDetails.forEach(d => d.classList.remove('active'));
-        
-        // Add active class to hovered item and corresponding detail
-        item.classList.add('active');
-        const targetDetail = document.querySelector(`[data-detail="${targetItem}"]`);
-        if (targetDetail) {
-          targetDetail.classList.add('active');
-        }
-      });
-    });
-  }
-
-  const hamburger = document.querySelector('.hamburger');
-  const navMenu = document.querySelector('.nav-menu');
-  const ctaButton = document.querySelector('.cta-button');
-  
-  // Hamburger menu toggle
-  if (hamburger && navMenu) {
-    hamburger.addEventListener('click', function() {
-      hamburger.classList.toggle('active');
-      navMenu.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a nav link
-    const navLinks = document.querySelectorAll('.nav-link, .nav-cta');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-      });
-    });
-  }
-
-  // Navbar scroll effect
-  const navbar = document.querySelector('.navbar');
-  if (navbar) {
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-      } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-      }
-    });
-  }
-  
-  // Hero CTA button
-  if (ctaButton) {
-    ctaButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Add a simple animation effect when clicked
-      this.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        this.style.transform = 'translateY(-2px)';
-      }, 150);
-      
-      // Here you would typically navigate to another page or section
-      console.log('CTA button clicked: Why Do They Love It?');
-      
-      // For now, just scroll to show the interaction
-      smoother.scrollTo(window.innerHeight, true, "power2.inOut");
-    });
-  }
-
-  // Get Started button smooth scrolling
-  const getStartedButtons = document.querySelectorAll('a[href="#contact"]');
-  getStartedButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      const contactSection = document.querySelector('#contact');
-      if (contactSection) {
-        smoother.scrollTo(contactSection, true, "power2.inOut");
-      }
-    });
-  });
-
-  // Scroll indicator click handler
-  const scrollIndicator = document.querySelector('.scroll-indicator');
-  if (scrollIndicator) {
-    scrollIndicator.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Scroll to the next section (design-card-section)
-      const nextSection = document.querySelector('.design-card-section');
-      if (nextSection) {
-        smoother.scrollTo(nextSection, true, "power2.inOut");
-      }
-    });
-    
-    // Add cursor pointer to indicate it's clickable
-    scrollIndicator.style.cursor = 'pointer';
-  }
-
-  // Rapier.js physics simulation
-  const hero = document.querySelector('.hero');
-  
-  if (hero) {
-    let mouseX = 0;
-    let mouseY = 0;
-    let isMouseInHero = false;
-    
-    // Track mouse/touch position
     hero.addEventListener('mousemove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-      isMouseInHero = true;
+        const rect = hero.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        isMouseInHero = true;
     });
+    hero.addEventListener('mouseleave', () => { isMouseInHero = false; });
+
+    let heroRect = hero.getBoundingClientRect();
+    let heroWidth = heroRect.width;
+    let heroHeight = heroRect.height;
     
-    hero.addEventListener('touchmove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      const touch = e.touches[0];
-      mouseX = touch.clientX - rect.left;
-      mouseY = touch.clientY - rect.top;
-      isMouseInHero = true;
-    });
+    const assets = ['tic-1.png', 'tic-2.png', 'tic-3.png', 'tic-4.png', 'tac-1.png', 'tac-2.png', 'tac-3.png', 'tac-4.png'];
+    const gameElements = [];
     
-    hero.addEventListener('mouseleave', () => {
-      isMouseInHero = false;
-    });
-    
-    hero.addEventListener('touchend', () => {
-      isMouseInHero = false;
-    });
-    function initPhysics() {
-      startRapierPhysics().catch(() => {
-        startSimplePhysics();
-      });
-    }
-    
-    window.addEventListener('rapierLoaded', initPhysics);
-    window.addEventListener('rapierFailed', () => {
-      startSimplePhysics();
-    });
-    
-    setTimeout(() => {
-      if (!window.RAPIER) {
-        startSimplePhysics();
-      }
-    }, 3000);
-    
-    async function startRapierPhysics() {
-      try {
-        const gravity = { x: 0.0, y: 30.0 };
-        const world = new window.RAPIER.World(gravity);
-        
-        let heroRect = hero.getBoundingClientRect();
-        let heroWidth = heroRect.width;
-        let heroHeight = heroRect.height;
-      
-      // Create boundaries (will be recreated on resize)
-      let groundCollider, leftWallCollider, rightWallCollider;
-      
-      function createBoundaries() {
-        // Remove existing boundaries
-        if (groundCollider) world.removeCollider(groundCollider);
-        if (leftWallCollider) world.removeCollider(leftWallCollider);
-        if (rightWallCollider) world.removeCollider(rightWallCollider);
-        
-        // Create new boundaries
-        const groundColliderDesc = window.RAPIER.ColliderDesc.cuboid(heroWidth / 2, 10)
-          .setTranslation(heroWidth / 2, heroHeight - 10)
-          .setRestitution(0.5)
-          .setFriction(0.7);
-        groundCollider = world.createCollider(groundColliderDesc);
-        
-        const leftWallColliderDesc = window.RAPIER.ColliderDesc.cuboid(10, heroHeight / 2)
-          .setTranslation(-10, heroHeight / 2)
-          .setRestitution(0.3)
-          .setFriction(0.5);
-        leftWallCollider = world.createCollider(leftWallColliderDesc);
-        
-        const rightWallColliderDesc = window.RAPIER.ColliderDesc.cuboid(10, heroHeight / 2)
-          .setTranslation(heroWidth + 10, heroHeight / 2)
-          .setRestitution(0.3)
-          .setFriction(0.5);
-        rightWallCollider = world.createCollider(rightWallColliderDesc);
-      }
-      
-      createBoundaries();
-      
-      const assets = ['tic-1.png', 'tic-2.png', 'tic-3.png', 'tic-4.png', 'tac-1.png', 'tac-2.png', 'tac-3.png', 'tac-4.png'];
-      const gameElements = [];
-      const maxElements = 25;
-      
-      function createFallingElement() {
-        if (gameElements.length >= maxElements) return;
-        
+    class SimpleElement {
+      constructor() {
         const asset = assets[Math.floor(Math.random() * assets.length)];
-        const size = asset.startsWith('tic') ? 80 : 100;
-        const halfSize = size / 2;
+        this.size = asset.startsWith('tic') ? 80 : 100;
         
-        let x, y;
-        
-        // 70% chance to spawn near mouse if mouse is in hero area
         if (isMouseInHero && Math.random() < 0.7) {
-          // Spawn within 150px radius of mouse position
           const angle = Math.random() * Math.PI * 2;
           const distance = Math.random() * 150;
-          x = Math.max(halfSize, Math.min(heroWidth - halfSize, mouseX + Math.cos(angle) * distance));
-          y = Math.max(halfSize, Math.min(heroHeight - halfSize, mouseY + Math.sin(angle) * distance));
+          this.x = Math.max(this.size, Math.min(heroWidth - this.size, mouseX + Math.cos(angle) * distance));
+          this.y = Math.max(this.size, Math.min(heroHeight - this.size, mouseY + Math.sin(angle) * distance));
         } else {
-          // Random spawn anywhere in hero section
-          x = halfSize + Math.random() * (heroWidth - size);
-          y = halfSize + Math.random() * (heroHeight - size);
+          this.x = this.size + Math.random() * (heroWidth - this.size * 2);
+          this.y = this.size + Math.random() * (heroHeight - this.size * 2);
         }
+        this.vx = (Math.random() - 0.5) * 3;
+        this.vy = 0;
+        this.rotation = 0;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.15;
+        this.gravity = 1.2;
+        this.bounce = 0.7;
+        this.friction = 0.97;
+        this.createdTime = Date.now();
+        this.lifespan = 2000 + Math.random() * 4000;
+        this.poppedIn = false;
         
-        // Create rigid body
-        const rigidBodyDesc = window.RAPIER.RigidBodyDesc.dynamic()
-          .setTranslation(x, y)
-          .setAngularDamping(0.1)
-          .setLinearDamping(0.05);
-        const rigidBody = world.createRigidBody(rigidBodyDesc);
+        this.element = document.createElement('img');
+        this.element.src = `/assets/${asset}`;
+        this.element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
+        this.element.style.cssText = 'position: absolute; pointer-events: none; z-index: 1; transform: scale(0); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);';
         
-        // Create collider
-        const colliderDesc = window.RAPIER.ColliderDesc.cuboid(halfSize, halfSize)
-          .setRestitution(0.6)
-          .setFriction(0.4)
-          .setDensity(0.8);
-        const collider = world.createCollider(colliderDesc, rigidBody);
+        hero.appendChild(this.element);
         
-        // Create DOM element
-        const element = document.createElement('img');
-        element.src = `/assets/${asset}`;
-        element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
-        element.style.position = 'absolute';
-        element.style.pointerEvents = 'none';
-        element.style.zIndex = '1';
-        
-        // Pop in animation
-        element.style.transform = 'scale(0)';
-        element.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        
-        hero.appendChild(element);
-        
-        // Trigger pop in after a small delay to ensure DOM is ready
         setTimeout(() => {
-          element.style.transform = 'scale(1)';
+          this.element.style.transform = 'scale(1)';
+          setTimeout(() => this.element.style.transition = 'none', 400);
         }, 10);
-        
-        const lifespan = 2000 + Math.random() * 4000; // 2-6 seconds
-        gameElements.push({ rigidBody, collider, element, size, createdTime: Date.now(), lifespan, poppedIn: false });
       }
       
-      function updatePhysics() {
-        // Step the physics world
-        world.step();
+      update() {
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.rotationSpeed;
         
-        // Update DOM elements to match physics bodies
-        gameElements.forEach((gameElement) => {
-          const { rigidBody, element, size, createdTime, lifespan } = gameElement;
-          const position = rigidBody.translation();
-          const rotation = rigidBody.rotation();
-          const age = Date.now() - createdTime;
-          
-          // Mark as popped in after initial animation
-          if (age > 400 && !gameElement.poppedIn) {
-            gameElement.poppedIn = true;
-            element.style.transition = '';
-          }
-          
-          // Check if element should start fading out
-          if (age > lifespan - 500 && !gameElement.fadingOut) {
-            gameElement.fadingOut = true;
-            element.style.transition = 'transform 0.5s ease-in';
-            element.style.transform = `scale(0) rotate(${rotation}rad)`;
-          } else if (!gameElement.fadingOut && gameElement.poppedIn) {
-            element.style.left = (position.x - size / 2) + 'px';
-            element.style.top = (position.y - size / 2) + 'px';
-            element.style.transform = `scale(1) rotate(${rotation}rad)`;
-          } else if (!gameElement.fadingOut) {
-            // During pop-in, only update position
-            element.style.left = (position.x - size / 2) + 'px';
-            element.style.top = (position.y - size / 2) + 'px';
-          }
-        });
-        
-        // Remove elements after timeout or if they fall off screen
-        for (let i = gameElements.length - 1; i >= 0; i--) {
-          const gameElement = gameElements[i];
-          const { rigidBody, element, createdTime, lifespan } = gameElement;
-          const position = rigidBody.translation();
-          const age = Date.now() - createdTime;
-          
-          const shouldRemove = age > lifespan || 
-                             position.y > heroHeight + 200 || 
-                             position.x < -100 || 
-                             position.x > heroWidth + 100;
-          
-          if (shouldRemove) {
-            world.removeRigidBody(rigidBody);
-            if (element.parentNode) {
-              element.remove();
-            }
-            gameElements.splice(i, 1);
-          }
+        if (this.y + this.size >= heroHeight) {
+          this.y = heroHeight - this.size;
+          this.vy *= -this.bounce;
+          this.vx *= this.friction;
+          this.rotationSpeed *= this.friction;
+          if (Math.abs(this.vy) < 1) this.vy = 0;
         }
         
-        requestAnimationFrame(updatePhysics);
-      }
-      
-      // Start physics loop
-      updatePhysics();
-      
-      // Create elements periodically
-      setInterval(createFallingElement, 400);
-      
-      // Create initial batch
-      for (let i = 0; i < 8; i++) {
-        setTimeout(createFallingElement, i * 150);
-      }
-      
-      // Handle viewport resize
-      function handleResize() {
-        heroRect = hero.getBoundingClientRect();
-        heroWidth = heroRect.width;
-        heroHeight = heroRect.height;
-        createBoundaries();
-      }
-      
-      window.addEventListener('resize', handleResize);
-      
-      } catch (error) {
-        throw error;
+        if (this.x <= 0) {
+          this.x = 0;
+          this.vx *= -this.bounce;
+        } else if (this.x + this.size >= heroWidth) {
+          this.x = heroWidth - this.size;
+          this.vx *= -this.bounce;
+        }
+        
+        const age = Date.now() - this.createdTime;
+        if (this.poppedIn || age > 400) {
+            this.poppedIn = true;
+            this.element.style.left = this.x + 'px';
+            this.element.style.top = this.y + 'px';
+            this.element.style.transform = `rotate(${this.rotation}rad) scale(1)`;
+        }
+        
+        const shouldRemove = age > this.lifespan || this.y > heroHeight + 100 || this.x < -100 || this.x > heroWidth + 100;
+        return !shouldRemove;
       }
     }
     
-    function startSimplePhysics() {
-      let heroRect = hero.getBoundingClientRect();
-      let heroWidth = heroRect.width;
-      let heroHeight = heroRect.height;
+    function createFallingElement() {
+      if (gameElements.length >= 20) return;
+      gameElements.push(new SimpleElement());
+    }
+    
+    function updatePhysics() {
+      // Use the ref passed in or global check, though in fallback context it's tricky.
+      // We will check element presence as proxy for now.
+      if (!document.querySelector('.hero')) return; 
       
-      const assets = ['tic-1.png', 'tic-2.png', 'tic-3.png', 'tic-4.png', 'tac-1.png', 'tac-2.png', 'tac-3.png', 'tac-4.png'];
-      const gameElements = [];
-      
-      class SimpleElement {
-        constructor() {
-          const asset = assets[Math.floor(Math.random() * assets.length)];
-          this.size = asset.startsWith('tic') ? 80 : 100;
-          
-          // 70% chance to spawn near mouse if mouse is in hero area
-          if (isMouseInHero && Math.random() < 0.7) {
-            // Spawn within 150px radius of mouse position
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Math.random() * 150;
-            this.x = Math.max(this.size, Math.min(heroWidth - this.size, mouseX + Math.cos(angle) * distance));
-            this.y = Math.max(this.size, Math.min(heroHeight - this.size, mouseY + Math.sin(angle) * distance));
-          } else {
-            // Random spawn anywhere in hero section
-            this.x = this.size + Math.random() * (heroWidth - this.size * 2);
-            this.y = this.size + Math.random() * (heroHeight - this.size * 2);
-          }
-          this.vx = (Math.random() - 0.5) * 3;
-          this.vy = 0;
-          this.rotation = 0;
-          this.rotationSpeed = (Math.random() - 0.5) * 0.15;
-          this.gravity = 1.2;
-          this.bounce = 0.7;
-          this.friction = 0.97;
-          this.createdTime = Date.now();
-          this.lifespan = 2000 + Math.random() * 4000; // 2-6 seconds
-          this.fadingOut = false;
-          this.poppedIn = false;
-          
-          this.element = document.createElement('img');
-          this.element.src = `/assets/${asset}`;
-          this.element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
-          this.element.style.position = 'absolute';
-          this.element.style.pointerEvents = 'none';
-          this.element.style.zIndex = '1';
-          
-          // Pop in animation
-          this.element.style.transform = 'scale(0)';
-          this.element.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-          
-          hero.appendChild(this.element);
-          
-          // Trigger pop in after a small delay to ensure DOM is ready
-          setTimeout(() => {
-            this.element.style.transform = 'scale(1)';
-          }, 10);
-        }
-        
-        update() {
-          this.vy += this.gravity;
-          this.x += this.vx;
-          this.y += this.vy;
-          this.rotation += this.rotationSpeed;
-          
-          // Collision with floor
-          if (this.y + this.size >= heroHeight) {
-            this.y = heroHeight - this.size;
-            this.vy *= -this.bounce;
-            this.vx *= this.friction;
-            this.rotationSpeed *= this.friction;
-            if (Math.abs(this.vy) < 1) this.vy = 0;
-          }
-          
-          // Collision with walls
-          if (this.x <= 0) {
-            this.x = 0;
-            this.vx *= -this.bounce;
-          } else if (this.x + this.size >= heroWidth) {
-            this.x = heroWidth - this.size;
-            this.vx *= -this.bounce;
-          }
-          
-          // Simple collision between elements
-          gameElements.forEach(other => {
-            if (other === this) return;
-            const dx = this.x - other.x;
-            const dy = this.y - other.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const minDistance = (this.size + other.size) / 2;
-            
-            if (distance < minDistance && distance > 0) {
-              const pushX = (dx / distance) * (minDistance - distance) * 0.5;
-              const pushY = (dy / distance) * (minDistance - distance) * 0.5;
-              this.x += pushX;
-              this.y += pushY;
-              other.x -= pushX;
-              other.y -= pushY;
-              
-              const pushStrength = 0.15;
-              this.vx += pushX * pushStrength;
-              this.vy += pushY * pushStrength;
-              other.vx -= pushX * pushStrength;
-              other.vy -= pushY * pushStrength;
-            }
-          });
-          
-          const age = Date.now() - this.createdTime;
-          
-          // Mark as popped in after initial animation
-          if (age > 400 && !this.poppedIn) {
-            this.poppedIn = true;
-            this.element.style.transition = '';
-          }
-          
-          // Check if element should start fading out
-          if (age > this.lifespan - 500 && !this.fadingOut) {
-            this.fadingOut = true;
-            this.element.style.transition = 'transform 0.5s ease-in';
-            this.element.style.transform = `scale(0) rotate(${this.rotation}rad)`;
-          } else if (!this.fadingOut && this.poppedIn) {
-            this.element.style.left = this.x + 'px';
-            this.element.style.top = this.y + 'px';
-            this.element.style.transform = `scale(1) rotate(${this.rotation}rad)`;
-          } else if (!this.fadingOut) {
-            // During pop-in, only update position
-            this.element.style.left = this.x + 'px';
-            this.element.style.top = this.y + 'px';
-          }
-          
-          const shouldRemove = age > this.lifespan || 
-                             this.y > heroHeight + 100 || 
-                             this.x < -100 || 
-                             this.x > heroWidth + 100;
-          
-          return !shouldRemove;
+      for (let i = gameElements.length - 1; i >= 0; i--) {
+        if (!gameElements[i].update()) {
+          gameElements[i].element.remove();
+          gameElements.splice(i, 1);
         }
       }
-      
-      function createFallingElement() {
-        if (gameElements.length >= 20) return;
-        gameElements.push(new SimpleElement());
-      }
-      
-      function updatePhysics() {
-        for (let i = gameElements.length - 1; i >= 0; i--) {
-          if (!gameElements[i].update()) {
-            gameElements[i].element.remove();
-            gameElements.splice(i, 1);
-          }
-        }
-        requestAnimationFrame(updatePhysics);
-      }
-      
-      updatePhysics();
-      setInterval(createFallingElement, 500);
-      for (let i = 0; i < 8; i++) setTimeout(createFallingElement, i * 200);
-      
-      // Handle viewport resize
-      function handleResize() {
+      requestAnimationFrame(updatePhysics);
+    }
+    
+    updatePhysics();
+    setInterval(createFallingElement, 500);
+    for (let i = 0; i < 8; i++) setTimeout(createFallingElement, i * 200);
+    
+    window.addEventListener('resize', () => {
+        if (!document.querySelector('.hero')) return;
         heroRect = hero.getBoundingClientRect();
         heroWidth = heroRect.width;
         heroHeight = heroRect.height;
-      }
-      
-      window.addEventListener('resize', handleResize);
-    }
-  }
-});
+    });
+}

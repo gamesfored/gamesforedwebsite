@@ -1,397 +1,369 @@
 ---
-import '../styles/main.css';
-import Navbar from '../components/Navbar.astro';
+import Layout from '../layouts/Layout.astro';
 ---
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Impact & Learning - Games For Ed</title>
-		<link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
-        <script type="importmap">
-		{
-			"imports": {
-				"gsap": "https://cdn.skypack.dev/gsap",
-				"gsap/ScrollTrigger": "https://cdn.skypack.dev/gsap/ScrollTrigger",
-				"gsap/ScrollSmoother": "https://cdn.skypack.dev/gsap/ScrollSmoother"
-			}
-		}
-		</script>
-        <script src="../scripts/rapier-loader.js"></script>
-        <script src="../scripts/main.js"></script>
-        <style>
-            .page-container {
-                display: flex;
-                flex-direction: column;
-                gap: 40px;
-                padding-bottom: 60px;
-            }
 
+<Layout title="Impact & Learning - Games For Ed">
+    <style>
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+
+        section {
+            border-radius: 30px;
+            overflow: hidden;
+            margin: 0 30px;
+            position: relative;
+        }
+
+        h2 {
+            font-family: "grenadine-mvb", sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+
+        /* 1. Philosophy Section */
+        .philosophy-section {
+            background: var(--color-white);
+            padding: 6rem 4rem;
+            text-align: center;
+            background-image: radial-gradient(var(--color-3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-color: #fff;
+        }
+
+        .philosophy-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid rgba(0,0,0,0.05);
+        }
+
+        /* 2. Patterns Section */
+        .patterns-section {
+            background: var(--color-card-bg);
+            padding: 5rem 4rem;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .pattern-card {
+            background: var(--color-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 3px solid transparent;
+            transition: transform 0.3s;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pattern-card.students {
+            border-color: var(--color-1);
+        }
+
+        .pattern-card.teachers {
+            border-color: var(--color-2);
+        }
+
+        .pattern-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .pattern-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .pattern-card.students .pattern-list li::before {
+            content: '●';
+            color: var(--color-1);
+            position: absolute;
+            left: 0;
+        }
+
+        .pattern-card.teachers .pattern-list li::before {
+            content: '●';
+            color: var(--color-2);
+            position: absolute;
+            left: 0;
+        }
+
+        /* 3. Signals Section */
+        .signals-section {
+            background: var(--color-text);
+            color: var(--color-white);
+            padding: 6rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .signals-section h2, .signals-section p {
+            color: var(--color-white);
+        }
+
+        .signal-visual {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        .dinner-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* 4. Voices Section */
+        .voices-section {
+            background: var(--color-4); /* Yellow */
+            padding: 5rem 4rem;
+        }
+
+        .voices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .voice-card {
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+        }
+        
+        .voice-card::before {
+            content: '"';
+            font-family: serif;
+            font-size: 4rem;
+            color: rgba(0,0,0,0.1);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .voice-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .voice-author {
+            font-weight: bold;
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--color-text);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 5. Conclusion Section */
+        .conclusion-section {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .conclusion-list {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            margin: 2rem auto;
+            text-align: left;
+        }
+
+        .check-item {
+            font-size: 1.25rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .check-item span {
+            color: var(--color-3);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .patterns-grid, .signals-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
             section {
-                border-radius: 30px;
-                overflow: hidden;
-                margin: 0 30px;
-                position: relative;
+                margin: 0;
+                border-radius: 0;
+                padding: 3rem 1.5rem;
             }
-
-            h2 {
-                font-family: "grenadine-mvb", sans-serif;
-                font-size: 2.5rem;
-                margin-bottom: 1.5rem;
-                line-height: 1.2;
-            }
-
-            p {
-                font-size: 1.15rem;
-                line-height: 1.8;
-                margin-bottom: 1.5rem;
-                color: var(--color-text);
-            }
-
-            /* 1. Philosophy Section */
-            .philosophy-section {
-                background: var(--color-white);
-                padding: 6rem 4rem;
-                text-align: center;
-                background-image: radial-gradient(var(--color-3) 1px, transparent 1px);
-                background-size: 40px 40px;
-                background-color: #fff;
-            }
-
             .philosophy-content {
-                max-width: 800px;
-                margin: 0 auto;
-                background: white;
-                padding: 3rem;
-                border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-                border: 2px solid rgba(0,0,0,0.05);
+                padding: 1.5rem;
             }
+        }
+    </style>
+    <main class="page-container content-container">
+        
+        <div class="text-center" style="padding: 2rem 1rem 0;">
+            <h1 class="hero-title" style="opacity: 1; transform: none; animation: none;">Impact & <span style="color: var(--color-2);">Voices</span></h1>
+        </div>
 
-            /* 2. Patterns Section */
-            .patterns-section {
-                background: var(--color-card-bg);
-                padding: 5rem 4rem;
-            }
+        <!-- 1. Philosophy -->
+        <section class="philosophy-section">
+            <div class="philosophy-content mx-auto">
+                <h2 class="text-center">How We Think About Impact</h2>
+                <p class="text-center mx-auto">At Games For Ed, we’re cautious about how we talk about impact.</p>
+                <p class="text-center mx-auto">We don’t look for loud transformations or instant results. We pay attention to smaller signals that tell us whether learning is landing.</p>
+                <p class="text-center mx-auto">Sometimes those signals show up in the classroom. Sometimes they show up later, at home, during dinner table conversations. <strong>Both matter.</strong></p>
+            </div>
+        </section>
 
-            .patterns-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 4rem;
-                margin-top: 3rem;
-            }
+        <!-- 2. Patterns -->
+        <section class="patterns-section">
+            <div class="text-center mx-auto" style="max-width: 800px;">
+                <h2>What We’re Seeing So Far</h2>
+                <p class="mx-auto">Across our sessions and early pilots, a few patterns keep repeating.</p>
+            </div>
+            <div class="patterns-grid">
+                <div class="pattern-card students">
+                    <h3 style="color: var(--color-1);">Students Tend To:</h3>
+                    <ul class="pattern-list">
+                        <li>Stay engaged for longer than expected</li>
+                        <li>Explain their thinking more clearly during play</li>
+                        <li>Reference earlier choices during reflection</li>
+                        <li>Remember details days after the session</li>
+                    </ul>
+                </div>
+                <div class="pattern-card teachers">
+                    <h3 style="color: var(--color-2);">Teachers Often Notice:</h3>
+                    <ul class="pattern-list">
+                        <li>Quieter students participate more actively</li>
+                        <li>Collaboration feels more balanced</li>
+                        <li>Assessment becomes more visible through discussion</li>
+                        <li>Conversations continue beyond the session</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-            .pattern-card {
-                background: var(--color-white);
-                border-radius: 20px;
-                padding: 2.5rem;
-                border: 3px solid transparent;
-                transition: transform 0.3s;
-            }
+        <!-- 3. Signals -->
+        <section class="signals-section">
+            <div>
+                <h2 class="text-white">Why These Signals Matter to Us</h2>
+                <p class="text-white">Learning doesn’t always announce itself. It shows up when students:</p>
+                <ul class="text-white" style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Can retell an experience in their own words</li>
+                    <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Connect ideas across contexts</li>
+                    <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Revisit decisions after time has passed</li>
+                    <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Feel confident enough to explain, not just answer</li>
+                </ul>
+            </div>
+            <div class="signal-visual">
+                <span class="dinner-icon">🍽️</span>
+                <h3 class="text-white mb-3">The Dinner Table Test</h3>
+                <p class="text-white" style="opacity: 0.9;">"Dinner table conversations are one of many places where this becomes visible. Not because they are planned, but because they are unprompted. For us, that matters."</p>
+            </div>
+        </section>
 
-            .pattern-card:hover {
-                transform: translateY(-5px);
-            }
+        <!-- 4. Voices -->
+        <section class="voices-section">
+            <h2 class="text-center">Voices from the Classroom</h2>
+            <div class="voices-grid">
+                <!-- Student Voices -->
+                <div class="voice-card">
+                    <p class="voice-text">I liked that we had to decide together. I told my parents what our group argued about.</p>
+                    <div class="voice-author">- Student</div>
+                </div>
+                <div class="voice-card">
+                    <p class="voice-text">At first it was confusing, but later it made sense when I explained it at home.</p>
+                    <div class="voice-author">- Student</div>
+                </div>
+                <div class="voice-card">
+                    <p class="voice-text">I remembered the rules even after a few days.</p>
+                    <div class="voice-author">- Student</div>
+                </div>
+                    <div class="voice-card">
+                    <p class="voice-text">I don’t usually talk in class, but in the game I had to.</p>
+                    <div class="voice-author">- Student</div>
+                </div>
 
-            .pattern-card.students {
-                border-color: var(--color-1);
-            }
+                <!-- Teacher Voices -->
+                <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
+                    <p class="voice-text">Students who don’t usually speak were much more involved.</p>
+                    <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
+                </div>
+                <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
+                    <p class="voice-text">I could see their thinking clearly while they were playing.</p>
+                    <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
+                </div>
+                <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
+                    <p class="voice-text">Some parents mentioned their children talking about the activity at home.</p>
+                    <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
+                </div>
+            </div>
+        </section>
 
-            .pattern-card.teachers {
-                border-color: var(--color-2);
-            }
-
-            .pattern-list {
-                list-style: none;
-                margin-top: 1.5rem;
-            }
-
-            .pattern-list li {
-                position: relative;
-                padding-left: 2rem;
-                margin-bottom: 1rem;
-                font-size: 1.1rem;
-            }
-
-            .pattern-card.students .pattern-list li::before {
-                content: '●';
-                color: var(--color-1);
-                position: absolute;
-                left: 0;
-            }
-
-            .pattern-card.teachers .pattern-list li::before {
-                content: '●';
-                color: var(--color-2);
-                position: absolute;
-                left: 0;
-            }
-
-            /* 3. Signals Section */
-            .signals-section {
-                background: var(--color-text);
-                color: var(--color-white);
-                padding: 6rem 4rem;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 4rem;
-                align-items: center;
-            }
-
-            .signals-section h2, .signals-section p {
-                color: var(--color-white);
-            }
-
-            .signal-visual {
-                background: rgba(255,255,255,0.1);
-                border-radius: 20px;
-                padding: 3rem;
-                text-align: center;
-                border: 2px dashed rgba(255,255,255,0.3);
-            }
-
-            .dinner-icon {
-                font-size: 4rem;
-                margin-bottom: 1rem;
-                display: block;
-            }
-
-            /* 4. Voices Section */
-            .voices-section {
-                background: var(--color-4); /* Yellow */
-                padding: 5rem 4rem;
-            }
-
-            .voices-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 2rem;
-                margin-top: 3rem;
-            }
-
-            .voice-card {
-                background: var(--color-white);
-                padding: 2rem;
-                border-radius: 16px;
-                position: relative;
-                box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
-            }
+        <!-- 5. Conclusion -->
+        <section class="conclusion-section text-center">
+            <h2>What This Means for Schools</h2>
+            <p class="mx-auto">We’re still building and learning, and we’re transparent about that.<br>But these patterns give us confidence that our approach supports:</p>
             
-            .voice-card::before {
-                content: '"';
-                font-family: serif;
-                font-size: 4rem;
-                color: rgba(0,0,0,0.1);
-                position: absolute;
-                top: 10px;
-                left: 20px;
-                line-height: 1;
-            }
-
-            .voice-text {
-                font-style: italic;
-                font-size: 1.1rem;
-                margin-bottom: 1rem;
-                position: relative;
-                z-index: 1;
-            }
-
-            .voice-author {
-                font-weight: bold;
-                text-align: right;
-                font-size: 0.9rem;
-                color: var(--color-text);
-                opacity: 0.7;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            /* 5. Conclusion Section */
-            .conclusion-section {
-                text-align: center;
-                padding: 5rem 2rem;
-            }
-
-            .conclusion-list {
-                display: inline-flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-                margin: 2rem auto;
-                text-align: left;
-            }
-
-            .check-item {
-                font-size: 1.25rem;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-            }
+            <div class="conclusion-list">
+                <div class="check-item"><span>✓</span> Deeper engagement</div>
+                <div class="check-item"><span>✓</span> Clearer thinking</div>
+                <div class="check-item"><span>✓</span> Stronger student voice</div>
+                <div class="check-item"><span>✓</span> Learning that doesn’t end when the class does</div>
+            </div>
             
-            .check-item span {
-                color: var(--color-3);
-                font-weight: bold;
-                font-size: 1.5rem;
-            }
+            <div style="margin-top: 2rem;">
+                    <a href="/#contact" class="cta-button">See It In Action</a>
+            </div>
+        </section>
 
-            /* Responsive */
-            @media (max-width: 1024px) {
-                .patterns-grid, .signals-section {
-                    grid-template-columns: 1fr;
-                }
-            }
-
-            @media (max-width: 600px) {
-                section {
-                    margin: 0;
-                    border-radius: 0;
-                    padding: 3rem 1.5rem;
-                }
-                .philosophy-content {
-                    padding: 1.5rem;
-                }
-            }
-        </style>
-	</head>
-	<body>
-		<div id="smooth-wrapper">
-			<div id="smooth-content">
-				<Navbar />
-				
-                <main class="page-container">
-                    
-                    <div style="text-align: center; padding: 2rem 1rem 0;">
-                        <h1 class="hero-title" style="opacity: 1; transform: none; animation: none; font-size: 3.5rem; font-family: 'grenadine-mvb', sans-serif;">Impact & <span style="color: var(--color-2);">Voices</span></h1>
-                    </div>
-
-                    <!-- 1. Philosophy -->
-                    <section class="philosophy-section">
-                        <div class="philosophy-content">
-                            <h2>How We Think About Impact</h2>
-                            <p>At Games For Ed, we’re cautious about how we talk about impact.</p>
-                            <p>We don’t look for loud transformations or instant results. We pay attention to smaller signals that tell us whether learning is landing.</p>
-                            <p>Sometimes those signals show up in the classroom. Sometimes they show up later, at home, during dinner table conversations. <strong>Both matter.</strong></p>
-                        </div>
-                    </section>
-
-                    <!-- 2. Patterns -->
-                    <section class="patterns-section">
-                        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                            <h2>What We’re Seeing So Far</h2>
-                            <p>Across our sessions and early pilots, a few patterns keep repeating.</p>
-                        </div>
-                        <div class="patterns-grid">
-                            <div class="pattern-card students">
-                                <h3 style="color: var(--color-1); font-family: 'grenadine-mvb', sans-serif; font-size: 1.5rem;">Students Tend To:</h3>
-                                <ul class="pattern-list">
-                                    <li>Stay engaged for longer than expected</li>
-                                    <li>Explain their thinking more clearly during play</li>
-                                    <li>Reference earlier choices during reflection</li>
-                                    <li>Remember details days after the session</li>
-                                </ul>
-                            </div>
-                            <div class="pattern-card teachers">
-                                <h3 style="color: var(--color-2); font-family: 'grenadine-mvb', sans-serif; font-size: 1.5rem;">Teachers Often Notice:</h3>
-                                <ul class="pattern-list">
-                                    <li>Quieter students participate more actively</li>
-                                    <li>Collaboration feels more balanced</li>
-                                    <li>Assessment becomes more visible through discussion</li>
-                                    <li>Conversations continue beyond the session</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 3. Signals -->
-                    <section class="signals-section">
-                        <div>
-                            <h2>Why These Signals Matter to Us</h2>
-                            <p>Learning doesn’t always announce itself. It shows up when students:</p>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Can retell an experience in their own words</li>
-                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Connect ideas across contexts</li>
-                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Revisit decisions after time has passed</li>
-                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Feel confident enough to explain, not just answer</li>
-                            </ul>
-                        </div>
-                        <div class="signal-visual">
-                            <span class="dinner-icon">🍽️</span>
-                            <h3 style="font-family: 'grenadine-mvb', sans-serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--color-white);">The Dinner Table Test</h3>
-                            <p style="font-size: 1rem; opacity: 0.9;">"Dinner table conversations are one of many places where this becomes visible. Not because they are planned, but because they are unprompted. For us, that matters."</p>
-                        </div>
-                    </section>
-
-                    <!-- 4. Voices -->
-                    <section class="voices-section">
-                        <h2 style="text-align: center;">Voices from the Classroom</h2>
-                        <div class="voices-grid">
-                            <!-- Student Voices -->
-                            <div class="voice-card">
-                                <p class="voice-text">I liked that we had to decide together. I told my parents what our group argued about.</p>
-                                <div class="voice-author">- Student</div>
-                            </div>
-                            <div class="voice-card">
-                                <p class="voice-text">At first it was confusing, but later it made sense when I explained it at home.</p>
-                                <div class="voice-author">- Student</div>
-                            </div>
-                            <div class="voice-card">
-                                <p class="voice-text">I remembered the rules even after a few days.</p>
-                                <div class="voice-author">- Student</div>
-                            </div>
-                             <div class="voice-card">
-                                <p class="voice-text">I don’t usually talk in class, but in the game I had to.</p>
-                                <div class="voice-author">- Student</div>
-                            </div>
-
-                            <!-- Teacher Voices -->
-                            <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
-                                <p class="voice-text">Students who don’t usually speak were much more involved.</p>
-                                <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
-                            </div>
-                            <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
-                                <p class="voice-text">I could see their thinking clearly while they were playing.</p>
-                                <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
-                            </div>
-                            <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
-                                <p class="voice-text">Some parents mentioned their children talking about the activity at home.</p>
-                                <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 5. Conclusion -->
-                    <section class="conclusion-section">
-                        <h2>What This Means for Schools</h2>
-                        <p>We’re still building and learning, and we’re transparent about that.<br>But these patterns give us confidence that our approach supports:</p>
-                        
-                        <div class="conclusion-list">
-                            <div class="check-item"><span>✓</span> Deeper engagement</div>
-                            <div class="check-item"><span>✓</span> Clearer thinking</div>
-                            <div class="check-item"><span>✓</span> Stronger student voice</div>
-                            <div class="check-item"><span>✓</span> Learning that doesn’t end when the class does</div>
-                        </div>
-                        
-                        <div style="margin-top: 2rem;">
-                             <a href="/#contact" class="cta-button">See It In Action</a>
-                        </div>
-                    </section>
-
-                </main>
-
-					<footer class="footer">
-						<div class="footer-content">
-							<div class="footer-logo">
-								<img src="/gamesfored.avif" alt="Games for Learning" />
-							</div>
-							<div class="footer-copyright">
-								<p>&copy; 2025 GamesForEd. All rights reserved.</p>
-							</div>
-						</div>
-					</footer>
-			</div>
-		</div>
-	</body>
-</html>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="/gamesfored.avif" alt="Games for Learning" />
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+</Layout>
