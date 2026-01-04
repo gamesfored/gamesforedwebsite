@@ -1,0 +1,328 @@
+---
+import '../styles/main.css';
+import Navbar from '../components/Navbar.astro';
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Contact Us - Games For Ed</title>
+		<link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
+        <script type="importmap">
+		{
+			"imports": {
+				"gsap": "https://cdn.skypack.dev/gsap",
+				"gsap/ScrollTrigger": "https://cdn.skypack.dev/gsap/ScrollTrigger",
+				"gsap/ScrollSmoother": "https://cdn.skypack.dev/gsap/ScrollSmoother"
+			}
+		}
+		</script>
+        <script src="../scripts/rapier-loader.js"></script>
+        <script src="../scripts/main.js"></script>
+        <style>
+            .page-container {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                padding-bottom: 60px;
+            }
+
+            section {
+                border-radius: 30px;
+                overflow: hidden;
+                margin: 0 30px;
+                position: relative;
+            }
+
+            h2 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.2;
+            }
+
+            p {
+                font-size: 1.15rem;
+                line-height: 1.8;
+                margin-bottom: 1.5rem;
+                color: var(--color-text);
+            }
+
+            /* 1. Intro Section */
+            .contact-intro {
+                text-align: center;
+                padding: 4rem 2rem;
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+            /* 2. Main Contact Grid */
+            .contact-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                padding: 0 30px;
+                margin-bottom: 4rem;
+                max-width: 1400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .contact-column {
+                background: var(--color-white);
+                border-radius: 30px;
+                padding: 3rem;
+                border: 1px solid rgba(0,0,0,0.05);
+                box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            }
+
+            .contact-column h3 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                color: var(--color-2);
+            }
+
+            .contact-list {
+                list-style: none;
+                padding: 0;
+            }
+
+            .contact-list li {
+                position: relative;
+                padding-left: 2rem;
+                margin-bottom: 1rem;
+                font-size: 1.1rem;
+            }
+
+            .contact-list li::before {
+                content: '→';
+                position: absolute;
+                left: 0;
+                color: var(--color-3);
+                font-weight: bold;
+            }
+
+            /* 3. Form Section */
+            .form-section {
+                background: var(--color-card-bg);
+                padding: 5rem 4rem;
+                margin: 0 30px;
+                border-radius: 30px;
+            }
+
+            .form-container {
+                max-width: 700px;
+                margin: 0 auto;
+                background: white;
+                padding: 3rem;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: var(--color-text);
+            }
+
+            .form-input, .form-textarea {
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid #eee;
+                border-radius: 10px;
+                font-family: inherit;
+                font-size: 1rem;
+                transition: border-color 0.3s;
+            }
+
+            .form-input:focus, .form-textarea:focus {
+                border-color: var(--color-2);
+                outline: none;
+            }
+
+            .submit-btn {
+                background: var(--color-2);
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.2rem;
+                cursor: pointer;
+                width: 100%;
+                transition: transform 0.2s;
+            }
+
+            .submit-btn:hover {
+                transform: scale(1.02);
+            }
+
+            /* 4. LinkedIn Section */
+            .linkedin-section {
+                background: #0077b5; /* LinkedIn Blue */
+                color: white;
+                padding: 4rem;
+                text-align: center;
+                margin-top: 2rem;
+            }
+
+            .linkedin-section h2, .linkedin-section p {
+                color: white;
+            }
+
+            .linkedin-btn {
+                background: white;
+                color: #0077b5;
+                padding: 1rem 2rem;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: bold;
+                display: inline-block;
+                margin-top: 1rem;
+                transition: opacity 0.3s;
+            }
+            
+            .linkedin-btn:hover {
+                opacity: 0.9;
+            }
+
+            /* 5. Note Section */
+            .note-section {
+                text-align: center;
+                padding: 3rem;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            /* Responsive */
+            @media (max-width: 900px) {
+                .contact-grid {
+                    grid-template-columns: 1fr;
+                    padding: 0 1rem;
+                    gap: 2rem;
+                    margin: 0;
+                }
+                 section, .form-section {
+                    margin: 0;
+                    border-radius: 0;
+                    padding: 3rem 1.5rem;
+                }
+                .form-container {
+                    padding: 1.5rem;
+                }
+            }
+        </style>
+	</head>
+	<body>
+		<div id="smooth-wrapper">
+			<div id="smooth-content">
+				<Navbar />
+				
+                <main class="page-container">
+                    
+                    <div style="text-align: center; padding: 2rem 1rem 0;">
+                        <h1 class="hero-title" style="opacity: 1; transform: none; animation: none; font-size: 3.5rem; font-family: 'grenadine-mvb', sans-serif;">Let's Start a <span style="color: var(--color-2);">Conversation</span></h1>
+                    </div>
+
+                    <!-- 1. Intro -->
+                    <div class="contact-intro">
+                        <p>If something on this site sparked your curiosity, we’d love to hear from you. Schools reach out to us at different stages. Some are exploring game-based learning for the first time. Some have a specific classroom challenge in mind.</p>
+                        <p style="font-weight: bold;">All of those are good places to start.</p>
+                        <p>Email us at: <a href="mailto:hello@gamesfored.com" style="color: var(--color-2); text-decoration: underline;">hello@gamesfored.com</a></p>
+                    </div>
+
+                    <!-- 2. Options Grid -->
+                    <div class="contact-grid">
+                        <!-- Schools -->
+                        <div class="contact-column">
+                            <h3>Working With Schools</h3>
+                            <p>If you’re a school leader or teacher, feel free to reach out to:</p>
+                            <ul class="contact-list">
+                                <li>Explore a classroom session</li>
+                                <li>Discuss a workshop or event</li>
+                                <li>Talk through a pilot or partnership</li>
+                                <li>Ask questions before deciding anything</li>
+                            </ul>
+                            <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 2rem;">We’re happy to listen first and suggest what might make sense.</p>
+                        </div>
+
+                        <!-- Join Us -->
+                        <div class="contact-column">
+                            <h3 style="color: var(--color-1);">Join Us</h3>
+                            <p>We’re a small, growing team. You might want to connect if you’re:</p>
+                            <ul class="contact-list">
+                                <li>An educator curious about game-based learning</li>
+                                <li>A facilitator or designer who enjoys working with students</li>
+                                <li>Someone interested in co-designing learning experiences</li>
+                            </ul>
+                            <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 2rem;">Not every conversation needs a clear outcome. Sometimes it’s just the start of something.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. Form -->
+                    <div class="form-section">
+                        <div class="form-container">
+                            <h2 style="text-align: center; margin-bottom: 2rem;">Send us a Message</h2>
+                            <form action="#" method="POST">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Name</label>
+                                    <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="interest">I'm interested in...</label>
+                                    <select id="interest" name="interest" class="form-input">
+                                        <option value="general">General Inquiry</option>
+                                        <option value="schools">School Partnership / Workshops</option>
+                                        <option value="joining">Joining the Team</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="message">Message</label>
+                                    <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Tell us a bit about what you're looking for..." required></textarea>
+                                </div>
+                                <button type="submit" class="submit-btn">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 4. LinkedIn -->
+                    <section class="linkedin-section">
+                        <h2>Find Us Here</h2>
+                        <p>You can also find and reach us on LinkedIn. You’ll find updates, behind-the-scenes work, and reflections from classrooms.</p>
+                        <a href="#" class="linkedin-btn">Follow Games For Ed on LinkedIn</a>
+                    </section>
+
+                    <!-- 5. Note -->
+                    <div class="note-section">
+                        <h3>A Small Note</h3>
+                        <p>We read every message that comes in. If you write to us, you’ll hear back from a real person who’s involved in the work.</p>
+                    </div>
+
+                </main>
+
+					<footer class="footer">
+						<div class="footer-content">
+							<div class="footer-logo">
+								<img src="/gamesfored.avif" alt="Games for Learning" />
+							</div>
+							<div class="footer-copyright">
+								<p>&copy; 2025 GamesForEd. All rights reserved.</p>
+							</div>
+						</div>
+					</footer>
+			</div>
+		</div>
+	</body>
+</html>

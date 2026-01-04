@@ -1,0 +1,589 @@
+---
+import '../styles/main.css';
+import Navbar from '../components/Navbar.astro';
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Our Story - Games For Ed</title>
+		<link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
+        <script type="importmap">
+		{
+			"imports": {
+				"gsap": "https://cdn.skypack.dev/gsap",
+				"gsap/ScrollTrigger": "https://cdn.skypack.dev/gsap/ScrollTrigger",
+				"gsap/ScrollSmoother": "https://cdn.skypack.dev/gsap/ScrollSmoother"
+			}
+		}
+		</script>
+        <script src="../scripts/rapier-loader.js"></script>
+        <script src="../scripts/main.js"></script>
+        <style>
+            /* Page Specific Styles */
+            .story-page-container {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                padding-bottom: 60px;
+            }
+
+            section {
+                border-radius: 30px;
+                overflow: hidden;
+                margin: 0 30px;
+                position: relative;
+            }
+
+            h2 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.2;
+            }
+
+            p {
+                font-size: 1.15rem;
+                line-height: 1.8;
+                margin-bottom: 1.5rem;
+                color: var(--color-text);
+            }
+
+            /* 1. Origin Section */
+            .origin-section {
+                background: var(--color-white);
+                padding: 5rem 4rem;
+                display: grid;
+                grid-template-columns: 1.2fr 0.8fr;
+                gap: 4rem;
+                align-items: center;
+            }
+            
+            .origin-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: radial-gradient(#dddddd 1.5px, transparent 1.5px);
+                background-size: 20px 20px;
+                opacity: 0.3;
+                pointer-events: none;
+            }
+
+            .origin-content {
+                position: relative;
+                z-index: 2;
+            }
+
+            .origin-quote-box {
+                background: var(--color-4);
+                padding: 3rem;
+                border-radius: 20px;
+                position: relative;
+                transform: rotate(2deg);
+                box-shadow: 10px 10px 0px var(--color-text);
+                border: 3px solid var(--color-text);
+            }
+
+            .origin-quote {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 2rem;
+                line-height: 1.3;
+                color: var(--color-text);
+                text-align: center;
+            }
+
+            /* 2. Beliefs Section */
+            .beliefs-section {
+                background: var(--color-card-bg);
+                padding: 5rem 4rem;
+            }
+
+            .beliefs-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+                margin-top: 3rem;
+            }
+
+            .belief-card {
+                background: var(--color-white);
+                padding: 2rem;
+                border-radius: 16px;
+                border: 2px solid transparent;
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            }
+
+            .belief-card:hover {
+                transform: translateY(-5px);
+                border-color: var(--color-2);
+            }
+
+            .belief-card h3 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.2rem;
+                color: var(--color-2);
+                margin-bottom: 0.5rem;
+            }
+            
+            .belief-main-text {
+                max-width: 800px;
+                margin: 0 auto 3rem auto;
+                text-align: center;
+            }
+
+            /* 3. Methodology Section */
+            .methodology-section {
+                background: var(--color-1); /* Orange */
+                padding: 5rem 4rem;
+                color: var(--color-white);
+            }
+            
+            .methodology-section h2, .methodology-section p {
+                color: var(--color-white);
+            }
+            
+            .methodology-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4rem;
+                align-items: center;
+            }
+            
+            .methodology-text {
+                flex: 1;
+                min-width: 300px;
+            }
+
+            .methodology-list {
+                flex: 1;
+                min-width: 300px;
+                background: rgba(255,255,255,0.1);
+                padding: 2rem;
+                border-radius: 20px;
+                border: 2px dashed rgba(255,255,255,0.4);
+            }
+
+            .check-list-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+
+            .check-icon {
+                background: var(--color-white);
+                color: var(--color-1);
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-weight: bold;
+            }
+
+            /* 4. Roots Section */
+            .roots-section {
+                background: var(--color-white);
+                padding: 4rem;
+                text-align: center;
+            }
+
+            .roots-badges {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                margin: 2rem 0;
+            }
+
+            .root-badge {
+                background: var(--color-secondary-bg);
+                padding: 0.8rem 1.5rem;
+                border-radius: 50px;
+                font-weight: 600;
+                color: var(--color-text);
+                border: 2px solid #eee;
+            }
+
+            .process-flow {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 3rem;
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.5rem;
+                color: var(--color-3);
+                flex-wrap: wrap;
+            }
+
+            .process-step::after {
+                content: '→';
+                margin-left: 2rem;
+                opacity: 0.5;
+            }
+            .process-step:last-child::after {
+                content: '';
+                margin: 0;
+            }
+
+            /* 5. Team Section */
+            .team-section {
+                background: var(--color-text); /* Dark background */
+                color: var(--color-white);
+                padding: 5rem 4rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .team-section h2, .team-section p {
+                color: var(--color-white);
+            }
+
+            .team-content-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                align-items: center;
+                width: 100%;
+                max-width: 1200px;
+            }
+
+            .team-image-wrapper {
+                position: relative;
+            }
+
+            .team-image-wrapper img {
+                width: 100%;
+                border-radius: 20px;
+                border: 8px solid var(--color-white);
+                transform: rotate(-3deg);
+            }
+
+            .team-image-wrapper::after {
+                content: '';
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                width: 120px;
+                height: 120px;
+                background: url('/assets/cornertape.png') no-repeat;
+                background-size: contain;
+                transform: rotate(90deg);
+                z-index: 10;
+            }
+
+            .team-values {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .value-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                font-size: 1.1rem;
+                background: rgba(255,255,255,0.1);
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            /* 6. Differentiators */
+            .different-section {
+                background: var(--color-3); /* Green */
+                padding: 5rem 4rem;
+                color: var(--color-white);
+            }
+             .different-section h2, .different-section p, .different-section li {
+                color: var(--color-white);
+            }
+
+            .diff-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                margin-top: 3rem;
+            }
+
+            .diff-column h3 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                color: var(--color-white);
+                border-bottom: 2px dashed rgba(255,255,255,0.5);
+                padding-bottom: 1rem;
+                display: inline-block;
+            }
+
+            .diff-list {
+                list-style: none;
+            }
+
+            .diff-list li {
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+                position: relative;
+                padding-left: 2rem;
+            }
+            
+            .diff-list li::before {
+                content: '★';
+                position: absolute;
+                left: 0;
+                color: var(--color-4); /* Yellow star */
+            }
+
+            /* 7. Future/CTA */
+            .future-section {
+                text-align: center;
+                padding: 6rem 2rem;
+                background: linear-gradient(135deg, #fdfdfd 0%, #f4f4f4 100%);
+            }
+
+            .future-content {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .cta-large {
+                margin-top: 3rem;
+                display: inline-block;
+            }
+
+            /* Responsive */
+            @media (max-width: 1024px) {
+                .origin-section, .team-content-wrapper, .diff-grid {
+                    grid-template-columns: 1fr;
+                    gap: 3rem;
+                    text-align: center;
+                }
+                .origin-quote-box {
+                    transform: rotate(0);
+                    margin-top: 2rem;
+                }
+                .team-image-wrapper {
+                    max-width: 500px;
+                    margin: 0 auto;
+                }
+                .methodology-container {
+                    flex-direction: column;
+                }
+            }
+
+            @media (max-width: 600px) {
+                section {
+                    margin: 0;
+                    border-radius: 0;
+                    padding: 3rem 1.5rem;
+                }
+                
+                h2 {
+                    font-size: 2rem;
+                }
+                
+                .process-step::after {
+                    content: '↓';
+                    display: block;
+                    margin: 0.5rem 0;
+                    margin-left: 0;
+                }
+                
+                .process-flow {
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+            }
+        </style>
+	</head>
+	<body>
+		<div id="smooth-wrapper">
+			<div id="smooth-content">
+				<Navbar />
+				
+                <main class="story-page-container">
+                    
+                    <!-- Hero Title Only -->
+                    <div style="text-align: center; padding: 2rem 1rem 0;">
+                        <h1 class="hero-title" style="opacity: 1; transform: none; animation: none; font-size: 3.5rem; font-family: 'grenadine-mvb', sans-serif;">From Curiosity to <span style="color: var(--color-3);">Classrooms</span></h1>
+                    </div>
+
+                    <!-- 1. Origin Section -->
+                    <section class="origin-section">
+                        <div class="origin-content">
+                            <h2>How Games For Ed Came to Be</h2>
+                            <p>Games For Ed did not start with a business plan or a product roadmap. It started with a classroom moment most educators recognize.</p>
+                            <p>Bright students. Capable teachers. And yet, learning felt heavy.</p>
+                            <p>We kept seeing the same pattern across schools. Students could repeat answers, but struggled to explain ideas. They memorized, but forgot. Curiosity slowly faded, even in spaces meant to nurture it.</p>
+                            <p>But when students played games, something changed. They argued. They negotiated. They tried again after failing. They remembered details weeks later. They cared.</p>
+                        </div>
+                        <div class="origin-quote-box">
+                            <p class="origin-quote">"Play is not the opposite of learning. Play is how learning becomes real."</p>
+                        </div>
+                    </section>
+
+                    <!-- 2. Beliefs Section -->
+                    <section class="beliefs-section">
+                        <div class="belief-main-text">
+                            <h2>What We Believe About Learning</h2>
+                            <p>We believe learning works best when students are active participants, not quiet receivers. When students step into a game, learning stops being abstract—it becomes lived experience.</p>
+                        </div>
+                        <div class="beliefs-grid">
+                            <div class="belief-card">
+                                <h3>Make Choices</h3>
+                                <p>Students aren't just following instructions; they are deciding the path forward.</p>
+                            </div>
+                            <div class="belief-card">
+                                <h3>Face Consequences</h3>
+                                <p>Every decision has an outcome, teaching responsibility and cause-and-effect.</p>
+                            </div>
+                            <div class="belief-card">
+                                <h3>Collaborate</h3>
+                                <p>They must work together, negotiate, and communicate to succeed.</p>
+                            </div>
+                            <div class="belief-card">
+                                <h3>Fail Safely</h3>
+                                <p>Failure isn't the end. It's simply data for the next attempt.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 3. Methodology Section -->
+                    <section class="methodology-section">
+                        <div class="methodology-container">
+                            <div class="methodology-text">
+                                <h2>Why Games, Not Just Activities</h2>
+                                <p>We don’t use games as a reward or a break. We use them as the <strong>core learning structure</strong>.</p>
+                                <p>Whether it’s financial literacy, climate action, entrepreneurship, or social-emotional learning, our games are built so students learn <em>by doing</em>, not by being told.</p>
+                                <p>We design for classrooms as they are, not as ideal versions we wish existed. Limited time. Mixed abilities. Real constraints.</p>
+                            </div>
+                            <div class="methodology-list">
+                                <h3 style="color: white; font-family: 'grenadine-mvb', sans-serif; margin-bottom: 1.5rem;">A Well-Designed Game:</h3>
+                                <div class="check-list-item">
+                                    <span class="check-icon">✓</span>
+                                    <span>Has clear rules</span>
+                                </div>
+                                <div class="check-list-item">
+                                    <span class="check-icon">✓</span>
+                                    <span>Creates tension</span>
+                                </div>
+                                <div class="check-list-item">
+                                    <span class="check-icon">✓</span>
+                                    <span>Forces trade-offs</span>
+                                </div>
+                                <div class="check-list-item">
+                                    <span class="check-icon">✓</span>
+                                    <span>Mirrors real-world complexity</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 4. Roots Section -->
+                    <section class="roots-section">
+                        <h2>Our Roots</h2>
+                        <p>Our work is shaped by experiences and research from spaces like:</p>
+                        <div class="roots-badges">
+                            <span class="root-badge">Asia School of Business</span>
+                            <span class="root-badge">MIT Sloan</span>
+                            <span class="root-badge">Harvard Graduate School of Education</span>
+                            <span class="root-badge">TRIO World School</span>
+                        </div>
+                        <p style="max-width: 700px; margin: 2rem auto;">But more importantly, it’s shaped by sitting on classroom floors, running pilots that break, watching students misunderstand rules, and redesigning again.</p>
+                        
+                        <div class="process-flow">
+                            <span class="process-step">Build</span>
+                            <span class="process-step">Test</span>
+                            <span class="process-step">Fail</span>
+                            <span class="process-step">Refine</span>
+                        </div>
+                    </section>
+
+                    <!-- 5. Team Section -->
+                    <section class="team-section">
+                        <div class="team-content-wrapper">
+                            <div class="team-image-wrapper">
+                                <img src="/assets/teampic.png" alt="The Games For Ed Team" />
+                            </div>
+                            <div>
+                                <h2>Who We Are</h2>
+                                <p>We are educators, designers, facilitators, and curious humans who believe learning should feel alive.</p>
+                                <p>Each of us comes from a slightly different background, but we share a common instinct: <strong>If students are bored, it’s not their fault. It’s a design problem.</strong></p>
+                                
+                                <div class="team-values">
+                                    <div class="value-item">Care deeply about schools</div>
+                                    <div class="value-item">Respect teachers’ realities</div>
+                                    <div class="value-item">Obsess over clarity and flow</div>
+                                    <div class="value-item">Believe joy and rigour can coexist</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 6. Different Section -->
+                    <section class="different-section">
+                        <h2 style="text-align: center;">What Makes Games For Ed Different</h2>
+                        <p style="text-align: center;">We don’t design games that sit on shelves.</p>
+                        
+                        <div class="diff-grid">
+                            <div class="diff-column">
+                                <h3>Our Games Are:</h3>
+                                <ul class="diff-list">
+                                    <li>Built for real classrooms</li>
+                                    <li>Easy for teachers to facilitate</li>
+                                    <li>Grounded in learning goals</li>
+                                    <li>Flexible across ages and contexts</li>
+                                </ul>
+                            </div>
+                            <div class="diff-column">
+                                <h3>We Design Experiences Where:</h3>
+                                <ul class="diff-list">
+                                    <li>No one “wins” alone</li>
+                                    <li>Collaboration matters</li>
+                                    <li>Systems reveal themselves over time</li>
+                                    <li>Reflection is as important as action</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 7. Future / CTA Section -->
+                    <section class="future-section">
+                        <div class="future-content">
+                            <h2>Where We’re Headed</h2>
+                            <p>We’re building a growing library of game-based learning experiences that schools can trust.</p>
+                            <p>Our long-term goal is simple: <strong>To help schools move from content delivery to experience design.</strong></p>
+                            <p>We want students to leave classrooms not just knowing more, but understanding better. To see patterns. To ask better questions. To stay curious.</p>
+                            
+                            <div class="cta-large">
+                                <a href="/#contact" class="cta-button">Let's Talk About Your School</a>
+                            </div>
+                        </div>
+                    </section>
+
+                </main>
+
+					<footer class="footer">
+						<div class="footer-content">
+							<div class="footer-logo">
+								<img src="/gamesfored.avif" alt="Games for Learning" />
+							</div>
+							<div class="footer-copyright">
+								<p>&copy; 2025 GamesForEd. All rights reserved.</p>
+							</div>
+						</div>
+					</footer>
+			</div>
+		</div>
+	</body>
+</html>

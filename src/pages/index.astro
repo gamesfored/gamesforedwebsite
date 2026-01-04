@@ -1,5 +1,6 @@
 ---
 import GameCard from '../components/GameCard.astro';
+import Navbar from '../components/Navbar.astro';
 import '../styles/main.css';
 ---
 <!-- This is a single-line comment -->
@@ -27,23 +28,7 @@ import '../styles/main.css';
 	<body>
 		<div id="smooth-wrapper">
 			<div id="smooth-content">
-				<nav class="navbar">
-					<div class="nav-container">
-						<div class="nav-left">
-							<div class="nav-logo">
-								<a href="/"><img src="/gamesfored.avif" alt="Games for Learning" /></a>
-							</div>
-						</div>
-						<div class="nav-right">
-							<a href="#contact" class="nav-cta">Get Started</a>
-						</div>
-						<div class="hamburger">
-							<span class="bar"></span>
-							<span class="bar"></span>
-							<span class="bar"></span>
-						</div>
-					</div>
-				</nav>
+				<Navbar />
 				<main>
 					<section class="hero-card">
 						<div class="hero">
@@ -149,6 +134,7 @@ import '../styles/main.css';
 Our roots stretch from Asia School of Business and MIT Sloan to TRIO World School to the Harvard Graduate School of Education, but what truly binds us is a love for play and discovery. We do this because we’ve seen that learning works best when it excites the imagination, builds teamwork, and leaves students with ideas they’ll carry far beyond the classroom.</p>
 										
 										<p>At Games For Ed, every experience is crafted to surprise, delight, and stay with you — because great learning feels a lot like great storytelling.</p>
+										<a href="/our-story" class="cta-button" style="display: inline-block; margin-top: 1rem; font-size: 1rem; padding: 0.8rem 1.5rem; opacity: 1; transform: none; animation: none;">Read Our Full Story</a>
 									</div>
 								</div>
 							</div>

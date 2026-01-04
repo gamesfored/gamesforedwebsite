@@ -1,0 +1,65 @@
+---
+const pathname = new URL(Astro.request.url).pathname;
+// Normalize path to remove trailing slash if present (except for root)
+const currentPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+---
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-left">
+      <div class="nav-logo">
+        <a href="/"><img src="/gamesfored.avif" alt="Games for Learning" /></a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a 
+        href="/our-story" 
+        class={`nav-link ${currentPath === '/our-story' ? 'active' : ''}`}
+      >
+        Our Story
+      </a>
+      <a 
+        href="/learning-in-practice" 
+        class={`nav-link ${currentPath === '/learning-in-practice' ? 'active' : ''}`}
+      >
+        Impact
+      </a>
+      <a 
+        href="/programs-and-games" 
+        class={`nav-link ${currentPath === '/programs-and-games' ? 'active' : ''}`}
+      >
+        Programs
+      </a>
+      <a 
+        href="/contact" 
+        class={`nav-cta ${currentPath === '/contact' ? 'active-cta' : ''}`}
+      >
+        Let's Talk
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Local overrides/additions to main.css */
+  .nav-right {
+    gap: 2rem; /* Replace inline margins */
+  }
+
+  .nav-link {
+    margin-right: 0; /* Reset inline style if any leaked */
+  }
+
+  /* Active state styles */
+  .nav-link.active {
+    font-weight: 700;
+    color: var(--color-2);
+  }
+
+  .nav-cta.active-cta {
+    background: var(--color-2);
+    color: var(--color-white);
+    transform: rotate(-2deg);
+    border-color: var(--color-2);
+  }
+</style>

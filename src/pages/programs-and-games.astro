@@ -1,0 +1,352 @@
+---
+import '../styles/main.css';
+import Navbar from '../components/Navbar.astro';
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Programs & Games - Games For Ed</title>
+		<link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
+        <script type="importmap">
+		{
+			"imports": {
+				"gsap": "https://cdn.skypack.dev/gsap",
+				"gsap/ScrollTrigger": "https://cdn.skypack.dev/gsap/ScrollTrigger",
+				"gsap/ScrollSmoother": "https://cdn.skypack.dev/gsap/ScrollSmoother"
+			}
+		}
+		</script>
+        <script src="../scripts/rapier-loader.js"></script>
+        <script src="../scripts/main.js"></script>
+        <style>
+            .page-container {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                padding-bottom: 60px;
+            }
+
+            section {
+                border-radius: 30px;
+                overflow: hidden;
+                margin: 0 30px;
+                position: relative;
+            }
+
+            h2 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.2;
+            }
+
+            h3 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            p {
+                font-size: 1.15rem;
+                line-height: 1.8;
+                margin-bottom: 1.5rem;
+                color: var(--color-text);
+            }
+
+            /* 1. Hero Section */
+            .programs-hero {
+                background: var(--color-card-bg);
+                padding: 6rem 4rem;
+                text-align: center;
+            }
+            
+            .hero-intro {
+                max-width: 900px;
+                margin: 0 auto;
+                font-size: 1.3rem;
+                color: var(--color-text);
+            }
+
+            /* 2. Offerings Grid */
+            .offerings-section {
+                background: transparent;
+                padding: 0;
+                margin: 0 30px;
+            }
+
+            .offering-card {
+                background: var(--color-white);
+                border-radius: 30px;
+                padding: 4rem;
+                margin-bottom: 3rem;
+                border: 1px solid rgba(0,0,0,0.05);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                display: grid;
+                grid-template-columns: 1.5fr 1fr;
+                gap: 4rem;
+                align-items: start;
+            }
+
+            .offering-card.orange { border-top: 10px solid var(--color-1); }
+            .offering-card.blue { border-top: 10px solid var(--color-2); }
+            .offering-card.green { border-top: 10px solid var(--color-3); }
+            .offering-card.yellow { border-top: 10px solid var(--color-4); }
+
+            .offering-details h4 {
+                font-family: "grenadine-mvb", sans-serif;
+                font-size: 1.2rem;
+                color: var(--color-text);
+                margin-bottom: 0.5rem;
+                margin-top: 1.5rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .offering-details ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .offering-details li {
+                margin-bottom: 0.5rem;
+                padding-left: 1.5rem;
+                position: relative;
+                font-size: 1rem;
+            }
+            
+            .offering-details li::before {
+                content: '→';
+                position: absolute;
+                left: 0;
+                color: var(--color-text);
+                opacity: 0.5;
+            }
+
+            .card-tag {
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border-radius: 50px;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin-bottom: 1.5rem;
+                color: var(--color-white);
+            }
+            
+            .orange .card-tag { background: var(--color-1); }
+            .blue .card-tag { background: var(--color-2); }
+            .green .card-tag { background: var(--color-3); }
+            .yellow .card-tag { background: var(--color-4); color: var(--color-text); }
+
+
+            /* 3. Portfolio / PDF Section */
+            .portfolio-section {
+                background: var(--color-text);
+                color: var(--color-white);
+                padding: 5rem 4rem;
+                text-align: center;
+            }
+            
+            .portfolio-section h2, .portfolio-section p {
+                color: var(--color-white);
+            }
+
+            .pdf-viewer-placeholder {
+                background: var(--color-white);
+                width: 100%;
+                max-width: 800px;
+                height: 500px;
+                margin: 2rem auto 0;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--color-text);
+                border: 2px dashed rgba(255,255,255,0.5);
+                position: relative;
+            }
+
+            .pdf-label {
+                text-align: center;
+            }
+
+            /* Responsive */
+            @media (max-width: 1024px) {
+                .offering-card {
+                    grid-template-columns: 1fr;
+                    gap: 2rem;
+                    padding: 3rem;
+                }
+            }
+
+            @media (max-width: 600px) {
+                section, .offerings-section {
+                    margin: 0;
+                    border-radius: 0;
+                    padding: 3rem 1.5rem;
+                }
+                .programs-hero {
+                    padding: 4rem 1.5rem;
+                }
+            }
+        </style>
+	</head>
+	<body>
+		<div id="smooth-wrapper">
+			<div id="smooth-content">
+				<Navbar />
+				
+                <main class="page-container">
+                    
+                    <div style="text-align: center; padding: 2rem 1rem 0;">
+                        <h1 class="hero-title" style="opacity: 1; transform: none; animation: none; font-size: 3.5rem; font-family: 'grenadine-mvb', sans-serif;">Programs & <span style="color: var(--color-1);">Games</span></h1>
+                    </div>
+
+                    <!-- 1. Intro -->
+                    <section class="programs-hero">
+                        <h2 class="hero-intro">Every game we design is built for real classrooms, real schedules, and real teachers.</h2>
+                        <p>Some are short and self-contained. Some unfold over longer sessions. Some take over an entire hall with dozens of students playing at once.</p>
+                    </section>
+
+                    <!-- 2. Offerings -->
+                    <div class="offerings-section">
+                        
+                        <!-- Classroom Sessions -->
+                        <div class="offering-card orange">
+                            <div class="offering-main">
+                                <span class="card-tag">For the Classroom</span>
+                                <h3>Classroom Sessions</h3>
+                                <p style="font-weight: bold; font-size: 1.2rem;">Short, hands-on games teachers can run in a class period.</p>
+                                <p>These are compact, high-energy experiences designed to fit into regular timetables. Students work in small groups, take on roles, and make choices that shape what happens next.</p>
+                                <p>The games are structured so thinking becomes visible through discussion, negotiation, and reflection.</p>
+                            </div>
+                            <div class="offering-details">
+                                <div style="background: var(--color-card-bg); padding: 1.5rem; border-radius: 15px;">
+                                    <h4>Best Suited For</h4>
+                                    <ul>
+                                        <li>Single class periods</li>
+                                        <li>Concept introduction or consolidation</li>
+                                        <li>Mixed-ability classrooms</li>
+                                    </ul>
+
+                                    <h4>What Teachers Can Expect</h4>
+                                    <ul>
+                                        <li>Minimal setup</li>
+                                        <li>Clear rules and flow</li>
+                                        <li>Built-in moments for reflection</li>
+                                        <li>Flexibility to pause, extend, or adapt</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Teacher-Led Workshops -->
+                        <div class="offering-card blue">
+                            <div class="offering-main">
+                                <span class="card-tag">For Teachers</span>
+                                <h3>Teacher-Led Workshops</h3>
+                                <p style="font-weight: bold; font-size: 1.2rem;">Facilitator guides, lesson flows, prep lists.</p>
+                                <p>These are designed for teachers who want to run game-based learning independently. We provide detailed facilitator guides that walk teachers through setup, pacing, and reflection.</p>
+                                <p>The focus here is confidence and ease.</p>
+                            </div>
+                            <div class="offering-details">
+                                <div style="background: var(--color-card-bg); padding: 1.5rem; border-radius: 15px;">
+                                    <h4>Best Suited For</h4>
+                                    <ul>
+                                        <li>Regular classroom use</li>
+                                        <li>Clubs and enrichment periods</li>
+                                        <li>Teachers new to game-based learning</li>
+                                    </ul>
+                                     <h4>What We Provide</h4>
+                                    <ul>
+                                        <li>Detailed facilitator guides</li>
+                                        <li>Rules and pacing help</li>
+                                        <li>Reflection prompts</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mega Games -->
+                        <div class="offering-card green">
+                            <div class="offering-main">
+                                <span class="card-tag">Events</span>
+                                <h3>Mega Games & Events</h3>
+                                <p style="font-weight: bold; font-size: 1.2rem;">Immersive, high-participation experiences for large groups.</p>
+                                <p>Students play in teams, take on distinct roles, manage resources, solve problems, and respond to evolving challenges. The room stays loud, busy, and focused.</p>
+                                <p>Mega games encourage collaboration at scale and create shared memories across classes.</p>
+                            </div>
+                            <div class="offering-details">
+                                <div style="background: var(--color-card-bg); padding: 1.5rem; border-radius: 15px;">
+                                    <h4>Best Suited For</h4>
+                                    <ul>
+                                        <li>Camps and special days</li>
+                                        <li>Grade-level events</li>
+                                        <li>Interdisciplinary learning</li>
+                                        <li>School-wide experiences</li>
+                                    </ul>
+                                    <h4>Design Goals</h4>
+                                    <ul>
+                                        <li>Surface leadership and teamwork</li>
+                                        <li>Make systems thinking visible</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Partnerships -->
+                        <div class="offering-card yellow">
+                            <div class="offering-main">
+                                <span class="card-tag">Partnerships</span>
+                                <h3>School Partnerships</h3>
+                                <p style="font-weight: bold; font-size: 1.2rem;">Pilot programs, custom game design, coaching.</p>
+                                <p>For schools that want to go deeper, we work as learning partners. This can include piloting games, adapting games to your context, or co-designing new experiences.</p>
+                                <p>Partnerships are collaborative. We listen, observe, and design with your constraints in mind.</p>
+                            </div>
+                            <div class="offering-details">
+                                <div style="background: var(--color-card-bg); padding: 1.5rem; border-radius: 15px;">
+                                    <h4>Best Suited For Schools Exploring</h4>
+                                    <ul>
+                                        <li>Long-term game-based learning</li>
+                                        <li>Design thinking and systems thinking</li>
+                                        <li>Experiential approaches across subjects</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 3. Portfolio -->
+                    <section class="portfolio-section">
+                        <h2>Our Portfolio</h2>
+                        <p>Explore our collection of games and resources.</p>
+                        
+                        <div class="pdf-viewer-placeholder">
+                            <div class="pdf-label">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                                <h3>PDF Portfolio Viewer</h3>
+                                <p>(PDF Embedding Integration Would Go Here)</p>
+                                <button class="cta-button" style="margin-top: 1rem;">Download Portfolio PDF</button>
+                            </div>
+                        </div>
+                    </section>
+
+                </main>
+
+					<footer class="footer">
+						<div class="footer-content">
+							<div class="footer-logo">
+								<img src="/gamesfored.avif" alt="Games for Learning" />
+							</div>
+							<div class="footer-copyright">
+								<p>&copy; 2025 GamesForEd. All rights reserved.</p>
+							</div>
+						</div>
+					</footer>
+			</div>
+		</div>
+	</body>
+</html>
