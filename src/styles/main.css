@@ -447,9 +447,11 @@ section {
 }
 
 .design-section {
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   display: flex; align-items: center; justify-content: center;
-  padding: 2rem; position: relative;
+  padding: 6rem 2rem; position: relative;
+  z-index: 2;
 }
 
 .design-content { width: 100%; text-align: center; }
@@ -670,6 +672,8 @@ section {
     margin: 0; border-radius: 0; width: 100%; border: none; padding: 3rem 1.5rem;
   }
   
+  .design-content { padding-top: 2rem; }
+
   .design-cards { gap: 1rem; padding-top: 20px; }
   .design-card-section .pencil-decoration { display: none; }
   
