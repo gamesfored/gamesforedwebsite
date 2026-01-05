@@ -15,14 +15,18 @@ document.addEventListener('astro:page-load', function() {
 
   // 2. Initialize ScrollSmoother
   if (document.querySelector("#smooth-wrapper")) {
-      smoother = ScrollSmoother.create({
-        wrapper: "#smooth-wrapper",
-        content: "#smooth-content",
-        smooth: 0.8,
-        effects: true,
-        ignoreMobileResize: true,
-        normalizeScroll: false
-      });
+      try {
+          smoother = ScrollSmoother.create({
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
+            smooth: 0.8,
+            effects: true,
+            ignoreMobileResize: true,
+            normalizeScroll: false
+          });
+      } catch (e) {
+          console.warn("ScrollSmoother failed to initialize:", e);
+      }
   }
 
   // 3. Initialize Animations with Context

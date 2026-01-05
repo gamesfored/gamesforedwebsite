@@ -1,0 +1,61 @@
+---
+interface Props {
+  width?: string;
+  height?: string;
+  label?: string;
+  class?: string;
+}
+
+const { width = "100%", height = "250px", label = "Image Placeholder", class: className = "" } = Astro.props;
+---
+
+<div class={`image-placeholder ${className}`} style={`width: ${width}; height: ${height};`}>
+    <div class="placeholder-content">
+        <span class="placeholder-icon">📷</span>
+        <span class="placeholder-text">{label}</span>
+    </div>
+</div>
+
+<style>
+    .image-placeholder {
+        background-color: var(--color-secondary-bg, #fcfcfc);
+        border: 2px dashed rgba(0,0,0,0.1);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .image-placeholder:hover {
+        border-color: var(--color-2, #4788EA);
+        background-color: rgba(71, 136, 234, 0.05);
+    }
+
+    .placeholder-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-placeholder:hover .placeholder-content {
+        opacity: 0.8;
+    }
+
+    .placeholder-icon {
+        font-size: 2rem;
+    }
+
+    .placeholder-text {
+        font-family: var(--font-heading, sans-serif);
+        font-size: 1rem;
+        color: var(--color-text, #333);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
