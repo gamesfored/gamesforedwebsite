@@ -58,6 +58,11 @@ import Layout from '../layouts/Layout.astro';
             padding: 3rem;
             border: 1px solid rgba(0,0,0,0.05);
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .contact-column:hover {
+            transform: translateY(-5px);
         }
 
         .contact-column h3 {
@@ -66,6 +71,23 @@ import Layout from '../layouts/Layout.astro';
             margin-bottom: 1.5rem;
             color: var(--color-2);
         }
+
+        /* Specific Column Styles */
+        .schools-col {
+            background: var(--color-2);
+            color: var(--color-white);
+        }
+        .schools-col h3 { color: var(--color-white); }
+        .schools-col .contact-list li::before { color: var(--color-white); }
+        .schools-col p { color: var(--color-white); opacity: 0.95; }
+
+        .join-col {
+            background: var(--color-1);
+            color: var(--color-white);
+        }
+        .join-col h3 { color: var(--color-white); }
+        .join-col .contact-list li::before { color: var(--color-white); }
+        .join-col p { color: var(--color-white); opacity: 0.95; }
 
         .contact-list {
             list-style: none;
@@ -98,36 +120,72 @@ import Layout from '../layouts/Layout.astro';
         .form-container {
             max-width: 700px;
             margin: 0 auto;
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 4rem 3rem 3rem 6rem; /* Increased left padding */
+            border-radius: 2px; /* Sharper corners for paper look */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            
+            /* Notebook Paper Effect */
+            background-color: #fff;
+            background-image: linear-gradient(#e1f5fe 1px, transparent 1px);
+            background-size: 100% 2.5rem;
+            background-attachment: local;
+            position: relative;
+        }
+        
+        /* Holes punch simulation */
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 30px;
+            width: 20px;
+            background-image: radial-gradient(circle, #333 20%, transparent 25%);
+            background-size: 100% 200px; /* Spaced out holes */
+            background-position: 0 40px;
+            opacity: 0.1;
+            pointer-events: none;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
         }
 
         .form-label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
             color: var(--color-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .form-input, .form-textarea {
+        .form-input, .form-textarea, select.form-input {
             width: 100%;
-            padding: 1rem;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: border-color 0.3s;
+            padding: 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(0,0,0,0.1); /* Subtle underline */
+            border-radius: 0;
+            font-family: "hoss-round", sans-serif; /* Handwritten feel */
+            font-size: 1.2rem;
+            line-height: 2.5rem; /* Matches background line height */
+            color: #333;
+            outline: none;
+            box-shadow: none;
+            resize: vertical;
         }
 
         .form-input:focus, .form-textarea:focus {
-            border-color: var(--color-2);
-            outline: none;
+            border-bottom-color: var(--color-2);
+        }
+        
+        /* Adjust textarea specifically to align rows */
+        .form-textarea {
+            padding-top: 0;
+            margin-top: 0.6rem; /* Fine tune alignment */
+            background-image: linear-gradient(transparent 96%, rgba(0,0,0,0.05) 96%); /* Optional lines inside textarea if needed, but transparent works if aligned */
+            background-size: 100% 2.5rem;
         }
 
         .submit-btn {
@@ -192,7 +250,8 @@ import Layout from '../layouts/Layout.astro';
                 gap: 2rem;
                 margin: 0;
             }
-                section, .form-section {
+            .page-container { gap: 0; }
+            section, .form-section {
                 margin: 0;
                 border-radius: 0;
                 padding: 3rem 1.5rem;
@@ -218,7 +277,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- 2. Options Grid -->
         <div class="contact-grid">
             <!-- Schools -->
-            <div class="contact-column">
+            <div class="contact-column schools-col">
                 <h3>Working With Schools</h3>
                 <p>If you’re a school leader or teacher, feel free to reach out to:</p>
                 <ul class="contact-list">
@@ -227,19 +286,19 @@ import Layout from '../layouts/Layout.astro';
                     <li>Talk through a pilot or partnership</li>
                     <li>Ask questions before deciding anything</li>
                 </ul>
-                <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 2rem;">We’re happy to listen first and suggest what might make sense.</p>
+                <p style="font-size: 0.95rem; margin-top: 2rem;">We’re happy to listen first and suggest what might make sense.</p>
             </div>
 
             <!-- Join Us -->
-            <div class="contact-column">
-                <h3 style="color: var(--color-1);">Join Us</h3>
+            <div class="contact-column join-col">
+                <h3>Join Us</h3>
                 <p>We’re a small, growing team. You might want to connect if you’re:</p>
                 <ul class="contact-list">
                     <li>An educator curious about game-based learning</li>
                     <li>A facilitator or designer who enjoys working with students</li>
                     <li>Someone interested in co-designing learning experiences</li>
                 </ul>
-                <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 2rem;">Not every conversation needs a clear outcome. Sometimes it’s just the start of something.</p>
+                <p style="font-size: 0.95rem; margin-top: 2rem;">Not every conversation needs a clear outcome. Sometimes it’s just the start of something.</p>
             </div>
         </div>
 

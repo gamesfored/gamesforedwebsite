@@ -210,7 +210,7 @@ import Layout from '../layouts/Layout.astro';
 
         /* 5. Team Section */
         .team-section {
-            background: var(--color-text); /* Dark background */
+            background: var(--color-2); /* Blue */
             color: var(--color-white);
             padding: 5rem 4rem;
             display: flex;
@@ -354,6 +354,7 @@ import Layout from '../layouts/Layout.astro';
         }
 
         @media (max-width: 600px) {
+            .story-page-container { gap: 0; padding-bottom: 0; }
             section {
                 margin: 0;
                 border-radius: 0;
@@ -532,7 +533,7 @@ import Layout from '../layouts/Layout.astro';
                 <p>We want students to leave classrooms not just knowing more, but understanding better. To see patterns. To ask better questions. To stay curious.</p>
                 
                 <div class="cta-large">
-                    <a href="/#contact" class="cta-button">Let's Talk About Your School</a>
+                    <a href="/contact" class="cta-button">Let's Talk About Your School</a>
                 </div>
             </div>
         </section>

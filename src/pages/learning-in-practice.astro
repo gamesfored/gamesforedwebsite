@@ -111,7 +111,7 @@ import Layout from '../layouts/Layout.astro';
 
         /* 3. Signals Section */
         .signals-section {
-            background: var(--color-text);
+            background: var(--color-2);
             color: var(--color-white);
             padding: 6rem 4rem;
             display: grid;
@@ -138,54 +138,83 @@ import Layout from '../layouts/Layout.astro';
             display: block;
         }
 
-        /* 4. Voices Section */
+        /* 4. Voices Section - Pinboard Style */
         .voices-section {
-            background: var(--color-4); /* Yellow */
+            background-color: var(--color-1); /* Orange */
+            background-image: radial-gradient(rgba(255,255,255,0.2) 15%, transparent 15%);
+            background-size: 20px 20px;
             padding: 5rem 4rem;
+            position: relative;
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.1);
+        }
+
+        .voices-section h2 {
+            color: var(--color-white);
         }
 
         .voices-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
             margin-top: 3rem;
         }
 
         .voice-card {
-            background: var(--color-white);
-            padding: 2rem;
-            border-radius: 16px;
+            background: #fff9c4; /* Post-it yellow default */
+            padding: 2.5rem 2rem 2rem;
+            border-radius: 2px;
             position: relative;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+            box-shadow: 3px 5px 15px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+            transform: rotate(-1deg);
         }
         
-        .voice-card::before {
-            content: '"';
-            font-family: serif;
-            font-size: 4rem;
-            color: rgba(0,0,0,0.1);
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            line-height: 1;
+        .voice-card:nth-child(even) { transform: rotate(1.5deg); background: #e1f5fe; /* Light blue */ }
+        .voice-card:nth-child(3n) { transform: rotate(-2deg); background: #fce4ec; /* Light pink */ }
+        .voice-card:nth-child(5n) { transform: rotate(1deg); background: #f0f4c3; /* Light green */ }
+
+        .voice-card:hover {
+            transform: scale(1.02) rotate(0deg) !important;
+            z-index: 10;
+            box-shadow: 5px 10px 20px rgba(0,0,0,0.2);
         }
 
+        /* The Pin */
+        .voice-card::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff5252, #b71c1c);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 5;
+        }
+        
+        .voice-card:nth-child(even)::after { background: radial-gradient(circle at 30% 30%, #448aff, #1565c0); }
+        .voice-card:nth-child(3n)::after { background: radial-gradient(circle at 30% 30%, #69f0ae, #2e7d32); }
+
         .voice-text {
+            font-family: "hoss-round", sans-serif; /* Handwritten-ish feel if available, else body font */
             font-style: italic;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            line-height: 1.5;
         }
 
         .voice-author {
             font-weight: bold;
             text-align: right;
             font-size: 0.9rem;
-            color: var(--color-text);
-            opacity: 0.7;
+            color: #555;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            padding-top: 0.5rem;
         }
 
         /* 5. Conclusion Section */
@@ -225,13 +254,19 @@ import Layout from '../layouts/Layout.astro';
         }
 
         @media (max-width: 600px) {
+            .page-container { gap: 0; }
             section {
                 margin: 0;
                 border-radius: 0;
                 padding: 3rem 1.5rem;
             }
+            .philosophy-section {
+                padding: 3rem 1rem;
+            }
             .philosophy-content {
-                padding: 1.5rem;
+                padding: 2rem 1rem;
+                max-width: 100%;
+                width: 100%;
             }
         }
     </style>
@@ -321,17 +356,17 @@ import Layout from '../layouts/Layout.astro';
                 </div>
 
                 <!-- Teacher Voices -->
-                <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
+                <div class="voice-card">
                     <p class="voice-text">Students who don’t usually speak were much more involved.</p>
-                    <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
+                    <div class="voice-author">- Teacher</div>
                 </div>
-                <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
+                <div class="voice-card">
                     <p class="voice-text">I could see their thinking clearly while they were playing.</p>
-                    <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
+                    <div class="voice-author">- Teacher</div>
                 </div>
-                <div class="voice-card" style="background: var(--color-secondary-bg); border: 2px solid var(--color-2);">
+                <div class="voice-card">
                     <p class="voice-text">Some parents mentioned their children talking about the activity at home.</p>
-                    <div class="voice-author" style="color: var(--color-2);">- Teacher</div>
+                    <div class="voice-author">- Teacher</div>
                 </div>
             </div>
         </section>

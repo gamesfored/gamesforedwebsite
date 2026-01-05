@@ -107,6 +107,7 @@ p {
   width: 100%;
   max-width: var(--container-max-width);
   height: 100%;
+  padding: 0 2rem;
 }
 
 @media (min-width: 1600px) {
@@ -337,6 +338,15 @@ section {
   border-color: var(--color-1);
   scale: 110%;
   rotate: -2deg;
+}
+
+.cta-button.story-btn {
+  border-color: transparent;
+  color: var(--color-2);
+}
+
+.cta-button.story-btn:hover {
+  color: var(--color-white);
 }
 
 .scroll-indicator {
@@ -668,9 +678,18 @@ section {
   main { gap: 0; }
   .navbar { padding: 0 1rem; }
   
-  .hero-card, .design-card-section, .story-contact-wrapper, .what-we-do-section, section {
+  .hero-card, .design-card-section, .what-we-do-section, section {
     margin: 0; border-radius: 0; width: 100%; border: none; padding: 3rem 1.5rem;
   }
+  
+  .story-contact-wrapper {
+    padding: 0;
+    gap: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .content-container { padding: 0; }
   
   .design-content { padding-top: 2rem; }
 
