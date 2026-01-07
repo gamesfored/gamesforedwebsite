@@ -125,11 +125,22 @@ import Layout from '../layouts/Layout.astro';
         }
 
         .signal-visual {
-            background: rgba(255,255,255,0.1);
+            position: relative;
             border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            border: 2px dashed rgba(255,255,255,0.3);
+            overflow: hidden;
+            /* Remove previous dashed border/bg styles */
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        .signal-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(71, 136, 234, 0.9), rgba(71, 136, 234, 0)); /* Faint blue gradient based on var(--color-2) */
         }
 
         /* 4. Voices Section - Pinboard Style */
@@ -321,8 +332,10 @@ import Layout from '../layouts/Layout.astro';
                 </ul>
             </div>
             <div class="signal-visual">
-                <img src="/assets/pics (2).avif" alt="Learning Moments" style="width: 100%; height: auto; max-width: 300px; border-radius: 15px; margin-bottom: 1.5rem; object-fit: cover;" />
-                <p class="text-white" style="opacity: 0.9;">Dinner table conversations are one of many places where this becomes visible. Not because they are planned, but because they are unprompted. For us, that matters.</p>
+                <img src="/assets/dinnertable.jpeg" alt="Dinner Table Conversations" style="width: 100%; height: auto; display: block;" />
+                <div class="signal-overlay">
+                    <p class="text-white" style="margin-bottom: 0; font-weight: 500;">Dinner table conversations are one of many places where this becomes visible. Not because they are planned, but because they are unprompted. For us, that matters.</p>
+                </div>
             </div>
         </section>
 
