@@ -264,18 +264,20 @@ document.addEventListener('astro:page-load', function() {
                   const element = document.createElement('img');
                   element.src = `/assets/${asset}`;
                   element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
-                  element.style.cssText = 'position: absolute; pointer-events: none; z-index: 1; transform: scale(0); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);';
+                  element.style.cssText = 'position: absolute; pointer-events: none; z-index: 1;';
                   
                   if(hero.contains(element)) return; 
                   hero.appendChild(element);
                   
-                  setTimeout(() => {
-                      element.style.transform = 'scale(1)';
-                      // Remove transition after pop-in to prevent conflicts
-                      setTimeout(() => element.style.transition = 'none', 400); 
-                  }, 10);
-                  
-                  gameElements.push({ rigidBody, collider, element, size, createdTime: Date.now(), lifespan: 2000 + Math.random()*4000 });
+                  gameElements.push({ 
+                      rigidBody, 
+                      collider, 
+                      element, 
+                      size, 
+                      createdTime: Date.now(), 
+                      lifespan: 2000 + Math.random()*4000,
+                      currentScale: 0
+                  });
               };
 
               const updatePhysics = () => {
@@ -288,10 +290,15 @@ document.addEventListener('astro:page-load', function() {
                       const rot = item.rigidBody.rotation();
                       const age = Date.now() - item.createdTime;
                       
+                      // Animate scale manually
+                      if (item.currentScale < 1) {
+                          item.currentScale += (1 - item.currentScale) * 0.1;
+                          if (item.currentScale > 0.99) item.currentScale = 1;
+                      }
+
                       item.element.style.left = (pos.x - item.size/2) + 'px';
                       item.element.style.top = (pos.y - item.size/2) + 'px';
-                      // Use a simplified transform update to avoid scale jitter
-                      item.element.style.transform = `rotate(${rot}rad) scale(1)`;
+                      item.element.style.transform = `rotate(${rot}rad) scale(${item.currentScale})`;
                       
                       if (age > item.lifespan || pos.y > heroHeight + 200) {
                           world.removeRigidBody(item.rigidBody);
@@ -372,19 +379,14 @@ function startSimplePhysics(isRunningRef, initialMouseX, initialMouseY, initialI
         this.friction = 0.97;
         this.createdTime = Date.now();
         this.lifespan = 2000 + Math.random() * 4000;
-        this.poppedIn = false;
+        this.currentScale = 0;
         
         this.element = document.createElement('img');
         this.element.src = `/assets/${asset}`;
         this.element.className = `falling-element ${asset.startsWith('tic') ? 'tic' : 'tac'}`;
-        this.element.style.cssText = 'position: absolute; pointer-events: none; z-index: 1; transform: scale(0); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);';
+        this.element.style.cssText = 'position: absolute; pointer-events: none; z-index: 1;';
         
         hero.appendChild(this.element);
-        
-        setTimeout(() => {
-          this.element.style.transform = 'scale(1)';
-          setTimeout(() => this.element.style.transition = 'none', 400);
-        }, 10);
       }
       
       update() {
@@ -409,14 +411,17 @@ function startSimplePhysics(isRunningRef, initialMouseX, initialMouseY, initialI
           this.vx *= -this.bounce;
         }
         
-        const age = Date.now() - this.createdTime;
-        if (this.poppedIn || age > 400) {
-            this.poppedIn = true;
-            this.element.style.left = this.x + 'px';
-            this.element.style.top = this.y + 'px';
-            this.element.style.transform = `rotate(${this.rotation}rad) scale(1)`;
+        // Manual pop-in animation
+        if (this.currentScale < 1) {
+            this.currentScale += (1 - this.currentScale) * 0.1;
+            if (this.currentScale > 0.99) this.currentScale = 1;
         }
         
+        this.element.style.left = this.x + 'px';
+        this.element.style.top = this.y + 'px';
+        this.element.style.transform = `rotate(${this.rotation}rad) scale(${this.currentScale})`;
+        
+        const age = Date.now() - this.createdTime;
         const shouldRemove = age > this.lifespan || this.y > heroHeight + 100 || this.x < -100 || this.x > heroWidth + 100;
         return !shouldRemove;
       }
