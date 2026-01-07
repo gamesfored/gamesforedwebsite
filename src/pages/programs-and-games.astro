@@ -135,25 +135,6 @@ import Layout from '../layouts/Layout.astro';
             color: var(--color-white);
         }
 
-        .pdf-viewer-placeholder {
-            background: var(--color-white);
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
-            margin: 2rem auto 0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text);
-            border: 2px dashed rgba(255,255,255,0.5);
-            position: relative;
-        }
-
-        .pdf-label {
-            text-align: center;
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .offering-card {
@@ -301,14 +282,7 @@ import Layout from '../layouts/Layout.astro';
             <h2>Our Portfolio</h2>
             <p class="mx-auto text-white">Explore our collection of games and resources.</p>
             
-            <div class="pdf-viewer-placeholder">
-                <div class="pdf-label">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
-                    <h3>PDF Portfolio Viewer</h3>
-                    <p>(PDF Embedding Integration Would Go Here)</p>
-                    <button class="cta-button" style="margin-top: 1rem;">Download Portfolio PDF</button>
-                </div>
-            </div>
+            <a href="/assets/GamesForEd-Portfolio.pdf" download="GamesForEd-Portfolio.pdf" class="cta-button" style="margin-top: 1rem; display: inline-block; text-decoration: none;">Download Portfolio PDF</a>
         </section>
 
         <footer class="footer">
