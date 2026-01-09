@@ -35,7 +35,7 @@ import Layout from '../layouts/Layout.astro';
         /* 1. Intro Section */
         .contact-intro {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 2rem 2rem 0; /* Reduced top padding since form is above */
             max-width: 900px;
             margin: 0 auto;
         }
@@ -112,9 +112,10 @@ import Layout from '../layouts/Layout.astro';
         /* 3. Form Section */
         .form-section {
             background: var(--color-card-bg);
-            padding: 5rem 4rem;
+            padding: 0 4rem 4rem; /* Reduced top padding */
             margin: 0 30px;
             border-radius: 30px;
+            background: transparent; /* Changed to transparent to blend with top */
         }
 
         .form-container {
@@ -234,12 +235,73 @@ import Layout from '../layouts/Layout.astro';
             opacity: 0.9;
         }
 
-        /* 5. Note Section */
+        /* 5. Note Section (Post-it Style) */
+        .note-wrapper {
+            padding: 4rem 0;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
         .note-section {
             text-align: center;
-            padding: 3rem;
-            max-width: 600px;
+            padding: 2.5rem 2rem;
+            width: 320px;
+            max-width: 100%;
             margin: 0 auto;
+            /* Subtle paper gradient */
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            /* Softer, layered shadow */
+            box-shadow: 
+                0 1px 4px rgba(0,0,0,0.15),
+                0 8px 24px rgba(0,0,0,0.15);
+            /* Smoother rotation rendering */
+            transform: rotate(-2deg) translateZ(0);
+            position: relative;
+            color: #333;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 2px;
+        }
+        
+        .note-section:hover {
+            transform: rotate(0deg) scale(1.02) translateZ(0);
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.15),
+                0 12px 32px rgba(0,0,0,0.15);
+        }
+        
+        /* Tape Effect - Cleaner */
+        .note-section::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(1deg);
+            width: 110px;
+            height: 32px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            /* Subtle shadow for the tape itself */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            backdrop-filter: blur(2px);
+            z-index: 10;
+        }
+        
+        .note-section h3 {
+            font-family: "hoss-round", sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+
+        .note-section p {
+            font-family: "hoss-round", sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.5;
+            color: #222;
+            margin-bottom: 0;
         }
 
         /* Responsive */
@@ -267,11 +329,44 @@ import Layout from '../layouts/Layout.astro';
             <h1 class="hero-title" style="opacity: 1; transform: none; animation: none;">Let's Start a <span style="color: var(--color-2);">Conversation</span></h1>
         </div>
 
+        <!-- 3. Form (Moved Up) -->
+        <div class="form-section">
+            <div class="form-container">
+                <h2 class="text-center" style="margin-bottom: 2rem;">Send us a Message</h2>
+                <form action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="fbd0482d-9717-4934-a5a6-d6d16281c1a1">
+                    <input type="hidden" name="subject" value="New Submission from Games For Ed Website">
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="interest">I'm interested in...</label>
+                        <select id="interest" name="interest" class="form-input">
+                            <option value="general">General Inquiry</option>
+                            <option value="schools">School Partnership / Workshops</option>
+                            <option value="joining">Joining the Team</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="message">Message</label>
+                        <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Tell us a bit about what you're looking for..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+
         <!-- 1. Intro -->
         <div class="contact-intro mx-auto">
             <p>If something on this site sparked your curiosity, we’d love to hear from you. Schools reach out to us at different stages. Some are exploring game-based learning for the first time. Some have a specific classroom challenge in mind.</p>
             <p style="font-weight: bold;">All of those are good places to start.</p>
-            <p>Email us at: <a href="mailto:hello@gamesfored.com" style="color: var(--color-2); text-decoration: underline;">hello@gamesfored.com</a></p>
         </div>
 
         <!-- 2. Options Grid -->
@@ -302,47 +397,19 @@ import Layout from '../layouts/Layout.astro';
             </div>
         </div>
 
-        <!-- 3. Form -->
-        <div class="form-section">
-            <div class="form-container">
-                <h2 class="text-center" style="margin-bottom: 2rem;">Send us a Message</h2>
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <label class="form-label" for="name">Name</label>
-                        <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="interest">I'm interested in...</label>
-                        <select id="interest" name="interest" class="form-input">
-                            <option value="general">General Inquiry</option>
-                            <option value="schools">School Partnership / Workshops</option>
-                            <option value="joining">Joining the Team</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="message">Message</label>
-                        <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Tell us a bit about what you're looking for..." required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-            </div>
-        </div>
-
         <!-- 4. LinkedIn Section -->
         <section class="linkedin-section text-center">
             <h2 class="text-white">Find Us Here</h2>
             <p class="text-white">You can also find and reach us on LinkedIn. You’ll find updates, behind-the-scenes work, and reflections from classrooms.</p>
-            <a href="#" class="linkedin-btn">Follow Games For Ed on LinkedIn</a>
+            <a href="https://www.linkedin.com/company/games-for-ed/" class="linkedin-btn">Follow Games For Ed on LinkedIn</a>
         </section>
 
-        <!-- 5. Note -->
-        <div class="note-section text-center">
-            <h3>A Small Note</h3>
-            <p class="mx-auto">We read every message that comes in. If you write to us, you’ll hear back from a real person who’s involved in the work.</p>
+        <!-- 5. Note (Post-it style) -->
+        <div class="note-wrapper">
+            <div class="note-section">
+                <h3>A Small Note</h3>
+                <p>We read every message that comes in. If you write to us, you’ll hear back from a real person who’s involved in the work.</p>
+            </div>
         </div>
 
         <footer class="footer">

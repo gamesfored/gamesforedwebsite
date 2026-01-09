@@ -33,14 +33,244 @@ document.addEventListener('astro:page-load', function() {
   ctx = gsap.context(() => {
       // --- Card Animation ---
       const gameCards = document.querySelectorAll('.game-card');
+
+      // Helper functions for patterns
+      function createGridPattern(card) {
+          const textSection = card.querySelector('.game-card-content');
+          if (!textSection) return;
+          
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = 350;
+          canvas.height = 120;
+          canvas.style.position = 'absolute';
+          canvas.style.top = '0';
+          canvas.style.left = '0';
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+          canvas.style.pointerEvents = 'none';
+          canvas.style.opacity = '0.15';
+          canvas.style.zIndex = '1';
+          
+          const gridSize = 20;
+          let offset = 0;
+          
+          function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1.5;
+            
+            // Vertical lines
+            for (let x = offset; x < canvas.width + gridSize; x += gridSize) {
+              ctx.beginPath();
+              ctx.moveTo(x, 0);
+              ctx.lineTo(x, canvas.height);
+              ctx.stroke();
+            }
+            
+            // Horizontal lines
+            for (let y = offset; y < canvas.height + gridSize; y += gridSize) {
+              ctx.beginPath();
+              ctx.moveTo(0, y);
+              ctx.lineTo(canvas.width, y);
+              ctx.stroke();
+            }
+          }
+          
+          textSection.style.position = 'relative';
+          textSection.appendChild(canvas);
+          drawGrid();
+          
+          let isAnimating = false;
+          
+          // Hover animation
+          card.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 1200 && !isAnimating) {
+              isAnimating = true;
+              gsap.to({ o: offset }, {
+                o: offset + gridSize,
+                duration: 0.8,
+                ease: 'power2.out',
+                onUpdate: function() {
+                  offset = this.targets()[0].o % gridSize;
+                  drawGrid();
+                },
+                onComplete: () => {
+                  isAnimating = false;
+                }
+              });
+              gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
+            }
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            if (window.innerWidth > 1200) {
+              gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
+            }
+          });
+      }
+      
+      function createWavePattern(card) {
+          const textSection = card.querySelector('.game-card-content');
+          if (!textSection) return;
+          
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = 350;
+          canvas.height = 120;
+          canvas.style.position = 'absolute';
+          canvas.style.top = '0';
+          canvas.style.left = '0';
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+          canvas.style.pointerEvents = 'none';
+          canvas.style.opacity = '0.15';
+          canvas.style.zIndex = '1';
+          
+          const waveSpacing = 15;
+          const amplitude = 8;
+          let time = 0;
+          let isAnimating = false;
+          
+          function drawWaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1.5;
+            
+            for (let y = waveSpacing; y < canvas.height; y += waveSpacing) {
+              ctx.beginPath();
+              for (let x = 0; x <= canvas.width; x += 2) {
+                const waveY = y + Math.sin((x * 0.02) + time) * amplitude;
+                if (x === 0) {
+                  ctx.moveTo(x, waveY);
+                } else {
+                  ctx.lineTo(x, waveY);
+                }
+              }
+              ctx.stroke();
+            }
+          }
+          
+          textSection.style.position = 'relative';
+          textSection.appendChild(canvas);
+          drawWaves();
+          
+          // Hover animation
+          card.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 1200 && !isAnimating) {
+              isAnimating = true;
+              gsap.to({ t: time }, {
+                t: time + Math.PI * 4,
+                duration: 1,
+                ease: 'power2.out',
+                onUpdate: function() {
+                  time = this.targets()[0].t;
+                  drawWaves();
+                },
+                onComplete: () => {
+                  isAnimating = false;
+                }
+              });
+              gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
+            }
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            if (window.innerWidth > 1200) {
+              gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
+            }
+          });
+      }
+      
+      function createStarburstPattern(card) {
+          const textSection = card.querySelector('.game-card-content');
+          if (!textSection) return;
+          
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = 350;
+          canvas.height = 120;
+          canvas.style.position = 'absolute';
+          canvas.style.top = '0';
+          canvas.style.left = '0';
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+          canvas.style.pointerEvents = 'none';
+          canvas.style.opacity = '0.15';
+          canvas.style.zIndex = '1';
+          
+          const centerX = 0;
+          const centerY = 0;
+          const maxDistance = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+          let rotation = 0;
+          
+          function drawStarburst() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(rotation);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1.5;
+            
+            // Draw radiating lines
+            for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 15) {
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.lineTo(Math.cos(angle) * maxDistance, Math.sin(angle) * maxDistance);
+              ctx.stroke();
+            }
+            
+            ctx.restore();
+          }
+          
+          textSection.style.position = 'relative';
+          textSection.appendChild(canvas);
+          drawStarburst();
+          
+          let isAnimating = false;
+          
+          // Hover animation
+          card.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 1200 && !isAnimating) {
+              isAnimating = true;
+              gsap.to({ r: rotation }, {
+                r: rotation + Math.PI,
+                duration: 0.8,
+                ease: 'power2.out',
+                onUpdate: function() {
+                  rotation = this.targets()[0].r;
+                  drawStarburst();
+                },
+                onComplete: () => {
+                  isAnimating = false;
+                }
+              });
+              gsap.to(canvas, { opacity: 0.25, duration: 0.3 });
+            }
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            if (window.innerWidth > 1200) {
+              gsap.to(canvas, { opacity: 0.15, duration: 0.3 });
+            }
+          });
+      }
+
+      // Apply patterns to cards
+      gameCards.forEach((card) => {
+          if (card.classList.contains('card-1')) createGridPattern(card);
+          else if (card.classList.contains('card-2')) createWavePattern(card);
+          else if (card.classList.contains('card-3')) createStarburstPattern(card);
+      });
+
       if (gameCards.length >= 3) {
           ScrollTrigger.matchMedia({
               // Desktop
               "(min-width: 1201px)": function() {
                   gsap.set(gameCards, { clearProps: "all", opacity: 1 });
-                  gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, zIndex: 21, opacity: 1 });
-                  gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, zIndex: 22, opacity: 1 });
-                  gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, zIndex: 23, opacity: 1 });
+                  gsap.set(gameCards[0], { x: 400, y: 0, rotation: 0, zIndex: 21, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
+                  gsap.set(gameCards[1], { x: 0, y: 0, rotation: 0, zIndex: 22, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
+                  gsap.set(gameCards[2], { x: -400, y: 0, rotation: 0, zIndex: 23, opacity: 1, boxShadow: '0 0 0 rgba(0, 0, 0, 0)' });
 
                   const tl = gsap.timeline({
                       scrollTrigger: {
@@ -51,19 +281,24 @@ document.addEventListener('astro:page-load', function() {
                       }
                   });
 
-                  tl.to(gameCards[0], { x: 0, rotation: -8, duration: 1, ease: 'power2.out' }, 0)
-                    .to(gameCards[1], { x: 0, rotation: 2, duration: 1, ease: 'power2.out' }, 0)
-                    .to(gameCards[2], { x: 0, rotation: 6, duration: 1, ease: 'power2.out' }, 0);
+                  tl.to(gameCards[0], { x: 0, rotation: -8, boxShadow: '0 0 0 rgba(0, 0, 0, 0)', duration: 1, ease: 'power2.out' }, 0)
+                    .to(gameCards[1], { x: 0, rotation: 2, boxShadow: '0 0 0 rgba(0, 0, 0, 0)', duration: 1, ease: 'power2.out' }, 0)
+                    .to(gameCards[2], { x: 0, rotation: 6, boxShadow: '0 0 0 rgba(0, 0, 0, 0)', duration: 1, ease: 'power2.out' }, 0);
 
                   gameCards.forEach((card, index) => {
                       const originalRotation = [-8, 2, 6][index];
+                      // Hover logic for card movement (patterns handle their own)
                       card.addEventListener('mouseenter', () => {
-                          gsap.to(card, { rotation: 0, scale: 1.1, y: -20, zIndex: 25, duration: 0.4, ease: 'power2.out', overwrite: true });
-                          card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+                          if (window.innerWidth > 1200) {
+                              gsap.to(card, { rotation: 0, scale: 1.1, y: -20, zIndex: 25, duration: 0.4, ease: 'power2.out', overwrite: true });
+                              card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+                          }
                       });
                       card.addEventListener('mouseleave', () => {
-                          gsap.to(card, { rotation: originalRotation, scale: 1, y: 0, zIndex: index + 21, duration: 0.4, ease: 'power2.out', overwrite: true });
-                          card.style.boxShadow = 'none';
+                          if (window.innerWidth > 1200) {
+                              gsap.to(card, { rotation: originalRotation, scale: 1, y: 0, zIndex: index + 21, duration: 0.4, ease: 'power2.out', overwrite: true });
+                              card.style.boxShadow = 'none';
+                          }
                       });
                   });
               },

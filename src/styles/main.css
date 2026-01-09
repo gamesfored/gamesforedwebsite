@@ -362,6 +362,62 @@ section {
   animation: fadeInUp 1s ease-out 2s both;
 }
 
+.scroll-arrow {
+  position: relative;
+  width: 24px;
+  height: 40px;
+}
+
+.scroll-arrow span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 3px;
+  height: 12px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  animation: scrollDown 1.5s infinite;
+}
+
+.scroll-arrow span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.scroll-arrow span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.scroll-arrow span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.scroll-text {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+@keyframes scrollDown {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.8);
+  }
+}
+
+
 .design-card-section {
   background: var(--color-card-bg);
   /* Uses section defaults */
