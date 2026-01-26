@@ -722,6 +722,25 @@ section {
 .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; }
 .footer-links a { color: var(--color-text); text-decoration: none; font-size: 1rem; }
 .footer-links a:hover { color: var(--color-2); }
+.footer-cta {
+  font-family: var(--font-heading);
+  background: var(--color-2);
+  color: var(--color-white) !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 3px solid var(--color-2);
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.footer-cta:hover {
+  background: var(--color-1);
+  color: var(--color-white) !important;
+  border-color: var(--color-1);
+  transform: scale(1.05);
+}
 .footer-copyright p { font-size: 0.9rem; opacity: 0.8; margin: 0; }
 
 /* --- Responsive --- */
