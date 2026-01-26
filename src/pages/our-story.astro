@@ -76,8 +76,9 @@ import Layout from '../layouts/Layout.astro';
         }
 
         .beliefs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -89,6 +90,8 @@ import Layout from '../layouts/Layout.astro';
             border: 2px solid transparent;
             transition: transform 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            flex: 1 1 300px;
+            max-width: 450px;
         }
 
         .belief-card:hover {
@@ -392,7 +395,7 @@ import Layout from '../layouts/Layout.astro';
                 <p>Games For Ed did not start with a business plan or a product roadmap. It started with a classroom moment most educators recognize.</p>
                 <p>Bright students. Capable teachers. And yet, learning felt heavy.</p>
                 <p>We kept seeing the same pattern across schools. Students could repeat answers, but struggled to explain ideas. They memorized, but forgot. Curiosity slowly faded, even in spaces meant to nurture it.</p>
-                <p>But when students played games, something changed. They argued. They negotiated. They tried again after failing. They remembered details weeks later. They cared.</p>
+                <p>But when students played games, something changed. They discussed and debated. They negotiated. They tried again after failing. They remembered concepts weeks later. They took ownership of their learning.</p>
             </div>
             <div class="origin-quote-box">
                 <p class="origin-quote">"Play is not the opposite of learning. Play is how learning becomes real."</p>
@@ -421,6 +424,14 @@ import Layout from '../layouts/Layout.astro';
                 <div class="belief-card">
                     <h3>Fail Safely</h3>
                     <p>Failure isn't the end. It's simply data for the next attempt.</p>
+                </div>
+                <div class="belief-card">
+                    <h3>Explore Possibilities</h3>
+                    <p>Games create space to try different paths, revise approaches, and learn through iteration.</p>
+                </div>
+                <div class="belief-card">
+                    <h3>Think Creatively</h3>
+                    <p>Students use imagination within clear boundaries, exploring ideas and possibilities while working toward shared goals.</p>
                 </div>
             </div>
         </section>
@@ -465,8 +476,9 @@ import Layout from '../layouts/Layout.astro';
                 <span class="root-badge">MIT Sloan</span>
                 <span class="root-badge">Harvard Graduate School of Education</span>
                 <span class="root-badge">TRIO World School</span>
+                <span class="root-badge">Teach for India</span>
             </div>
-            <p class="mx-auto" style="max-width: 700px; margin-top: 2rem;">But more importantly, it’s shaped by sitting on classroom floors, running pilots that break, watching students misunderstand rules, and redesigning again.</p>
+            <p class="mx-auto" style="max-width: 700px; margin-top: 2rem;">But more importantly, it’s shaped by sitting in classrooms, running pilots, watching students misunderstand rules, and redesigning again.</p>
             
             <div class="process-flow">
                 <span class="process-step">Build</span>
@@ -485,7 +497,7 @@ import Layout from '../layouts/Layout.astro';
                 <div>
                     <h2 class="text-white">Who We Are</h2>
                     <p class="text-white">We are educators, designers, facilitators, and curious humans who believe learning should feel alive.</p>
-                    <p class="text-white">Each of us comes from a slightly different background, but we share a common instinct: <strong>If students are bored, it’s not their fault. It’s a design problem.</strong></p>
+                    <p class="text-white">Each of us comes from a slightly different background, but we share a common instinct: boredom is rarely the student’s fault, its a signal to rethink how learning is designed.</p>
                     
                     <div class="team-values text-white">
                         <div class="value-item">Care deeply about schools</div>
@@ -513,7 +525,7 @@ import Layout from '../layouts/Layout.astro';
                     </ul>
                 </div>
                 <div class="diff-column">
-                    <h3 class="text-white border-bottom pb-2 mb-4 d-inline-block">We Design Experiences Where:</h3>
+                    <h3 class="text-white border-bottom pb-2 mb-4 d-inline-block">We Design Experiences:</h3>
                     <ul class="diff-list text-white">
                         <li>No one “wins” alone</li>
                         <li>Collaboration matters</li>
@@ -528,9 +540,9 @@ import Layout from '../layouts/Layout.astro';
         <section class="future-section text-center">
             <div class="future-content mx-auto">
                 <h2>Where We’re Headed</h2>
-                <p>We’re building a growing library of game-based learning experiences that schools can trust.</p>
-                <p>Our long-term goal is simple: <strong>To help schools move from content delivery to experience design.</strong></p>
-                <p>We want students to leave classrooms not just knowing more, but understanding better. To see patterns. To ask better questions. To stay curious.</p>
+                <p>We are building a library of game-based learning experiences designed for real classrooms and real learners.</p>
+                <p>Our long-term vision is to help schools move beyond content delivery toward experience-driven learning, where play, choice, and reflection shape understanding.</p>
+                <p>We want students to leave classrooms not just knowing facts, but understanding ideas — making connections, asking thoughtful questions, and carrying curiosity with them.</p>
                 
                 <div class="cta-large">
                     <a href="/contact" class="cta-button">Let's Talk About Your School</a>

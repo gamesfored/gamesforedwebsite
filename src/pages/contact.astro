@@ -125,11 +125,8 @@ import Layout from '../layouts/Layout.astro';
             border-radius: 2px; /* Sharper corners for paper look */
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             
-            /* Notebook Paper Effect */
+            /* Notebook Paper Effect - Base Color */
             background-color: #fff;
-            background-image: linear-gradient(#e1f5fe 1px, transparent 1px);
-            background-size: 100% 2.5rem;
-            background-attachment: local;
             position: relative;
         }
         
@@ -154,7 +151,7 @@ import Layout from '../layouts/Layout.astro';
         .form-label {
             display: block;
             font-weight: 700;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.5rem;
             color: var(--color-text);
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -163,10 +160,9 @@ import Layout from '../layouts/Layout.astro';
 
         .form-input, .form-textarea, select.form-input {
             width: 100%;
-            padding: 0.5rem 0;
+            padding: 0;
             background: transparent;
             border: none;
-            border-bottom: 2px solid rgba(0,0,0,0.1); /* Subtle underline */
             border-radius: 0;
             font-family: "hoss-round", sans-serif; /* Handwritten feel */
             font-size: 1.2rem;
@@ -175,18 +171,22 @@ import Layout from '../layouts/Layout.astro';
             outline: none;
             box-shadow: none;
             resize: vertical;
+            
+            /* Lines applied to input directly for perfect alignment */
+            background-image: linear-gradient(#e1f5fe 1px, transparent 1px);
+            background-size: 100% 2.5rem;
+            background-position: 0 bottom; /* Align line to bottom of input text area */
         }
 
         .form-input:focus, .form-textarea:focus {
-            border-bottom-color: var(--color-2);
+            background-image: linear-gradient(var(--color-2) 1px, transparent 1px);
         }
         
         /* Adjust textarea specifically to align rows */
         .form-textarea {
             padding-top: 0;
-            margin-top: 0.6rem; /* Fine tune alignment */
-            background-image: linear-gradient(transparent 96%, rgba(0,0,0,0.05) 96%); /* Optional lines inside textarea if needed, but transparent works if aligned */
-            background-size: 100% 2.5rem;
+            margin-top: 0;
+            background-attachment: local; /* Scrolls with text */
         }
 
         .submit-btn {

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Impact & Learning - Games For Ed">
+<Layout title="Impact and Voices - Games For Ed">
     <style>
         .page-container {
             display: flex;
@@ -114,33 +114,20 @@ import Layout from '../layouts/Layout.astro';
             background: var(--color-2);
             color: var(--color-white);
             padding: 6rem 4rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
             align-items: center;
+            text-align: center;
         }
 
-        .signals-section h2, .signals-section p {
+        .signals-section h2, .signals-section p, .signals-section li {
             color: var(--color-white);
         }
 
-        .signal-visual {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            /* Remove previous dashed border/bg styles */
-            padding: 0;
-            background: transparent;
-            border: none;
-        }
-
-        .signal-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        .signals-content {
+            max-width: 800px;
             width: 100%;
-            padding: 4rem 2rem 2rem;
-            background: linear-gradient(to top, rgba(71, 136, 234, 1) 0%, rgba(71, 136, 234, 0.8) 40%, rgba(71, 136, 234, 0) 100%);
         }
 
         /* 4. Voices Section - Pinboard Style */
@@ -321,28 +308,33 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- 3. Signals -->
         <section class="signals-section">
-            <div>
+            <div class="signals-content">
                 <h2 class="text-white">Why These Signals Matter to Us</h2>
                 <p class="text-white">Learning doesn’t always announce itself. It shows up when students:</p>
-                <ul class="text-white" style="list-style: none; padding: 0;">
+                <ul class="text-white" style="list-style: none; padding: 0; display: inline-block; text-align: left;">
                     <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Can retell an experience in their own words</li>
                     <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Connect ideas across contexts</li>
                     <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Revisit decisions after time has passed</li>
                     <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">• Feel confident enough to explain, not just answer</li>
                 </ul>
-            </div>
-            <div class="signal-visual">
-                <img src="/assets/dinnertable.jpeg" alt="Dinner Table Conversations" style="width: 100%; height: auto; display: block;" />
-                <div class="signal-overlay">
-                    <p class="text-white" style="margin-bottom: 0; font-weight: 500;">Dinner table conversations are one of many places where this becomes visible. Not because they are planned, but because they are unprompted. For us, that matters.</p>
-                </div>
+                <p class="text-white" style="margin-top: 2rem; font-weight: 500; font-size: 1.2rem;">Dinner table conversations are one of many places where this becomes visible. Not because they are planned, but because they are unprompted. For us, that matters.</p>
             </div>
         </section>
 
         <!-- 4. Voices -->
         <section class="voices-section">
-            <h2 class="text-center">Voices from the Classroom</h2>
+            <h2 class="text-center">Voices from our Learning Community</h2>
             <div class="voices-grid">
+                <!-- School Leaders -->
+                <div class="voice-card">
+                    <p class="voice-text">What stood out was how clearly students could talk about their decisions and learning, even after the game was over.</p>
+                    <div class="voice-author">- School Leader</div>
+                </div>
+                <div class="voice-card">
+                    <p class="voice-text">What I noticed was students taking ownership of their learning. They spoke with confidence about their choices, without looking for approval or the “right” answer.</p>
+                    <div class="voice-author">- School Leader</div>
+                </div>
+                
                 <!-- Student Voices -->
                 <div class="voice-card">
                     <p class="voice-text">I liked that we had to decide together. I told my parents what our group argued about.</p>
@@ -356,7 +348,7 @@ import Layout from '../layouts/Layout.astro';
                     <p class="voice-text">I remembered the rules even after a few days.</p>
                     <div class="voice-author">- Student</div>
                 </div>
-                    <div class="voice-card">
+                <div class="voice-card">
                     <p class="voice-text">I don’t usually talk in class, but in the game I had to.</p>
                     <div class="voice-author">- Student</div>
                 </div>
@@ -390,7 +382,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
             
             <div style="margin-top: 2rem;">
-                    <a href="/#contact" class="cta-button">See It In Action</a>
+                    <a href="/programs-and-games" class="cta-button">See It In Action</a>
             </div>
         </section>
 

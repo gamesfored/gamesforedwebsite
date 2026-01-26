@@ -9,16 +9,8 @@ import GameCard from '../components/GameCard.astro';
             <div class="hero">
                 <div class="hero-content">
                     <h1 class="hero-title"><span class="highlight-green">Games for Learning</span> That Students & Teachers Love</h1>
-                    <p class="hero-description"> Why settle for lectures when your classroom can be a playground of discovery? With our story-driven, hands-on games, students don’t just learn — they live the lesson.</p>
+                    <p class="hero-description">What if your classroom could also be a playground of discovery? <br><br> With our story-driven, hands-on games, students don’t just learn — they live the lesson.</p>
                     <a href="#why-they-love-it" class="cta-button">Show Me the Fun! </a>
-                </div>
-                <div class="scroll-indicator">
-                    <div class="scroll-arrow">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                    <p class="scroll-text">Scroll Down</p>
                 </div>
             </div>
         </section>
@@ -26,25 +18,25 @@ import GameCard from '../components/GameCard.astro';
             <div class="pencil-decoration"></div>
             <div class="design-section">
                 <div class="design-content">
-                    <h2 class="design-heading">We design every game to <span style="color: var(--color-1);">ignite curiosity</span>, <span style="color: var(--color-2);">spark joy</span>, and make <span style="color: var(--color-3);">learning meaningful</span></h2>
-                    <p class="hero-description mx-auto"> Our games are full of surprise, challenge, and laughter. Students step into stories, tackle puzzles, and discover ideas they’ll remember long after the bell rings.</p>
+                    <h2 class="design-heading">We design every game to <span style="color: var(--color-1);">spark curiosity</span>, <span style="color: var(--color-2);">bring joy</span>, and make <span style="color: var(--color-3);">learning meaningful</span></h2>
+                    <p class="hero-description mx-auto"> Our games are full of surprise, challenge, and laughter, turning classroom moments into experiences students remember long after the bell rings.</p>
                     <div class="design-cards">
                         <GameCard 
                             image="/assets/018-ornithocheirus.png"
                             title="Playful by Design"
-                            description="Each game is built around rich narratives that pull learners into the action and keep them engaged"
+                            description="Every game opens with a story that students step into, setting the stage for learning through play."
                             colorClass="card-1"
                         />
                         <GameCard 
                             image="/assets/008-dragon.png"
                             title="Story-Driven Worlds"
-                            description="Each game is built around rich narratives that pull learners into the action and keep them engaged."
+                            description="Students shape the experience by making choices, tackling challenges, and seeing the results unfold."
                             colorClass="card-2"
                         />
                         <GameCard 
                             image="/assets/010-crocodile.png"
                             title="Lasting Impact"
-                            description="Concepts aren't just memorized—they're experienced, applied, and remembered."
+                            description="Concepts aren’t just memorized — they’re lived, explored, and remembered."
                             colorClass="card-3"
                         />
                     </div>
@@ -104,11 +96,13 @@ import GameCard from '../components/GameCard.astro';
                     <div class="story-right">
                         <div class="story-body">
                             <p>We are Games For Ed.<br>
-
-                            A team of educators and creators who believe classrooms should spark curiosity, not routine. We design learning experiences that feel like stories you can step into — playful, surprising, and deeply human.
-    Our roots stretch from Asia School of Business and MIT Sloan to TRIO World School to the Harvard Graduate School of Education, but what truly binds us is a love for play and discovery. We do this because we’ve seen that learning works best when it excites the imagination, builds teamwork, and leaves students with ideas they’ll carry far beyond the classroom.</p>
+                            We are a team of educators and creators designing playful, experience-based learning for classrooms.</p>
                             
-                            <p>At Games For Ed, every experience is crafted to surprise, delight, and stay with you — because great learning feels a lot like great storytelling.</p>
+                            <p>Our roots stretch from the Harvard Graduate School of Education to Asia School of Business, MIT Sloan, and TRIO World School, but what truly binds us is a love for play and discovery.</p>
+                            
+                            <p>We’ve seen, again and again, that learning works best when it is active and engaging. When it excites the imagination, builds teamwork, and leaves students with ideas they carry far beyond the classroom.</p>
+                            
+                            <p>At Games For Ed, every experience is thoughtfully designed around play, with stories and challenges that bring learning to life and stay with students long after class ends.</p>
                             <a href="/our-story" class="cta-button story-btn" style="display: inline-block; margin-top: 1rem; font-size: 1rem; padding: 0.8rem 1.5rem; opacity: 1; transform: none; animation: none;">Read Our Full Story</a>
                         </div>
                     </div>
@@ -125,6 +119,15 @@ import GameCard from '../components/GameCard.astro';
                 </div>
             </section>
         </div>
+        
+        <section class="featured-in-section" style="padding: 4rem 2rem; text-align: center; background-color: var(--color-white);">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--color-text);">Featured In</h2>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <a href="https://www.gse.harvard.edu/ideas/ed-magazine/25/08/play-and-legos-help-students-stay-ahead-game" target="_blank" style="font-size: 1.2rem; color: var(--color-2); text-decoration: underline; font-weight: bold;">Harvard Ed Magazine</a>
+                <a href="https://www.thecrimson.com/article/2025/10/22/HGSE-Games-India/" target="_blank" style="font-size: 1.2rem; color: var(--color-2); text-decoration: underline; font-weight: bold;">The Harvard Crimson</a>
+            </div>
+        </section>
+
         <footer class="footer">
             <div class="footer-content">
                 <div class="footer-logo">
@@ -134,6 +137,7 @@ import GameCard from '../components/GameCard.astro';
                 </div>
                 <div class="footer-copyright">
                     <p>&copy; 2025 GamesForEd. All rights reserved.</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">Designed by <a href="https://www.overnightgamestudio.com" target="_blank" style="color: var(--color-text); text-decoration: underline;">Overnight Game Studio</a></p>
                 </div>
             </div>
         </footer>
