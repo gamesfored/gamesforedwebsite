@@ -1,0 +1,25 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "coverImage": "/assets/articles/HEM-Play-and-Lego.webp",
+      "publicationLogo": "/assets/publications/HGSE-logo.png",
+      "heading": "Play and Legos Help Students Stay Ahead of the Game",
+      "description": "How Games For Ed is bringing playful learning to classrooms through story-driven games that spark curiosity and engagement.",
+      "author": "Harvard Ed Magazine",
+      "link": "https://www.gse.harvard.edu/ideas/ed-magazine/25/08/play-and-legos-help-students-stay-ahead-game",
+      "publishDate": "2025-08-01"
+    },
+    {
+      "id": 2,
+      "coverImage": "/assets/articles/THC-HGSE-cover.webp",
+      "publicationLogo": "/assets/publications/HEM-logo.png",
+      "heading": "HGSE Alumni Bring Game-Based Learning to India",
+      "description": "Games For Ed graduates create innovative educational experiences that transform traditional classroom learning into engaging adventures.",
+      "author": "The Harvard Crimson",
+      "link": "https://www.thecrimson.com/article/2025/10/22/HGSE-Games-India/",
+      "publishDate": "2025-10-22"
+    }
+  ],
+  "displayCount": 3
+}

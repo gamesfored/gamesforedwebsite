@@ -1,6 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import GameCard from '../components/GameCard.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import articlesData from '../data/articles.json';
+
+// Get the most recent articles based on displayCount
+const { articles, displayCount } = articlesData;
+const displayedArticles = articles
+  .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+  .slice(0, displayCount);
 ---
 
 <Layout title="Games for Learning - Games for Learning That Stick">
@@ -120,11 +128,19 @@ import GameCard from '../components/GameCard.astro';
             </section>
         </div>
         
-        <section class="featured-in-section" style="padding: 4rem 2rem; text-align: center; background-color: var(--color-white);">
-            <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--color-text);">Featured In</h2>
-            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-                <a href="https://www.gse.harvard.edu/ideas/ed-magazine/25/08/play-and-legos-help-students-stay-ahead-game" target="_blank" style="font-size: 1.2rem; color: var(--color-2); text-decoration: underline; font-weight: bold;">Harvard Ed Magazine</a>
-                <a href="https://www.thecrimson.com/article/2025/10/22/HGSE-Games-India/" target="_blank" style="font-size: 1.2rem; color: var(--color-2); text-decoration: underline; font-weight: bold;">The Harvard Crimson</a>
+        <section class="featured-in-section">
+            <h2 class="featured-heading">Featured In</h2>
+            <div class="articles-grid">
+                {displayedArticles.map(article => (
+                    <ArticleCard
+                        coverImage={article.coverImage}
+                        publicationLogo={article.publicationLogo}
+                        heading={article.heading}
+                        description={article.description}
+                        author={article.author}
+                        link={article.link}
+                    />
+                ))}
             </div>
         </section>
 

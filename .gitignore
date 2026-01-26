@@ -30,6 +30,7 @@ logs/
 *.swp
 *.swo
 *~
+website-copy
 
 # OS generated files
 .DS_Store

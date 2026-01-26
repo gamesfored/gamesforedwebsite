@@ -664,6 +664,58 @@ section {
 .contact-body { color: var(--color-text); font-size: 1.1rem; }
 .contact-body a { color: var(--color-text); text-decoration: underline; font-weight: 600; }
 
+/* Featured In Section */
+.featured-in-section {
+  background: var(--color-white);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.featured-heading {
+  font-size: 2.5rem;
+  color: var(--color-text);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .featured-in-section {
+    padding: 3rem 1rem;
+  }
+
+  .featured-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .articles-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .featured-in-section {
+    margin: 0;
+    border-radius: 0;
+    padding: 2rem 1rem;
+  }
+
+  .featured-heading {
+    font-size: 1.5rem;
+  }
+}
+
 .footer { background: transparent; color: var(--color-text); padding: 2rem 0; margin-top: 2rem; }
 .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center; }
 .footer-logo img { height: 40px; }
