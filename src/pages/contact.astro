@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Contact Us - Games For Ed">
+<Layout title="Contact Us | Games for Ed" description="Get in touch with Games for Ed. Let's discuss how educational games can transform your learning environment." pageType="ContactPage">
     <style>
         .page-container {
             display: flex;
@@ -408,7 +409,7 @@ import Layout from '../layouts/Layout.astro';
         <section class="linkedin-section text-center">
             <h2 class="text-white">Find Us Here</h2>
             <p class="text-white">You can also find and reach us on LinkedIn. You’ll find updates, behind-the-scenes work, and reflections from classrooms.</p>
-            <a href="https://www.linkedin.com/company/games-for-ed/" class="linkedin-btn">Follow Games For Ed on LinkedIn</a>
+            <a href="https://www.linkedin.com/company/games-for-ed/" class="linkedin-btn">Follow Games for Ed on LinkedIn</a>
         </section>
 
         <!-- 5. Note (Post-it style) -->
@@ -419,18 +420,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
         </div>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/gamesfored.avif" alt="Games for Learning" />
-                </div>
-                <div class="footer-links">
-                    <a href="https://www.overnightgamestudio.com/" target="_blank" class="footer-cta">Buy Our Games</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <Footer />
     </main>
 </Layout>

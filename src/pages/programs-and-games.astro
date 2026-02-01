@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Programs & Games - Games For Ed">
+<Layout title="Programs & Games | Games for Ed" description="Explore Games for Ed's programs: classroom sessions, teacher workshops, mega games, and custom partnerships for impactful learning experiences." pageType="CollectionPage">
     <style>
         .page-container {
             display: flex;
@@ -285,18 +286,6 @@ import Layout from '../layouts/Layout.astro';
             <a href="/assets/GamesForEd-Portfolio.pdf" download="GamesForEd-Portfolio.pdf" class="cta-button" style="margin-top: 1rem; display: inline-block; text-decoration: none;">Download Portfolio PDF</a>
         </section>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/gamesfored.avif" alt="Games for Learning" />
-                </div>
-                <div class="footer-links">
-                    <a href="https://www.overnightgamestudio.com/" target="_blank" class="footer-cta">Buy Our Games</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <Footer />
     </main>
 </Layout>

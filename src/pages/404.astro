@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Page Not Found | Games for Ed" description="Oops! The page you're looking for doesn't exist. Let's get you back on track.">
+    <style>
+        .error-page {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--color-card-bg);
+        }
+
+        .error-code {
+            font-family: "grenadine-mvb", sans-serif;
+            font-size: 8rem;
+            font-weight: 700;
+            color: var(--color-1);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .error-title {
+            font-family: "grenadine-mvb", sans-serif;
+            font-size: 2.5rem;
+            color: var(--color-text);
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+            color: var(--color-text);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .error-illustration {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+        }
+
+        .error-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .error-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-family: "grenadine-mvb", sans-serif;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .error-link:hover {
+            transform: scale(1.05);
+        }
+
+        .error-link.primary {
+            background: var(--color-2);
+            color: var(--color-white);
+        }
+
+        .error-link.secondary {
+            background: var(--color-white);
+            color: var(--color-text);
+            border: 2px solid var(--color-text);
+        }
+
+        @media (max-width: 600px) {
+            .error-code {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 1.8rem;
+            }
+
+            .error-illustration {
+                font-size: 4rem;
+            }
+        }
+    </style>
+
+    <main class="content-container">
+        <div class="error-page">
+            <div class="error-illustration">
+                <img src="/assets/008-dragon.png" alt="Lost dragon" width="150" height="150" style="width: 150px; height: auto;" />
+            </div>
+            <div class="error-code">404</div>
+            <h1 class="error-title">Oops! This Quest Led Nowhere</h1>
+            <p class="error-message">
+                Looks like this page wandered off the map. Don't worry — even the best explorers take a wrong turn sometimes. Let's get you back to the adventure!
+            </p>
+            <div class="error-links">
+                <a href="/" class="error-link primary">Back to Home</a>
+                <a href="/programs-and-games" class="error-link secondary">Explore Programs</a>
+            </div>
+        </div>
+
+        <Footer />
+    </main>
+</Layout>

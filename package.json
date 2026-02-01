@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
     "@dimforge/rapier2d": "^0.18.2",
     "@dimforge/rapier2d-compat": "^0.18.2",
     "@google/generative-ai": "^0.24.1",

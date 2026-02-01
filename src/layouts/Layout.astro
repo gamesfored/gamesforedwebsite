@@ -5,22 +5,90 @@ import '../styles/main.css';
 
 interface Props {
 	title: string;
+	description?: string;
+	pageType?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage';
 }
 
-const { title } = Astro.props;
+const {
+	title,
+	description = "Games for Ed designs educational games that make learning stick. Discover our classroom sessions, workshops, and mega games for students and teachers.",
+	pageType = 'WebPage'
+} = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const webPageSchema = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": pageType,
+	"name": title,
+	"description": description,
+	"url": canonicalURL.toString(),
+	"isPartOf": {
+		"@type": "WebSite",
+		"name": "Games for Ed",
+		"url": "https://www.gamesfored.com"
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": "Games for Ed",
+		"logo": {
+			"@type": "ImageObject",
+			"url": "https://www.gamesfored.com/gamesfored.avif"
+		}
+	}
+});
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<link rel="canonical" href={canonicalURL} />
+
+		<!-- Open Graph -->
+		<meta property="og:site_name" content="Games for Ed" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content="https://www.gamesfored.com/gamesfored.avif" />
+		<meta property="og:url" content={canonicalURL} />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content="https://www.gamesfored.com/gamesfored.avif" />
+
         <link rel="preload" as="image" href="/gamesfored.avif">
         <link rel="stylesheet" href="https://use.typekit.net/shx5qzm.css">
+
+		<!-- Organization Schema -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "Games for Ed",
+			"alternateName": ["GamesForEd", "Games For Ed"],
+			"url": "https://www.gamesfored.com",
+			"logo": "https://www.gamesfored.com/gamesfored.avif",
+			"description": "Educational game design company creating games for learning that stick",
+			"sameAs": [
+				"https://www.linkedin.com/company/games-for-ed/"
+			],
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"email": "abhijith@gamesfored.com",
+				"contactType": "customer service"
+			}
+		}
+		</script>
+
+		<!-- WebPage Schema -->
+		<script type="application/ld+json" set:html={webPageSchema} />
 		<script type="importmap">
 		{
 			"imports": {

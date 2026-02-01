@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 import GameCard from '../components/GameCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import articlesData from '../data/articles.json';
@@ -11,7 +12,7 @@ const displayedArticles = articles
   .slice(0, displayCount);
 ---
 
-<Layout title="Games for Learning - Games for Learning That Stick">
+<Layout title="Games for Ed | Games for Learning That Stick" description="Games for Ed designs educational games that make learning stick. Discover our classroom sessions, workshops, and mega games for students and teachers.">
     <main>
         <section class="hero-card">
             <div class="hero">
@@ -103,14 +104,14 @@ const displayedArticles = articles
                     </div>
                     <div class="story-right">
                         <div class="story-body">
-                            <p>We are Games For Ed.<br>
+                            <p>We are Games for Ed.<br>
                             We are a team of educators and creators designing playful, experience-based learning for classrooms.</p>
                             
                             <p>Our roots stretch from the Harvard Graduate School of Education to Asia School of Business, MIT Sloan, and TRIO World School, but what truly binds us is a love for play and discovery.</p>
                             
                             <p>We’ve seen, again and again, that learning works best when it is active and engaging. When it excites the imagination, builds teamwork, and leaves students with ideas they carry far beyond the classroom.</p>
                             
-                            <p>At Games For Ed, every experience is thoughtfully designed around play, with stories and challenges that bring learning to life and stay with students long after class ends.</p>
+                            <p>At Games for Ed, every experience is thoughtfully designed around play, with stories and challenges that bring learning to life and stay with students long after class ends.</p>
                             <a href="/our-story" class="cta-button story-btn" style="display: inline-block; margin-top: 1rem; font-size: 1rem; padding: 0.8rem 1.5rem; opacity: 1; transform: none; animation: none;">Read Our Full Story</a>
                         </div>
                     </div>
@@ -144,18 +145,6 @@ const displayedArticles = articles
             </div>
         </section>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/gamesfored.avif" alt="Games for Learning" />
-                </div>
-                <div class="footer-links">
-                    <a href="https://www.overnightgamestudio.com/" target="_blank" class="footer-cta">Buy Our Games</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <Footer />
     </main>
 </Layout>

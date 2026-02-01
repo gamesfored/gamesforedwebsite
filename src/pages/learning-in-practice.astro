@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Impact and Voices - Games For Ed">
+<Layout title="Impact & Voices | Games for Ed" description="See Games for Ed in action. Read testimonials and discover how our educational games create lasting learning outcomes.">
     <style>
         .page-container {
             display: flex;
@@ -272,7 +273,7 @@ import Layout from '../layouts/Layout.astro';
         <section class="philosophy-section">
             <div class="philosophy-content mx-auto">
                 <h2 class="text-center">How We Think About Impact</h2>
-                <p class="text-center mx-auto">At Games For Ed, we’re cautious about how we talk about impact.</p>
+                <p class="text-center mx-auto">At Games for Ed, we’re cautious about how we talk about impact.</p>
                 <p class="text-center mx-auto">We don’t look for loud transformations or instant results. We pay attention to smaller signals that tell us whether learning is landing.</p>
                 <p class="text-center mx-auto">Sometimes those signals show up in the classroom. Sometimes they show up later, at home, during dinner table conversations. <strong>Both matter.</strong></p>
             </div>
@@ -386,18 +387,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
         </section>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/gamesfored.avif" alt="Games for Learning" />
-                </div>
-                <div class="footer-links">
-                    <a href="https://www.overnightgamestudio.com/" target="_blank" class="footer-cta">Buy Our Games</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <Footer />
     </main>
 </Layout>

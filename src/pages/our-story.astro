@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Our Story - Games For Ed">
+<Layout title="Our Story | Games for Ed" description="Meet Games for Ed - an educational game design studio on a mission to transform learning through play. Learn about our team and methodology." pageType="AboutPage">
     <style>
         /* Page Specific Styles - moved from head */
         .story-page-container {
@@ -391,8 +392,8 @@ import Layout from '../layouts/Layout.astro';
         <!-- 1. Origin Section -->
         <section class="origin-section">
             <div class="origin-content">
-                <h2>How Games For Ed Came to Be</h2>
-                <p>Games For Ed did not start with a business plan or a product roadmap. It started with a classroom moment most educators recognize.</p>
+                <h2>How Games for Ed Came to Be</h2>
+                <p>Games for Ed did not start with a business plan or a product roadmap. It started with a classroom moment most educators recognize.</p>
                 <p>Bright students. Capable teachers. And yet, learning felt heavy.</p>
                 <p>We kept seeing the same pattern across schools. Students could repeat answers, but struggled to explain ideas. They memorized, but forgot. Curiosity slowly faded, even in spaces meant to nurture it.</p>
                 <p>But when students played games, something changed. They discussed and debated. They negotiated. They tried again after failing. They remembered concepts weeks later. They took ownership of their learning.</p>
@@ -492,7 +493,7 @@ import Layout from '../layouts/Layout.astro';
         <section class="team-section">
             <div class="team-content-wrapper">
                 <div class="team-image-wrapper">
-                    <img src="/assets/teampic.png" alt="The Games For Ed Team" />
+                    <img src="/assets/teampic.png" alt="The Games for Ed Team" />
                 </div>
                 <div>
                     <h2 class="text-white">Who We Are</h2>
@@ -511,7 +512,7 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- 6. Different Section -->
         <section class="different-section">
-            <h2 class="text-center text-white">What Makes Games For Ed Different</h2>
+            <h2 class="text-center text-white">What Makes Games for Ed Different</h2>
             <p class="text-center text-white mx-auto">We don’t design games that sit on shelves.</p>
             
             <div class="diff-grid">
@@ -550,18 +551,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
         </section>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/gamesfored.avif" alt="Games for Learning" />
-                </div>
-                <div class="footer-links">
-                    <a href="https://www.overnightgamestudio.com/" target="_blank" class="footer-cta">Buy Our Games</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 GamesForEd. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <Footer />
     </main>
 </Layout>
